@@ -1,3 +1,4 @@
+/* saas-backend/src/suscripciones/suscripciones.controller.ts */
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { SuscripcionesService } from './suscripciones.service';
 import { CreateSuscripcionDto } from './dto/create-suscripcion.dto';

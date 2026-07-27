@@ -1,3 +1,4 @@
+/* saas-backend/src/suscripciones/suscripciones.service.ts */
 import { Injectable } from '@nestjs/common';
 import { CreateSuscripcionDto } from './dto/create-suscripcion.dto';
 import { UpdateSuscripcionDto } from './dto/update-suscripcion.dto';
