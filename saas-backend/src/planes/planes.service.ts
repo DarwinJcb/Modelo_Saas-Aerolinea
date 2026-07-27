@@ -5,23 +5,35 @@ import { UpdatePlanDto } from './dto/update-plan.dto';
 
 @Injectable()
 export class PlanesService {
-  create(createPlaneDto: CreatePlanDto) {
-    return 'This action adds a new plan';
+  create(createPlanDto: CreatePlanDto) {
+    return {
+      mensaje: 'Acción temporal para crear un plan',
+      datos: createPlanDto,
+    };
   }
 
   findAll() {
-    return `This action returns all planes`;
+    return {
+      mensaje: 'Acción temporal para consultar todos los planes',
+    };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} plan`;
+  findOne(idPlan: number) {
+    return {
+      mensaje: `Acción temporal para consultar el plan ${idPlan}`,
+    };
   }
 
-  update(id: number, updatePlanDto: UpdatePlanDto) {
-    return `This action updates a #${id} plan`;
+  update(idPlan: number, updatePlanDto: UpdatePlanDto) {
+    return {
+      mensaje: `Acción temporal para actualizar el plan ${idPlan}`,
+      datos: updatePlanDto,
+    };
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} plan`;
+  remove(idPlan: number) {
+    return {
+      mensaje: `Acción temporal para eliminar el plan ${idPlan}`,
+    };
   }
 }

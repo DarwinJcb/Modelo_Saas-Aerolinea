@@ -1,8 +1,8 @@
 /* saas-backend/src/planes/planes.controller.ts */
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { PlanesService } from './planes.service';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, } from '@nestjs/common';
 import { CreatePlanDto } from './dto/create-plan.dto';
 import { UpdatePlanDto } from './dto/update-plan.dto';
+import { PlanesService } from './planes.service';
 
 @Controller('planes')
 export class PlanesController {
@@ -18,18 +18,21 @@ export class PlanesController {
     return this.planesService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.planesService.findOne(+id);
+  @Get(':idPlan')
+  findOne(@Param('idPlan', ParseIntPipe) idPlan: number) {
+    return this.planesService.findOne(idPlan);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePlanDto: UpdatePlanDto) {
-    return this.planesService.update(+id, updatePlanDto);
+  @Patch(':idPlan')
+  update(
+    @Param('idPlan', ParseIntPipe) idPlan: number,
+    @Body() updatePlanDto: UpdatePlanDto,
+  ) {
+    return this.planesService.update(idPlan, updatePlanDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.planesService.remove(+id);
+  @Delete(':idPlan')
+  remove(@Param('idPlan', ParseIntPipe) idPlan: number) {
+    return this.planesService.remove(idPlan);
   }
 }
