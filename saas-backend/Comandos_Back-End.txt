@@ -8,3 +8,90 @@ URL: http://localhost:3000/api/planes
   "limiteAvionesPlan": 3,
   "limiteVuelosMensualesPlan": 50
 }
+
+GET http://localhost:3000/api/planes
+[
+    {
+        "idPlan": 1,
+        "nombrePlan": "Básico",
+        "descripcionPlan": "Plan inicial para aerolíneas pequeñas",
+        "precioMensualPlan": "19.99",
+        "limiteUsuariosPlan": 5,
+        "limiteAvionesPlan": 3,
+        "limiteVuelosMensualesPlan": 50,
+        "estadoPlan": "ACTIVO",
+        "fechaCreacionPlan": "2026-07-27T05:32:05.961Z",
+        "fechaActualizacionPlan": "2026-07-27T05:32:05.961Z"
+    }
+]
+
+GET http://localhost:3000/api/planes/1
+{
+    "idPlan": 1,
+    "nombrePlan": "Básico",
+    "descripcionPlan": "Plan inicial para aerolíneas pequeñas",
+    "precioMensualPlan": "19.99",
+    "limiteUsuariosPlan": 5,
+    "limiteAvionesPlan": 3,
+    "limiteVuelosMensualesPlan": 50,
+    "estadoPlan": "ACTIVO",
+    "fechaCreacionPlan": "2026-07-27T05:32:05.961Z",
+    "fechaActualizacionPlan": "2026-07-27T05:32:05.961Z"
+}
+
+
+GET http://localhost:3000/api/planes/999
+{
+    "message": "No se encontró un plan con el ID 999",
+    "error": "Not Found",
+    "statusCode": 404
+}
+
+
+PATCH http://localhost:3000/api/planes/1
+{
+  "precioMensualPlan": 24.99,
+  "limiteUsuariosPlan": 8
+}
+
+POST http://localhost:3000/api/planes
+{
+  "nombrePlan": "Básico",
+  "descripcionPlan": "Segundo plan con nombre repetido",
+  "precioMensualPlan": 30,
+  "limiteUsuariosPlan": 10,
+  "limiteAvionesPlan": 5,
+  "limiteVuelosMensualesPlan": 100
+}
+
+
+POST http://localhost:3000/api/planes
+{
+  "nombrePlan": "Temporal",
+  "descripcionPlan": "Plan creado para probar la eliminación",
+  "precioMensualPlan": 10,
+  "limiteUsuariosPlan": 2,
+  "limiteAvionesPlan": 1,
+  "limiteVuelosMensualesPlan": 10
+}
+
+DELETE http://localhost:3000/api/planes/2
+{
+    "idPlan": 2,
+    "nombrePlan": "Temporal",
+    "descripcionPlan": "Plan creado para probar la eliminación",
+    "precioMensualPlan": "10",
+    "limiteUsuariosPlan": 2,
+    "limiteAvionesPlan": 1,
+    "limiteVuelosMensualesPlan": 10,
+    "estadoPlan": "ACTIVO",
+    "fechaCreacionPlan": "2026-07-27T05:42:12.898Z",
+    "fechaActualizacionPlan": "2026-07-27T05:42:12.898Z"
+}
+
+GET http://localhost:3000/api/planes/2
+{
+    "message": "No se encontró un plan con el ID 2",
+    "error": "Not Found",
+    "statusCode": 404
+}
