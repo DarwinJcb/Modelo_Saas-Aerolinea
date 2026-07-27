@@ -11,9 +11,7 @@ datasource db {
   provider = "postgresql"
 }
 
-// ======================================================
 // ENUMS DEL MODELO SAAS
-// ======================================================
 
 enum EstadoPlan {
   ACTIVO
@@ -45,9 +43,7 @@ enum EstadoUsuario {
   BLOQUEADO
 }
 
-// ======================================================
 // ENUMS DE GESTIÓN DE AEROLÍNEAS
-// ======================================================
 
 enum EstadoAvion {
   DISPONIBLE
@@ -97,10 +93,8 @@ enum EstadoBoleto {
   CANCELADO
 }
 
-// ======================================================
 // MODELO: PLAN
 // Define los planes disponibles en la plataforma SaaS.
-// ======================================================
 
 model Plan {
   idPlan                    Int        @id @default(autoincrement())
@@ -117,10 +111,8 @@ model Plan {
   suscripcionesPlan Suscripcion[]
 }
 
-// ======================================================
 // MODELO: AEROLÍNEA
 // Representa al tenant o empresa cliente del SaaS.
-// ======================================================
 
 model Aerolinea {
   idAerolinea                 Int             @id @default(autoincrement())
@@ -150,10 +142,8 @@ model Aerolinea {
   boletosAerolinea       Boleto[]
 }
 
-// ======================================================
 // MODELO: SUSCRIPCIÓN
 // Relaciona una aerolínea con un plan del SaaS.
-// ======================================================
 
 model Suscripcion {
   idSuscripcion                 Int               @id @default(autoincrement())
@@ -171,10 +161,8 @@ model Suscripcion {
   @@index([fkAerolineaSuscripcion])
 }
 
-// ======================================================
 // MODELO: USUARIO
 // Usuarios que ingresan al sistema administrativo.
-// ======================================================
 
 model Usuario {
   idUsuario                 Int           @id @default(autoincrement())
@@ -195,10 +183,8 @@ model Usuario {
   @@index([fkAerolineaUsuario])
 }
 
-// ======================================================
 // MODELO: AVIÓN
 // Aviones que pertenecen a una aerolínea específica.
-// ======================================================
 
 model Avion {
   idAvion                 Int         @id @default(autoincrement())
@@ -219,10 +205,8 @@ model Avion {
   @@index([fkAerolineaAvion])
 }
 
-// ======================================================
 // MODELO: AEROPUERTO
 // Catálogo general compartido por todas las aerolíneas.
-// ======================================================
 
 model Aeropuerto {
   idAeropuerto                 Int              @id @default(autoincrement())
@@ -239,10 +223,8 @@ model Aeropuerto {
   rutasDestinoAeropuerto       Ruta[]           @relation("AeropuertoDestinoRuta")
 }
 
-// ======================================================
 // MODELO: RUTA
 // Trayecto entre un aeropuerto de origen y uno de destino.
-// ======================================================
 
 model Ruta {
   idRuta                      Int        @id @default(autoincrement())
@@ -267,10 +249,8 @@ model Ruta {
   @@index([fkAeropuertoDestinoRuta])
 }
 
-// ======================================================
 // MODELO: VUELO
 // Programación concreta de una ruta usando un avión.
-// ======================================================
 
 model Vuelo {
   idVuelo                 Int         @id @default(autoincrement())
@@ -296,10 +276,8 @@ model Vuelo {
   @@index([fkAvionVuelo])
 }
 
-// ======================================================
 // MODELO: PASAJERO
 // Persona que viaja; no necesariamente inicia sesión.
-// ======================================================
 
 model Pasajero {
   idPasajero                 Int           @id @default(autoincrement())
@@ -321,10 +299,8 @@ model Pasajero {
   @@index([fkAerolineaPasajero])
 }
 
-// ======================================================
 // MODELO: RESERVA
 // Une un pasajero con un vuelo.
-// ======================================================
 
 model Reserva {
   idReserva                 Int           @id @default(autoincrement())
@@ -352,10 +328,8 @@ model Reserva {
   @@index([fkUsuarioRegistroReserva])
 }
 
-// ======================================================
 // MODELO: BOLETO
 // Documento emitido después de confirmar una reserva.
-// ======================================================
 
 model Boleto {
   idBoleto                 Int          @id @default(autoincrement())
