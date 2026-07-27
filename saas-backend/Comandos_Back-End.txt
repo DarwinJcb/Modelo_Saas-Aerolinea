@@ -1,0 +1,10 @@
+Método: POST
+URL: http://localhost:3000/api/planes
+{
+  "nombrePlan": "Básico",
+  "descripcionPlan": "Plan inicial para aerolíneas pequeñas",
+  "precioMensualPlan": 19.99,
+  "limiteUsuariosPlan": 5,
+  "limiteAvionesPlan": 3,
+  "limiteVuelosMensualesPlan": 50
+}
