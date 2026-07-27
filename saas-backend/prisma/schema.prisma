@@ -2,10 +2,375 @@
  * saas-backend/prisma/schema.prisma
  */
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "cjs"
 }
 
 datasource db {
   provider = "postgresql"
+}
+
+// ======================================================
+// ENUMS DEL MODELO SAAS
+// ======================================================
+
+enum EstadoPlan {
+  ACTIVO
+  INACTIVO
+}
+
+enum EstadoAerolinea {
+  ACTIVA
+  SUSPENDIDA
+  INACTIVA
+}
+
+enum EstadoSuscripcion {
+  PENDIENTE
+  ACTIVA
+  VENCIDA
+  CANCELADA
+}
+
+enum RolUsuario {
+  SUPERADMIN
+  ADMIN_AEROLINEA
+  EMPLEADO
+}
+
+enum EstadoUsuario {
+  ACTIVO
+  INACTIVO
+  BLOQUEADO
+}
+
+// ======================================================
+// ENUMS DE GESTIÓN DE AEROLÍNEAS
+// ======================================================
+
+enum EstadoAvion {
+  DISPONIBLE
+  MANTENIMIENTO
+  FUERA_DE_SERVICIO
+}
+
+enum EstadoAeropuerto {
+  ACTIVO
+  INACTIVO
+}
+
+enum EstadoRuta {
+  ACTIVA
+  INACTIVA
+}
+
+enum EstadoVuelo {
+  PROGRAMADO
+  EMBARQUE
+  EN_VUELO
+  FINALIZADO
+  CANCELADO
+}
+
+enum TipoDocumento {
+  CEDULA
+  PASAPORTE
+  OTRO
+}
+
+enum EstadoReserva {
+  PENDIENTE
+  CONFIRMADA
+  CANCELADA
+}
+
+enum ClaseBoleto {
+  ECONOMICA
+  EJECUTIVA
+  PRIMERA_CLASE
+}
+
+enum EstadoBoleto {
+  EMITIDO
+  UTILIZADO
+  CANCELADO
+}
+
+// ======================================================
+// MODELO: PLAN
+// Define los planes disponibles en la plataforma SaaS.
+// ======================================================
+
+model Plan {
+  idPlan                    Int        @id @default(autoincrement())
+  nombrePlan                String     @unique
+  descripcionPlan           String?
+  precioMensualPlan         Decimal    @db.Decimal(10, 2)
+  limiteUsuariosPlan        Int
+  limiteAvionesPlan         Int
+  limiteVuelosMensualesPlan Int
+  estadoPlan                EstadoPlan @default(ACTIVO)
+  fechaCreacionPlan         DateTime   @default(now())
+  fechaActualizacionPlan    DateTime   @updatedAt
+
+  suscripcionesPlan Suscripcion[]
+}
+
+// ======================================================
+// MODELO: AEROLÍNEA
+// Representa al tenant o empresa cliente del SaaS.
+// ======================================================
+
+model Aerolinea {
+  idAerolinea                 Int             @id @default(autoincrement())
+  rucAerolinea                String?         @unique
+  codigoIataAerolinea         String?         @unique
+  codigoIcaoAerolinea         String?         @unique
+  nombreComercialAerolinea    String
+  razonSocialAerolinea        String?
+  correoAerolinea             String          @unique
+  telefonoAerolinea           String?
+  paisAerolinea               String          @default("Ecuador")
+  codigoPaisAerolinea         String          @default("EC")
+  monedaAerolinea             String          @default("USD")
+  zonaHorariaAerolinea        String          @default("America/Guayaquil")
+  logotipoUrlAerolinea        String?
+  estadoAerolinea             EstadoAerolinea @default(ACTIVA)
+  fechaCreacionAerolinea      DateTime        @default(now())
+  fechaActualizacionAerolinea DateTime        @updatedAt
+
+  suscripcionesAerolinea Suscripcion[]
+  usuariosAerolinea      Usuario[]
+  avionesAerolinea       Avion[]
+  rutasAerolinea         Ruta[]
+  vuelosAerolinea        Vuelo[]
+  pasajerosAerolinea     Pasajero[]
+  reservasAerolinea      Reserva[]
+  boletosAerolinea       Boleto[]
+}
+
+// ======================================================
+// MODELO: SUSCRIPCIÓN
+// Relaciona una aerolínea con un plan del SaaS.
+// ======================================================
+
+model Suscripcion {
+  idSuscripcion                 Int               @id @default(autoincrement())
+  fkPlanSuscripcion             Int
+  fkAerolineaSuscripcion        Int
+  fechaInicioSuscripcion        DateTime          @default(now())
+  fechaFinSuscripcion           DateTime
+  estadoSuscripcion             EstadoSuscripcion @default(ACTIVA)
+  fechaCreacionSuscripcion      DateTime          @default(now())
+  fechaActualizacionSuscripcion DateTime          @updatedAt
+  planSuscripcion               Plan              @relation(fields: [fkPlanSuscripcion], references: [idPlan], onDelete: Restrict, onUpdate: Cascade)
+  aerolineaSuscripcion          Aerolinea         @relation(fields: [fkAerolineaSuscripcion], references: [idAerolinea], onDelete: Restrict, onUpdate: Cascade)
+
+  @@index([fkPlanSuscripcion])
+  @@index([fkAerolineaSuscripcion])
+}
+
+// ======================================================
+// MODELO: USUARIO
+// Usuarios que ingresan al sistema administrativo.
+// ======================================================
+
+model Usuario {
+  idUsuario                 Int           @id @default(autoincrement())
+  fkAerolineaUsuario        Int?
+  nombresUsuario            String
+  apellidosUsuario          String
+  correoUsuario             String        @unique
+  contrasenaUsuario         String
+  rolUsuario                RolUsuario    @default(EMPLEADO)
+  estadoUsuario             EstadoUsuario @default(ACTIVO)
+  ultimoAccesoUsuario       DateTime?
+  fechaCreacionUsuario      DateTime      @default(now())
+  fechaActualizacionUsuario DateTime      @updatedAt
+  aerolineaUsuario          Aerolinea?    @relation(fields: [fkAerolineaUsuario], references: [idAerolinea], onDelete: Restrict, onUpdate: Cascade)
+
+  reservasRegistradasUsuario Reserva[]
+
+  @@index([fkAerolineaUsuario])
+}
+
+// ======================================================
+// MODELO: AVIÓN
+// Aviones que pertenecen a una aerolínea específica.
+// ======================================================
+
+model Avion {
+  idAvion                 Int         @id @default(autoincrement())
+  fkAerolineaAvion        Int
+  matriculaAvion          String      @unique
+  codigoInternoAvion      String
+  modeloAvion             String
+  fabricanteAvion         String
+  capacidadAvion          Int
+  anioFabricacionAvion    Int?
+  estadoAvion             EstadoAvion @default(DISPONIBLE)
+  fechaCreacionAvion      DateTime    @default(now())
+  fechaActualizacionAvion DateTime    @updatedAt
+  aerolineaAvion          Aerolinea   @relation(fields: [fkAerolineaAvion], references: [idAerolinea], onDelete: Restrict, onUpdate: Cascade)
+  vuelosAvion             Vuelo[]
+
+  @@unique([fkAerolineaAvion, codigoInternoAvion])
+  @@index([fkAerolineaAvion])
+}
+
+// ======================================================
+// MODELO: AEROPUERTO
+// Catálogo general compartido por todas las aerolíneas.
+// ======================================================
+
+model Aeropuerto {
+  idAeropuerto                 Int              @id @default(autoincrement())
+  codigoIataAeropuerto         String           @unique
+  codigoIcaoAeropuerto         String           @unique
+  nombreAeropuerto             String
+  ciudadAeropuerto             String
+  paisAeropuerto               String
+  zonaHorariaAeropuerto        String
+  estadoAeropuerto             EstadoAeropuerto @default(ACTIVO)
+  fechaCreacionAeropuerto      DateTime         @default(now())
+  fechaActualizacionAeropuerto DateTime         @updatedAt
+  rutasOrigenAeropuerto        Ruta[]           @relation("AeropuertoOrigenRuta")
+  rutasDestinoAeropuerto       Ruta[]           @relation("AeropuertoDestinoRuta")
+}
+
+// ======================================================
+// MODELO: RUTA
+// Trayecto entre un aeropuerto de origen y uno de destino.
+// ======================================================
+
+model Ruta {
+  idRuta                      Int        @id @default(autoincrement())
+  fkAerolineaRuta             Int
+  fkAeropuertoOrigenRuta      Int
+  fkAeropuertoDestinoRuta     Int
+  codigoRuta                  String
+  duracionEstimadaMinutosRuta Int
+  distanciaKilometrosRuta     Decimal?   @db.Decimal(8, 2)
+  estadoRuta                  EstadoRuta @default(ACTIVA)
+  fechaCreacionRuta           DateTime   @default(now())
+  fechaActualizacionRuta      DateTime   @updatedAt
+  aerolineaRuta               Aerolinea  @relation(fields: [fkAerolineaRuta], references: [idAerolinea], onDelete: Restrict, onUpdate: Cascade)
+  aeropuertoOrigenRuta        Aeropuerto @relation("AeropuertoOrigenRuta", fields: [fkAeropuertoOrigenRuta], references: [idAeropuerto], onDelete: Restrict, onUpdate: Cascade)
+  aeropuertoDestinoRuta       Aeropuerto @relation("AeropuertoDestinoRuta", fields: [fkAeropuertoDestinoRuta], references: [idAeropuerto], onDelete: Restrict, onUpdate: Cascade)
+  vuelosRuta                  Vuelo[]
+
+  @@unique([fkAerolineaRuta, fkAeropuertoOrigenRuta, fkAeropuertoDestinoRuta])
+  @@unique([fkAerolineaRuta, codigoRuta])
+  @@index([fkAerolineaRuta])
+  @@index([fkAeropuertoOrigenRuta])
+  @@index([fkAeropuertoDestinoRuta])
+}
+
+// ======================================================
+// MODELO: VUELO
+// Programación concreta de una ruta usando un avión.
+// ======================================================
+
+model Vuelo {
+  idVuelo                 Int         @id @default(autoincrement())
+  fkAerolineaVuelo        Int
+  fkRutaVuelo             Int
+  fkAvionVuelo            Int
+  numeroVuelo             String
+  fechaHoraSalidaVuelo    DateTime
+  fechaHoraLlegadaVuelo   DateTime
+  puertaEmbarqueVuelo     String?
+  precioBaseVuelo         Decimal     @db.Decimal(10, 2)
+  estadoVuelo             EstadoVuelo @default(PROGRAMADO)
+  fechaCreacionVuelo      DateTime    @default(now())
+  fechaActualizacionVuelo DateTime    @updatedAt
+  aerolineaVuelo          Aerolinea   @relation(fields: [fkAerolineaVuelo], references: [idAerolinea], onDelete: Restrict, onUpdate: Cascade)
+  rutaVuelo               Ruta        @relation(fields: [fkRutaVuelo], references: [idRuta], onDelete: Restrict, onUpdate: Cascade)
+  avionVuelo              Avion       @relation(fields: [fkAvionVuelo], references: [idAvion], onDelete: Restrict, onUpdate: Cascade)
+  reservasVuelo           Reserva[]
+
+  @@unique([fkAerolineaVuelo, numeroVuelo, fechaHoraSalidaVuelo])
+  @@index([fkAerolineaVuelo])
+  @@index([fkRutaVuelo])
+  @@index([fkAvionVuelo])
+}
+
+// ======================================================
+// MODELO: PASAJERO
+// Persona que viaja; no necesariamente inicia sesión.
+// ======================================================
+
+model Pasajero {
+  idPasajero                 Int           @id @default(autoincrement())
+  fkAerolineaPasajero        Int
+  tipoDocumentoPasajero      TipoDocumento
+  numeroDocumentoPasajero    String
+  nombresPasajero            String
+  apellidosPasajero          String
+  fechaNacimientoPasajero    DateTime
+  nacionalidadPasajero       String
+  correoPasajero             String?
+  telefonoPasajero           String?
+  fechaCreacionPasajero      DateTime      @default(now())
+  fechaActualizacionPasajero DateTime      @updatedAt
+  aerolineaPasajero          Aerolinea     @relation(fields: [fkAerolineaPasajero], references: [idAerolinea], onDelete: Restrict, onUpdate: Cascade)
+  reservasPasajero           Reserva[]
+
+  @@unique([fkAerolineaPasajero, tipoDocumentoPasajero, numeroDocumentoPasajero])
+  @@index([fkAerolineaPasajero])
+}
+
+// ======================================================
+// MODELO: RESERVA
+// Une un pasajero con un vuelo.
+// ======================================================
+
+model Reserva {
+  idReserva                 Int           @id @default(autoincrement())
+  fkAerolineaReserva        Int
+  fkVueloReserva            Int
+  fkPasajeroReserva         Int
+  fkUsuarioRegistroReserva  Int?
+  codigoReserva             String
+  estadoReserva             EstadoReserva @default(PENDIENTE)
+  totalReserva              Decimal       @db.Decimal(10, 2)
+  observacionReserva        String?
+  fechaCreacionReserva      DateTime      @default(now())
+  fechaActualizacionReserva DateTime      @updatedAt
+  aerolineaReserva          Aerolinea     @relation(fields: [fkAerolineaReserva], references: [idAerolinea], onDelete: Restrict, onUpdate: Cascade)
+  vueloReserva              Vuelo         @relation(fields: [fkVueloReserva], references: [idVuelo], onDelete: Restrict, onUpdate: Cascade)
+  pasajeroReserva           Pasajero      @relation(fields: [fkPasajeroReserva], references: [idPasajero], onDelete: Restrict, onUpdate: Cascade)
+  usuarioRegistroReserva    Usuario?      @relation(fields: [fkUsuarioRegistroReserva], references: [idUsuario], onDelete: SetNull, onUpdate: Cascade)
+  boletoReserva             Boleto?
+
+  @@unique([fkAerolineaReserva, codigoReserva])
+  @@unique([fkVueloReserva, fkPasajeroReserva])
+  @@index([fkAerolineaReserva])
+  @@index([fkVueloReserva])
+  @@index([fkPasajeroReserva])
+  @@index([fkUsuarioRegistroReserva])
+}
+
+// ======================================================
+// MODELO: BOLETO
+// Documento emitido después de confirmar una reserva.
+// ======================================================
+
+model Boleto {
+  idBoleto                 Int          @id @default(autoincrement())
+  fkAerolineaBoleto        Int
+  fkReservaBoleto          Int          @unique
+  numeroBoleto             String
+  asientoBoleto            String
+  claseBoleto              ClaseBoleto  @default(ECONOMICA)
+  precioFinalBoleto        Decimal      @db.Decimal(10, 2)
+  fechaEmisionBoleto       DateTime     @default(now())
+  estadoBoleto             EstadoBoleto @default(EMITIDO)
+  fechaActualizacionBoleto DateTime     @updatedAt
+  aerolineaBoleto          Aerolinea    @relation(fields: [fkAerolineaBoleto], references: [idAerolinea], onDelete: Restrict, onUpdate: Cascade)
+  reservaBoleto            Reserva      @relation(fields: [fkReservaBoleto], references: [idReserva], onDelete: Cascade, onUpdate: Cascade)
+
+  @@unique([fkAerolineaBoleto, numeroBoleto])
+  @@index([fkAerolineaBoleto])
 }
