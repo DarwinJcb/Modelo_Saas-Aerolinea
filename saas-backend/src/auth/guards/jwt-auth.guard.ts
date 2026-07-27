@@ -3,7 +3,7 @@ import { CanActivate, ExecutionContext, ForbiddenException, Injectable, Unauthor
 import { JwtService } from '@nestjs/jwt';
 import { EstadoAerolinea, EstadoPlan, EstadoSuscripcion, EstadoUsuario, RolUsuario, } from '../../generated/prisma/enums';
 import { PrismaService } from '../../prisma/prisma.service';
-import { UsuarioAutenticado } from '../interfaces/usuario-autenticado.interface';
+import type { UsuarioAutenticado } from '../interfaces/usuario-autenticado.interface';
 
 interface ContenidoToken {
   sub: number;

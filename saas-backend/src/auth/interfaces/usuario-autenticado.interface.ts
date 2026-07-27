@@ -1,5 +1,5 @@
 /* saas-backend/src/auth/interfaces/usuario-autenticado.interface.ts */
-import { EstadoAerolinea, EstadoUsuario, RolUsuario, } from '../../generated/prisma/enums';
+import type { EstadoAerolinea, EstadoUsuario, RolUsuario, } from '../../generated/prisma/enums';
 
 export interface UsuarioAutenticado {
     idUsuario: number;

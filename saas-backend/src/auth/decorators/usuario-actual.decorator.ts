@@ -1,6 +1,6 @@
 /* saas-backend/src/auth/decorators/usuario-actual.decorator.ts */
 import { createParamDecorator, ExecutionContext, } from '@nestjs/common';
-import { UsuarioAutenticado } from '../interfaces/usuario-autenticado.interface';
+import type { UsuarioAutenticado } from '../interfaces/usuario-autenticado.interface';
 
 export const UsuarioActual = createParamDecorator(
     (
