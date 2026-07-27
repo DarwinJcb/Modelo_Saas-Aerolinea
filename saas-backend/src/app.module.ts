@@ -7,9 +7,10 @@ import { PlanesModule } from './planes/planes.module';
 import { AerolineasModule } from './aerolineas/aerolineas.module';
 import { SuscripcionesModule } from './suscripciones/suscripciones.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [PrismaModule, PlanesModule, AerolineasModule, SuscripcionesModule, UsuariosModule],
+  imports: [PrismaModule, PlanesModule, AerolineasModule, SuscripcionesModule, UsuariosModule, AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })
