@@ -1,17 +1,6 @@
 /* saas-backend/src/usuarios/dto/create-usuario.dto.ts */
 import { Transform, Type } from 'class-transformer';
-import {
-  IsEmail,
-  IsEnum,
-  IsInt,
-  IsOptional,
-  IsString,
-  Length,
-  Matches,
-  MaxLength,
-  Min,
-  MinLength,
-} from 'class-validator';
+import { IsEmail, IsEnum, IsInt, IsOptional, IsString, Length, Matches, MaxLength, Min, MinLength, } from 'class-validator';
 import { EstadoUsuario, RolUsuario } from '../../generated/prisma/enums';
 
 export class CreateUsuarioDto {

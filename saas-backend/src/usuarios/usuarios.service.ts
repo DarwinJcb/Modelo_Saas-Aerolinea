@@ -1,10 +1,5 @@
 /* saas-backend/src/usuarios/usuarios.service.ts */
-import {
-  BadRequestException,
-  ConflictException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import {  BadRequestException,ConflictException,Injectable,NotFoundException,} from '@nestjs/common';
 import { randomBytes, scrypt } from 'node:crypto';
 import { EstadoUsuario, RolUsuario } from '../generated/prisma/enums';
 import { PrismaService } from '../prisma/prisma.service';
