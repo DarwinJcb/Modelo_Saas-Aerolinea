@@ -1,27 +1,450 @@
 /* saas-backend/src/boletos/boletos.service.ts */
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, NotFoundException, } from '@nestjs/common';
+import { EstadoAerolinea, EstadoBoleto, EstadoReserva, EstadoVuelo, } from '../generated/prisma/enums';
+import { PrismaService } from '../prisma/prisma.service';
 import { CreateBoletoDto } from './dto/create-boleto.dto';
 import { UpdateBoletoDto } from './dto/update-boleto.dto';
 
 @Injectable()
 export class BoletosService {
-  create(createBoletoDto: CreateBoletoDto) {
-    return 'This action adds a new boleto';
+  constructor(private readonly prisma: PrismaService) { }
+
+  private readonly relacionesBoleto = {
+    aerolineaBoleto: {
+      select: {
+        idAerolinea: true,
+        nombreComercialAerolinea: true,
+        codigoIataAerolinea: true,
+        correoAerolinea: true,
+        estadoAerolinea: true,
+      },
+    },
+    reservaBoleto: {
+      select: {
+        idReserva: true,
+        codigoReserva: true,
+        estadoReserva: true,
+        totalReserva: true,
+        pasajeroReserva: {
+          select: {
+            idPasajero: true,
+            tipoDocumentoPasajero: true,
+            numeroDocumentoPasajero: true,
+            nombresPasajero: true,
+            apellidosPasajero: true,
+          },
+        },
+        vueloReserva: {
+          select: {
+            idVuelo: true,
+            numeroVuelo: true,
+            fechaHoraSalidaVuelo: true,
+            fechaHoraLlegadaVuelo: true,
+            puertaEmbarqueVuelo: true,
+            estadoVuelo: true,
+            rutaVuelo: {
+              select: {
+                idRuta: true,
+                codigoRuta: true,
+                aeropuertoOrigenRuta: {
+                  select: {
+                    idAeropuerto: true,
+                    codigoIataAeropuerto: true,
+                    ciudadAeropuerto: true,
+                    paisAeropuerto: true,
+                  },
+                },
+                aeropuertoDestinoRuta: {
+                  select: {
+                    idAeropuerto: true,
+                    codigoIataAeropuerto: true,
+                    ciudadAeropuerto: true,
+                    paisAeropuerto: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  } as const;
+
+  private async verificarAerolineaOperativa(
+    idAerolinea: number,
+  ): Promise<void> {
+    const aerolineaEncontrada =
+      await this.prisma.aerolinea.findUnique({
+        where: {
+          idAerolinea,
+        },
+      });
+
+    if (!aerolineaEncontrada) {
+      throw new NotFoundException(
+        `No se encontró una aerolínea con el ID ${idAerolinea}`,
+      );
+    }
+
+    if (
+      aerolineaEncontrada.estadoAerolinea !==
+      EstadoAerolinea.ACTIVA
+    ) {
+      throw new ConflictException(
+        'La aerolínea debe estar ACTIVA para emitir boletos',
+      );
+    }
   }
 
-  findAll() {
-    return `This action returns all boletos`;
+  private async obtenerReservaValidaParaEmision(
+    idReserva: number,
+    idAerolinea: number,
+  ) {
+    const reservaEncontrada =
+      await this.prisma.reserva.findUnique({
+        where: {
+          idReserva,
+        },
+        include: {
+          boletoReserva: {
+            select: {
+              idBoleto: true,
+            },
+          },
+          vueloReserva: {
+            select: {
+              idVuelo: true,
+              fkAerolineaVuelo: true,
+              estadoVuelo: true,
+              fechaHoraSalidaVuelo: true,
+            },
+          },
+          pasajeroReserva: {
+            select: {
+              fkAerolineaPasajero: true,
+            },
+          },
+        },
+      });
+
+    if (!reservaEncontrada) {
+      throw new NotFoundException(
+        `No se encontró una reserva con el ID ${idReserva}`,
+      );
+    }
+
+    if (
+      reservaEncontrada.fkAerolineaReserva !==
+      idAerolinea
+    ) {
+      throw new BadRequestException(
+        'La reserva seleccionada no pertenece a la aerolínea del boleto',
+      );
+    }
+
+    if (
+      reservaEncontrada.vueloReserva
+        .fkAerolineaVuelo !== idAerolinea
+    ) {
+      throw new BadRequestException(
+        'El vuelo de la reserva no pertenece a la aerolínea del boleto',
+      );
+    }
+
+    if (
+      reservaEncontrada.pasajeroReserva
+        .fkAerolineaPasajero !== idAerolinea
+    ) {
+      throw new BadRequestException(
+        'El pasajero de la reserva no pertenece a la aerolínea del boleto',
+      );
+    }
+
+    if (
+      reservaEncontrada.estadoReserva !==
+      EstadoReserva.CONFIRMADA
+    ) {
+      throw new ConflictException(
+        'La reserva debe estar CONFIRMADA antes de emitir el boleto',
+      );
+    }
+
+    const estadoVuelo =
+      reservaEncontrada.vueloReserva.estadoVuelo;
+
+    if (
+      estadoVuelo !== EstadoVuelo.PROGRAMADO &&
+      estadoVuelo !== EstadoVuelo.EMBARQUE
+    ) {
+      throw new ConflictException(
+        'El vuelo debe estar PROGRAMADO o en EMBARQUE para emitir el boleto',
+      );
+    }
+
+    if (
+      reservaEncontrada.vueloReserva
+        .fechaHoraSalidaVuelo <= new Date()
+    ) {
+      throw new ConflictException(
+        'No se puede emitir un boleto para un vuelo cuya salida ya ocurrió',
+      );
+    }
+
+    if (reservaEncontrada.boletoReserva) {
+      throw new ConflictException(
+        'La reserva ya tiene un boleto emitido',
+      );
+    }
+
+    return reservaEncontrada;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} boleto`;
+  private async verificarNumeroBoletoUnico(
+    idAerolinea: number,
+    numeroBoleto: string,
+    idBoletoExcluir?: number,
+  ): Promise<void> {
+    const boletoExistente =
+      await this.prisma.boleto.findFirst({
+        where: {
+          fkAerolineaBoleto: idAerolinea,
+          numeroBoleto,
+          ...(idBoletoExcluir !== undefined
+            ? {
+              NOT: {
+                idBoleto: idBoletoExcluir,
+              },
+            }
+            : {}),
+        },
+      });
+
+    if (boletoExistente) {
+      throw new ConflictException(
+        `La aerolínea ya tiene un boleto con el número "${numeroBoleto}"`,
+      );
+    }
   }
 
-  update(id: number, updateBoletoDto: UpdateBoletoDto) {
-    return `This action updates a #${id} boleto`;
+  private async verificarAsientoDisponible(
+    idVuelo: number,
+    asientoBoleto: string,
+    idBoletoExcluir?: number,
+  ): Promise<void> {
+    const boletoExistente =
+      await this.prisma.boleto.findFirst({
+        where: {
+          asientoBoleto,
+          estadoBoleto: {
+            not: EstadoBoleto.CANCELADO,
+          },
+          reservaBoleto: {
+            is: {
+              fkVueloReserva: idVuelo,
+            },
+          },
+          ...(idBoletoExcluir !== undefined
+            ? {
+              NOT: {
+                idBoleto: idBoletoExcluir,
+              },
+            }
+            : {}),
+        },
+      });
+
+    if (boletoExistente) {
+      throw new ConflictException(
+        `El asiento "${asientoBoleto}" ya está ocupado en este vuelo`,
+      );
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} boleto`;
+  async create(createBoletoDto: CreateBoletoDto) {
+    await this.verificarAerolineaOperativa(
+      createBoletoDto.fkAerolineaBoleto,
+    );
+
+    if (
+      createBoletoDto.estadoBoleto !== undefined &&
+      createBoletoDto.estadoBoleto !==
+      EstadoBoleto.EMITIDO
+    ) {
+      throw new BadRequestException(
+        'Un boleto nuevo debe crearse con estado EMITIDO',
+      );
+    }
+
+    const reservaEncontrada =
+      await this.obtenerReservaValidaParaEmision(
+        createBoletoDto.fkReservaBoleto,
+        createBoletoDto.fkAerolineaBoleto,
+      );
+
+    await this.verificarNumeroBoletoUnico(
+      createBoletoDto.fkAerolineaBoleto,
+      createBoletoDto.numeroBoleto,
+    );
+
+    await this.verificarAsientoDisponible(
+      reservaEncontrada.vueloReserva.idVuelo,
+      createBoletoDto.asientoBoleto,
+    );
+
+    return this.prisma.boleto.create({
+      data: {
+        fkAerolineaBoleto:
+          createBoletoDto.fkAerolineaBoleto,
+        fkReservaBoleto:
+          createBoletoDto.fkReservaBoleto,
+        numeroBoleto:
+          createBoletoDto.numeroBoleto,
+        asientoBoleto:
+          createBoletoDto.asientoBoleto,
+        claseBoleto:
+          createBoletoDto.claseBoleto,
+        precioFinalBoleto:
+          createBoletoDto.precioFinalBoleto,
+        estadoBoleto: EstadoBoleto.EMITIDO,
+      },
+      include: this.relacionesBoleto,
+    });
+  }
+
+  async findAll() {
+    return this.prisma.boleto.findMany({
+      include: this.relacionesBoleto,
+      orderBy: {
+        idBoleto: 'asc',
+      },
+    });
+  }
+
+  async findOne(idBoleto: number) {
+    const boletoEncontrado =
+      await this.prisma.boleto.findUnique({
+        where: {
+          idBoleto,
+        },
+        include: this.relacionesBoleto,
+      });
+
+    if (!boletoEncontrado) {
+      throw new NotFoundException(
+        `No se encontró un boleto con el ID ${idBoleto}`,
+      );
+    }
+
+    return boletoEncontrado;
+  }
+
+  async update(
+    idBoleto: number,
+    updateBoletoDto: UpdateBoletoDto,
+  ) {
+    const boletoActual =
+      await this.prisma.boleto.findUnique({
+        where: {
+          idBoleto,
+        },
+        include: {
+          reservaBoleto: {
+            select: {
+              fkVueloReserva: true,
+            },
+          },
+        },
+      });
+
+    if (!boletoActual) {
+      throw new NotFoundException(
+        `No se encontró un boleto con el ID ${idBoleto}`,
+      );
+    }
+
+    if (
+      boletoActual.estadoBoleto ===
+      EstadoBoleto.UTILIZADO
+    ) {
+      throw new ConflictException(
+        'No se puede modificar un boleto que ya fue UTILIZADO',
+      );
+    }
+
+    const estadoFinal =
+      updateBoletoDto.estadoBoleto ??
+      boletoActual.estadoBoleto;
+
+    if (
+      boletoActual.estadoBoleto ===
+      EstadoBoleto.CANCELADO &&
+      estadoFinal !== EstadoBoleto.CANCELADO
+    ) {
+      throw new ConflictException(
+        'Un boleto CANCELADO no puede volver a activarse',
+      );
+    }
+
+    const numeroBoletoFinal =
+      updateBoletoDto.numeroBoleto ??
+      boletoActual.numeroBoleto;
+
+    const asientoBoletoFinal =
+      updateBoletoDto.asientoBoleto ??
+      boletoActual.asientoBoleto;
+
+    await this.verificarNumeroBoletoUnico(
+      boletoActual.fkAerolineaBoleto,
+      numeroBoletoFinal,
+      idBoleto,
+    );
+
+    if (estadoFinal !== EstadoBoleto.CANCELADO) {
+      await this.verificarAsientoDisponible(
+        boletoActual.reservaBoleto
+          .fkVueloReserva,
+        asientoBoletoFinal,
+        idBoleto,
+      );
+    }
+
+    return this.prisma.boleto.update({
+      where: {
+        idBoleto,
+      },
+      data: updateBoletoDto,
+      include: this.relacionesBoleto,
+    });
+  }
+
+  async remove(idBoleto: number) {
+    const boletoEncontrado =
+      await this.prisma.boleto.findUnique({
+        where: {
+          idBoleto,
+        },
+      });
+
+    if (!boletoEncontrado) {
+      throw new NotFoundException(
+        `No se encontró un boleto con el ID ${idBoleto}`,
+      );
+    }
+
+    if (
+      boletoEncontrado.estadoBoleto !==
+      EstadoBoleto.CANCELADO
+    ) {
+      throw new ConflictException(
+        'Solo se puede eliminar un boleto con estado CANCELADO',
+      );
+    }
+
+    return this.prisma.boleto.delete({
+      where: {
+        idBoleto,
+      },
+      include: this.relacionesBoleto,
+    });
   }
 }

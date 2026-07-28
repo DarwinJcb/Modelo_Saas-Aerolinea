@@ -1,12 +1,14 @@
 /* saas-backend/src/boletos/boletos.controller.ts */
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, } from '@nestjs/common';
 import { BoletosService } from './boletos.service';
 import { CreateBoletoDto } from './dto/create-boleto.dto';
 import { UpdateBoletoDto } from './dto/update-boleto.dto';
 
 @Controller('boletos')
 export class BoletosController {
-  constructor(private readonly boletosService: BoletosService) { }
+  constructor(
+    private readonly boletosService: BoletosService,
+  ) { }
 
   @Post()
   create(@Body() createBoletoDto: CreateBoletoDto) {
@@ -18,18 +20,31 @@ export class BoletosController {
     return this.boletosService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.boletosService.findOne(+id);
+  @Get(':idBoleto')
+  findOne(
+    @Param('idBoleto', ParseIntPipe)
+    idBoleto: number,
+  ) {
+    return this.boletosService.findOne(idBoleto);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBoletoDto: UpdateBoletoDto) {
-    return this.boletosService.update(+id, updateBoletoDto);
+  @Patch(':idBoleto')
+  update(
+    @Param('idBoleto', ParseIntPipe)
+    idBoleto: number,
+    @Body() updateBoletoDto: UpdateBoletoDto,
+  ) {
+    return this.boletosService.update(
+      idBoleto,
+      updateBoletoDto,
+    );
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.boletosService.remove(+id);
+  @Delete(':idBoleto')
+  remove(
+    @Param('idBoleto', ParseIntPipe)
+    idBoleto: number,
+  ) {
+    return this.boletosService.remove(idBoleto);
   }
 }
