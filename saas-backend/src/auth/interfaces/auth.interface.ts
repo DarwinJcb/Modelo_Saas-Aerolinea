@@ -1,5 +1,5 @@
 /* saas-backend/src/auth/interfaces/auth.interface.ts */
-import { EstadoAerolinea, EstadoUsuario, RolUsuario, } from '../../generated/prisma/enums';
+import type { EstadoAerolinea, EstadoUsuario, RolUsuario, } from '../../generated/prisma/enums';
 
 export interface JwtPayload {
     sub: number;

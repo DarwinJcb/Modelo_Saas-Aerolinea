@@ -131,6 +131,24 @@ POST http://localhost:3000/api/auth/login
   "contrasenaUsuario": "AerolineaD@rwin1001"
 }
 
+GET http://localhost:3000/api/auth/perfil/ (NO Token Bearer)
+{
+    "message": "Debe enviar un token Bearer",
+    "error": "Unauthorized",
+    "statusCode": 401
+}
+
+GET http://localhost:3000/api/auth/perfil/ (SÍ Token Bearer)
+{
+    "idUsuario": 1,
+    "fkAerolineaUsuario": null,
+    "nombresUsuario": "Darwin",
+    "apellidosUsuario": "Administrador",
+    "correoUsuario": "darwinjaviercb@outlook.com",
+    "rolUsuario": "SUPERADMIN",
+    "estadoUsuario": "ACTIVO",
+    "aerolineaUsuario": null
+}
 
 
 
