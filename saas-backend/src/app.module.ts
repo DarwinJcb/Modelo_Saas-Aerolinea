@@ -17,7 +17,21 @@ import { ReservasModule } from './reservas/reservas.module';
 import { BoletosModule } from './boletos/boletos.module';
 
 @Module({
-  imports: [PrismaModule, PlanesModule, AerolineasModule, SuscripcionesModule, UsuariosModule, AuthModule, AvionesModule, AeropuertosModule, RutasModule, VuelosModule, PasajerosModule, ReservasModule, BoletosModule],
+  imports: [
+    PrismaModule,
+    PlanesModule,
+    AerolineasModule,
+    SuscripcionesModule,
+    UsuariosModule,
+    AuthModule,
+    AvionesModule,
+    AeropuertosModule,
+    RutasModule,
+    VuelosModule,
+    PasajerosModule,
+    ReservasModule,
+    BoletosModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

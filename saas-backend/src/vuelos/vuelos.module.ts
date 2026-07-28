@@ -7,4 +7,4 @@ import { VuelosController } from './vuelos.controller';
   controllers: [VuelosController],
   providers: [VuelosService],
 })
-export class VuelosModule { }
+export class VuelosModule {}

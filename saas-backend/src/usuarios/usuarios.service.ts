@@ -1,14 +1,19 @@
 /* saas-backend/src/usuarios/usuarios.service.ts */
-import { BadRequestException, ConflictException, Injectable, NotFoundException, } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { randomBytes, scrypt } from 'node:crypto';
-import { EstadoUsuario, RolUsuario, } from '../generated/prisma/enums';
+import { EstadoUsuario, RolUsuario } from '../generated/prisma/enums';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 
 @Injectable()
 export class UsuariosService {
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService) {}
 
   private readonly seleccionUsuario = {
     idUsuario: true,
@@ -31,30 +36,20 @@ export class UsuariosService {
     },
   } as const;
 
-  private generarHashContrasena(
-    contrasenaUsuario: string,
-  ): Promise<string> {
+  private generarHashContrasena(contrasenaUsuario: string): Promise<string> {
     return new Promise((resolve, reject) => {
       const saltContrasena = randomBytes(16).toString('hex');
 
-      scrypt(
-        contrasenaUsuario,
-        saltContrasena,
-        64,
-        (error, claveDerivada) => {
-          if (error) {
-            reject(error);
-            return;
-          }
+      scrypt(contrasenaUsuario, saltContrasena, 64, (error, claveDerivada) => {
+        if (error) {
+          reject(error);
+          return;
+        }
 
-          const hashContrasena =
-            claveDerivada.toString('hex');
+        const hashContrasena = claveDerivada.toString('hex');
 
-          resolve(
-            `${saltContrasena}:${hashContrasena}`,
-          );
-        },
-      );
+        resolve(`${saltContrasena}:${hashContrasena}`);
+      });
     });
   }
 
@@ -62,19 +57,18 @@ export class UsuariosService {
     correoUsuario: string,
     idUsuarioExcluir?: number,
   ): Promise<void> {
-    const usuarioExistente =
-      await this.prisma.usuario.findFirst({
-        where: {
-          correoUsuario,
-          ...(idUsuarioExcluir !== undefined
-            ? {
+    const usuarioExistente = await this.prisma.usuario.findFirst({
+      where: {
+        correoUsuario,
+        ...(idUsuarioExcluir !== undefined
+          ? {
               NOT: {
                 idUsuario: idUsuarioExcluir,
               },
             }
-            : {}),
-        },
-      });
+          : {}),
+      },
+    });
 
     if (usuarioExistente) {
       throw new ConflictException(
@@ -83,15 +77,12 @@ export class UsuariosService {
     }
   }
 
-  private async verificarAerolinea(
-    idAerolinea: number,
-  ): Promise<void> {
-    const aerolineaEncontrada =
-      await this.prisma.aerolinea.findUnique({
-        where: {
-          idAerolinea,
-        },
-      });
+  private async verificarAerolinea(idAerolinea: number): Promise<void> {
+    const aerolineaEncontrada = await this.prisma.aerolinea.findUnique({
+      where: {
+        idAerolinea,
+      },
+    });
 
     if (!aerolineaEncontrada) {
       throw new NotFoundException(
@@ -105,10 +96,7 @@ export class UsuariosService {
     fkAerolineaUsuario: number | null | undefined,
   ): Promise<number | null> {
     if (rolUsuario === RolUsuario.SUPERADMIN) {
-      if (
-        fkAerolineaUsuario !== undefined &&
-        fkAerolineaUsuario !== null
-      ) {
+      if (fkAerolineaUsuario !== undefined && fkAerolineaUsuario !== null) {
         throw new BadRequestException(
           'Un usuario SUPERADMIN no debe pertenecer a una aerolínea',
         );
@@ -117,18 +105,13 @@ export class UsuariosService {
       return null;
     }
 
-    if (
-      fkAerolineaUsuario === undefined ||
-      fkAerolineaUsuario === null
-    ) {
+    if (fkAerolineaUsuario === undefined || fkAerolineaUsuario === null) {
       throw new BadRequestException(
         `Un usuario con rol ${rolUsuario} debe pertenecer a una aerolínea`,
       );
     }
 
-    await this.verificarAerolinea(
-      fkAerolineaUsuario,
-    );
+    await this.verificarAerolinea(fkAerolineaUsuario);
 
     return fkAerolineaUsuario;
   }
@@ -144,16 +127,15 @@ export class UsuariosService {
     }
 
     if (rolUsuario === RolUsuario.SUPERADMIN) {
-      const otrosSuperadministradores =
-        await this.prisma.usuario.count({
-          where: {
-            rolUsuario: RolUsuario.SUPERADMIN,
-            estadoUsuario: EstadoUsuario.ACTIVO,
-            NOT: {
-              idUsuario,
-            },
+      const otrosSuperadministradores = await this.prisma.usuario.count({
+        where: {
+          rolUsuario: RolUsuario.SUPERADMIN,
+          estadoUsuario: EstadoUsuario.ACTIVO,
+          NOT: {
+            idUsuario,
           },
-        });
+        },
+      });
 
       if (otrosSuperadministradores === 0) {
         throw new ConflictException(
@@ -166,17 +148,16 @@ export class UsuariosService {
       rolUsuario === RolUsuario.ADMIN_AEROLINEA &&
       fkAerolineaUsuario !== null
     ) {
-      const otrosAdministradores =
-        await this.prisma.usuario.count({
-          where: {
-            fkAerolineaUsuario,
-            rolUsuario: RolUsuario.ADMIN_AEROLINEA,
-            estadoUsuario: EstadoUsuario.ACTIVO,
-            NOT: {
-              idUsuario,
-            },
+      const otrosAdministradores = await this.prisma.usuario.count({
+        where: {
+          fkAerolineaUsuario,
+          rolUsuario: RolUsuario.ADMIN_AEROLINEA,
+          estadoUsuario: EstadoUsuario.ACTIVO,
+          NOT: {
+            idUsuario,
           },
-        });
+        },
+      });
 
       if (otrosAdministradores === 0) {
         throw new ConflictException(
@@ -187,37 +168,27 @@ export class UsuariosService {
   }
 
   async create(createUsuarioDto: CreateUsuarioDto) {
-    await this.verificarCorreoUnico(
-      createUsuarioDto.correoUsuario,
-    );
+    await this.verificarCorreoUnico(createUsuarioDto.correoUsuario);
 
-    const rolUsuario =
-      createUsuarioDto.rolUsuario ??
-      RolUsuario.EMPLEADO;
+    const rolUsuario = createUsuarioDto.rolUsuario ?? RolUsuario.EMPLEADO;
 
     const estadoUsuario =
-      createUsuarioDto.estadoUsuario ??
-      EstadoUsuario.ACTIVO;
+      createUsuarioDto.estadoUsuario ?? EstadoUsuario.ACTIVO;
 
-    const fkAerolineaUsuario =
-      await this.validarRolYAerolinea(
-        rolUsuario,
-        createUsuarioDto.fkAerolineaUsuario,
-      );
+    const fkAerolineaUsuario = await this.validarRolYAerolinea(
+      rolUsuario,
+      createUsuarioDto.fkAerolineaUsuario,
+    );
 
-    const contrasenaUsuario =
-      await this.generarHashContrasena(
-        createUsuarioDto.contrasenaUsuario,
-      );
+    const contrasenaUsuario = await this.generarHashContrasena(
+      createUsuarioDto.contrasenaUsuario,
+    );
 
     return this.prisma.usuario.create({
       data: {
-        nombresUsuario:
-          createUsuarioDto.nombresUsuario,
-        apellidosUsuario:
-          createUsuarioDto.apellidosUsuario,
-        correoUsuario:
-          createUsuarioDto.correoUsuario,
+        nombresUsuario: createUsuarioDto.nombresUsuario,
+        apellidosUsuario: createUsuarioDto.apellidosUsuario,
+        correoUsuario: createUsuarioDto.correoUsuario,
         contrasenaUsuario,
         rolUsuario,
         estadoUsuario,
@@ -237,13 +208,12 @@ export class UsuariosService {
   }
 
   async findOne(idUsuario: number) {
-    const usuarioEncontrado =
-      await this.prisma.usuario.findUnique({
-        where: {
-          idUsuario,
-        },
-        select: this.seleccionUsuario,
-      });
+    const usuarioEncontrado = await this.prisma.usuario.findUnique({
+      where: {
+        idUsuario,
+      },
+      select: this.seleccionUsuario,
+    });
 
     if (!usuarioEncontrado) {
       throw new NotFoundException(
@@ -254,16 +224,12 @@ export class UsuariosService {
     return usuarioEncontrado;
   }
 
-  async update(
-    idUsuario: number,
-    updateUsuarioDto: UpdateUsuarioDto,
-  ) {
-    const usuarioActual =
-      await this.prisma.usuario.findUnique({
-        where: {
-          idUsuario,
-        },
-      });
+  async update(idUsuario: number, updateUsuarioDto: UpdateUsuarioDto) {
+    const usuarioActual = await this.prisma.usuario.findUnique({
+      where: {
+        idUsuario,
+      },
+    });
 
     if (!usuarioActual) {
       throw new NotFoundException(
@@ -273,8 +239,7 @@ export class UsuariosService {
 
     if (
       updateUsuarioDto.correoUsuario &&
-      updateUsuarioDto.correoUsuario !==
-      usuarioActual.correoUsuario
+      updateUsuarioDto.correoUsuario !== usuarioActual.correoUsuario
     ) {
       await this.verificarCorreoUnico(
         updateUsuarioDto.correoUsuario,
@@ -282,19 +247,13 @@ export class UsuariosService {
       );
     }
 
-    const rolUsuario =
-      updateUsuarioDto.rolUsuario ??
-      usuarioActual.rolUsuario;
+    const rolUsuario = updateUsuarioDto.rolUsuario ?? usuarioActual.rolUsuario;
 
     let fkAerolineaSolicitada =
-      updateUsuarioDto.fkAerolineaUsuario ??
-      usuarioActual.fkAerolineaUsuario;
+      updateUsuarioDto.fkAerolineaUsuario ?? usuarioActual.fkAerolineaUsuario;
 
     if (rolUsuario === RolUsuario.SUPERADMIN) {
-      if (
-        updateUsuarioDto.fkAerolineaUsuario !==
-        undefined
-      ) {
+      if (updateUsuarioDto.fkAerolineaUsuario !== undefined) {
         throw new BadRequestException(
           'Un usuario SUPERADMIN no debe pertenecer a una aerolínea',
         );
@@ -303,45 +262,39 @@ export class UsuariosService {
       fkAerolineaSolicitada = null;
     }
 
-    const fkAerolineaUsuario =
-      await this.validarRolYAerolinea(
-        rolUsuario,
-        fkAerolineaSolicitada,
-      );
+    const fkAerolineaUsuario = await this.validarRolYAerolinea(
+      rolUsuario,
+      fkAerolineaSolicitada,
+    );
 
     const estadoUsuario =
-      updateUsuarioDto.estadoUsuario ??
-      usuarioActual.estadoUsuario;
+      updateUsuarioDto.estadoUsuario ?? usuarioActual.estadoUsuario;
 
     const datosActualizacion = {
       ...(updateUsuarioDto.nombresUsuario !== undefined
         ? {
-          nombresUsuario:
-            updateUsuarioDto.nombresUsuario,
-        }
+            nombresUsuario: updateUsuarioDto.nombresUsuario,
+          }
         : {}),
       ...(updateUsuarioDto.apellidosUsuario !== undefined
         ? {
-          apellidosUsuario:
-            updateUsuarioDto.apellidosUsuario,
-        }
+            apellidosUsuario: updateUsuarioDto.apellidosUsuario,
+          }
         : {}),
       ...(updateUsuarioDto.correoUsuario !== undefined
         ? {
-          correoUsuario:
-            updateUsuarioDto.correoUsuario,
-        }
+            correoUsuario: updateUsuarioDto.correoUsuario,
+          }
         : {}),
       rolUsuario,
       estadoUsuario,
       fkAerolineaUsuario,
       ...(updateUsuarioDto.contrasenaUsuario
         ? {
-          contrasenaUsuario:
-            await this.generarHashContrasena(
+            contrasenaUsuario: await this.generarHashContrasena(
               updateUsuarioDto.contrasenaUsuario,
             ),
-        }
+          }
         : {}),
     };
 
@@ -355,12 +308,11 @@ export class UsuariosService {
   }
 
   async remove(idUsuario: number) {
-    const usuarioEncontrado =
-      await this.prisma.usuario.findUnique({
-        where: {
-          idUsuario,
-        },
-      });
+    const usuarioEncontrado = await this.prisma.usuario.findUnique({
+      where: {
+        idUsuario,
+      },
+    });
 
     if (!usuarioEncontrado) {
       throw new NotFoundException(

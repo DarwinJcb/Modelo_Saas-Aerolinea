@@ -1,5 +1,9 @@
 /* saas-backend/src/aerolineas/aerolineas.service.ts */
-import { ConflictException, Injectable, NotFoundException, } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { Prisma } from '../generated/prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateAerolineaDto } from './dto/create-aerolinea.dto';
@@ -7,26 +11,25 @@ import { UpdateAerolineaDto } from './dto/update-aerolinea.dto';
 
 @Injectable()
 export class AerolineasService {
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService) {}
 
   private async verificarCampoUnico(
     condicion: Prisma.AerolineaWhereInput,
     mensajeError: string,
     idAerolineaExcluir?: number,
   ): Promise<void> {
-    const aerolineaExistente =
-      await this.prisma.aerolinea.findFirst({
-        where: {
-          ...condicion,
-          ...(idAerolineaExcluir !== undefined
-            ? {
+    const aerolineaExistente = await this.prisma.aerolinea.findFirst({
+      where: {
+        ...condicion,
+        ...(idAerolineaExcluir !== undefined
+          ? {
               NOT: {
                 idAerolinea: idAerolineaExcluir,
               },
             }
-            : {}),
-        },
-      });
+          : {}),
+      },
+    });
 
     if (aerolineaExistente) {
       throw new ConflictException(mensajeError);
@@ -34,9 +37,7 @@ export class AerolineasService {
   }
 
   private async verificarCamposUnicos(
-    datosAerolinea:
-      | CreateAerolineaDto
-      | UpdateAerolineaDto,
+    datosAerolinea: CreateAerolineaDto | UpdateAerolineaDto,
     idAerolineaExcluir?: number,
   ): Promise<void> {
     if (datosAerolinea.rucAerolinea) {
@@ -52,8 +53,7 @@ export class AerolineasService {
     if (datosAerolinea.codigoIataAerolinea) {
       await this.verificarCampoUnico(
         {
-          codigoIataAerolinea:
-            datosAerolinea.codigoIataAerolinea,
+          codigoIataAerolinea: datosAerolinea.codigoIataAerolinea,
         },
         `Ya existe una aerolínea con el código IATA "${datosAerolinea.codigoIataAerolinea}"`,
         idAerolineaExcluir,
@@ -63,8 +63,7 @@ export class AerolineasService {
     if (datosAerolinea.codigoIcaoAerolinea) {
       await this.verificarCampoUnico(
         {
-          codigoIcaoAerolinea:
-            datosAerolinea.codigoIcaoAerolinea,
+          codigoIcaoAerolinea: datosAerolinea.codigoIcaoAerolinea,
         },
         `Ya existe una aerolínea con el código ICAO "${datosAerolinea.codigoIcaoAerolinea}"`,
         idAerolineaExcluir,
@@ -99,12 +98,11 @@ export class AerolineasService {
   }
 
   async findOne(idAerolinea: number) {
-    const aerolineaEncontrada =
-      await this.prisma.aerolinea.findUnique({
-        where: {
-          idAerolinea,
-        },
-      });
+    const aerolineaEncontrada = await this.prisma.aerolinea.findUnique({
+      where: {
+        idAerolinea,
+      },
+    });
 
     if (!aerolineaEncontrada) {
       throw new NotFoundException(
@@ -115,16 +113,10 @@ export class AerolineasService {
     return aerolineaEncontrada;
   }
 
-  async update(
-    idAerolinea: number,
-    updateAerolineaDto: UpdateAerolineaDto,
-  ) {
+  async update(idAerolinea: number, updateAerolineaDto: UpdateAerolineaDto) {
     await this.findOne(idAerolinea);
 
-    await this.verificarCamposUnicos(
-      updateAerolineaDto,
-      idAerolinea,
-    );
+    await this.verificarCamposUnicos(updateAerolineaDto, idAerolinea);
 
     return this.prisma.aerolinea.update({
       where: {
@@ -137,32 +129,29 @@ export class AerolineasService {
   async remove(idAerolinea: number) {
     await this.findOne(idAerolinea);
 
-    const relacionesAerolinea =
-      await this.prisma.aerolinea.findUnique({
-        where: {
-          idAerolinea,
-        },
-        select: {
-          _count: {
-            select: {
-              suscripcionesAerolinea: true,
-              usuariosAerolinea: true,
-              avionesAerolinea: true,
-              rutasAerolinea: true,
-              vuelosAerolinea: true,
-              pasajerosAerolinea: true,
-              reservasAerolinea: true,
-              boletosAerolinea: true,
-            },
+    const relacionesAerolinea = await this.prisma.aerolinea.findUnique({
+      where: {
+        idAerolinea,
+      },
+      select: {
+        _count: {
+          select: {
+            suscripcionesAerolinea: true,
+            usuariosAerolinea: true,
+            avionesAerolinea: true,
+            rutasAerolinea: true,
+            vuelosAerolinea: true,
+            pasajerosAerolinea: true,
+            reservasAerolinea: true,
+            boletosAerolinea: true,
           },
         },
-      });
+      },
+    });
 
-    const cantidadRelaciones =
-      Object.values(relacionesAerolinea?._count ?? {}).reduce(
-        (total, cantidad) => total + cantidad,
-        0,
-      );
+    const cantidadRelaciones = Object.values(
+      relacionesAerolinea?._count ?? {},
+    ).reduce((total, cantidad) => total + cantidad, 0);
 
     if (cantidadRelaciones > 0) {
       throw new ConflictException(

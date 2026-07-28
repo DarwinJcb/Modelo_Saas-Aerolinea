@@ -1,13 +1,23 @@
 /* saas-backend/src/reservas/reservas.service.ts */
-import { BadRequestException, ConflictException, Injectable, NotFoundException, } from '@nestjs/common';
-import { EstadoAerolinea, EstadoReserva, EstadoUsuario, EstadoVuelo, } from '../generated/prisma/enums';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import {
+  EstadoAerolinea,
+  EstadoReserva,
+  EstadoUsuario,
+  EstadoVuelo,
+} from '../generated/prisma/enums';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateReservaDto } from './dto/create-reserva.dto';
 import { UpdateReservaDto } from './dto/update-reserva.dto';
 
 @Injectable()
 export class ReservasService {
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService) {}
 
   private readonly seleccionAerolinea = {
     idAerolinea: true,
@@ -103,12 +113,11 @@ export class ReservasService {
   private async verificarAerolineaOperativa(
     idAerolinea: number,
   ): Promise<void> {
-    const aerolineaEncontrada =
-      await this.prisma.aerolinea.findUnique({
-        where: {
-          idAerolinea,
-        },
-      });
+    const aerolineaEncontrada = await this.prisma.aerolinea.findUnique({
+      where: {
+        idAerolinea,
+      },
+    });
 
     if (!aerolineaEncontrada) {
       throw new NotFoundException(
@@ -116,10 +125,7 @@ export class ReservasService {
       );
     }
 
-    if (
-      aerolineaEncontrada.estadoAerolinea !==
-      EstadoAerolinea.ACTIVA
-    ) {
+    if (aerolineaEncontrada.estadoAerolinea !== EstadoAerolinea.ACTIVA) {
       throw new ConflictException(
         'La aerolínea debe estar ACTIVA para gestionar reservas',
       );
@@ -131,19 +137,18 @@ export class ReservasService {
     idAerolinea: number,
     exigirVueloReservable: boolean,
   ) {
-    const vueloEncontrado =
-      await this.prisma.vuelo.findUnique({
-        where: {
-          idVuelo,
-        },
-        include: {
-          avionVuelo: {
-            select: {
-              capacidadAvion: true,
-            },
+    const vueloEncontrado = await this.prisma.vuelo.findUnique({
+      where: {
+        idVuelo,
+      },
+      include: {
+        avionVuelo: {
+          select: {
+            capacidadAvion: true,
           },
         },
-      });
+      },
+    });
 
     if (!vueloEncontrado) {
       throw new NotFoundException(
@@ -151,10 +156,7 @@ export class ReservasService {
       );
     }
 
-    if (
-      vueloEncontrado.fkAerolineaVuelo !==
-      idAerolinea
-    ) {
+    if (vueloEncontrado.fkAerolineaVuelo !== idAerolinea) {
       throw new BadRequestException(
         'El vuelo seleccionado no pertenece a la aerolínea de la reserva',
       );
@@ -162,8 +164,7 @@ export class ReservasService {
 
     if (
       exigirVueloReservable &&
-      vueloEncontrado.estadoVuelo !==
-      EstadoVuelo.PROGRAMADO
+      vueloEncontrado.estadoVuelo !== EstadoVuelo.PROGRAMADO
     ) {
       throw new ConflictException(
         'El vuelo debe estar PROGRAMADO para recibir reservas',
@@ -172,8 +173,7 @@ export class ReservasService {
 
     if (
       exigirVueloReservable &&
-      vueloEncontrado.fechaHoraSalidaVuelo <=
-      new Date()
+      vueloEncontrado.fechaHoraSalidaVuelo <= new Date()
     ) {
       throw new ConflictException(
         'No se pueden registrar reservas para un vuelo cuya salida ya ocurrió',
@@ -187,12 +187,11 @@ export class ReservasService {
     idPasajero: number,
     idAerolinea: number,
   ): Promise<void> {
-    const pasajeroEncontrado =
-      await this.prisma.pasajero.findUnique({
-        where: {
-          idPasajero,
-        },
-      });
+    const pasajeroEncontrado = await this.prisma.pasajero.findUnique({
+      where: {
+        idPasajero,
+      },
+    });
 
     if (!pasajeroEncontrado) {
       throw new NotFoundException(
@@ -200,10 +199,7 @@ export class ReservasService {
       );
     }
 
-    if (
-      pasajeroEncontrado.fkAerolineaPasajero !==
-      idAerolinea
-    ) {
+    if (pasajeroEncontrado.fkAerolineaPasajero !== idAerolinea) {
       throw new BadRequestException(
         'El pasajero seleccionado no pertenece a la aerolínea de la reserva',
       );
@@ -214,12 +210,11 @@ export class ReservasService {
     idUsuario: number,
     idAerolinea: number,
   ): Promise<void> {
-    const usuarioEncontrado =
-      await this.prisma.usuario.findUnique({
-        where: {
-          idUsuario,
-        },
-      });
+    const usuarioEncontrado = await this.prisma.usuario.findUnique({
+      where: {
+        idUsuario,
+      },
+    });
 
     if (!usuarioEncontrado) {
       throw new NotFoundException(
@@ -227,19 +222,13 @@ export class ReservasService {
       );
     }
 
-    if (
-      usuarioEncontrado.fkAerolineaUsuario !==
-      idAerolinea
-    ) {
+    if (usuarioEncontrado.fkAerolineaUsuario !== idAerolinea) {
       throw new BadRequestException(
         'El usuario seleccionado no pertenece a la aerolínea de la reserva',
       );
     }
 
-    if (
-      usuarioEncontrado.estadoUsuario !==
-      EstadoUsuario.ACTIVO
-    ) {
+    if (usuarioEncontrado.estadoUsuario !== EstadoUsuario.ACTIVO) {
       throw new ConflictException(
         'El usuario que registra la reserva debe estar ACTIVO',
       );
@@ -251,20 +240,19 @@ export class ReservasService {
     codigoReserva: string,
     idReservaExcluir?: number,
   ): Promise<void> {
-    const reservaExistente =
-      await this.prisma.reserva.findFirst({
-        where: {
-          fkAerolineaReserva: idAerolinea,
-          codigoReserva,
-          ...(idReservaExcluir !== undefined
-            ? {
+    const reservaExistente = await this.prisma.reserva.findFirst({
+      where: {
+        fkAerolineaReserva: idAerolinea,
+        codigoReserva,
+        ...(idReservaExcluir !== undefined
+          ? {
               NOT: {
                 idReserva: idReservaExcluir,
               },
             }
-            : {}),
-        },
-      });
+          : {}),
+      },
+    });
 
     if (reservaExistente) {
       throw new ConflictException(
@@ -278,20 +266,19 @@ export class ReservasService {
     idPasajero: number,
     idReservaExcluir?: number,
   ): Promise<void> {
-    const reservaExistente =
-      await this.prisma.reserva.findFirst({
-        where: {
-          fkVueloReserva: idVuelo,
-          fkPasajeroReserva: idPasajero,
-          ...(idReservaExcluir !== undefined
-            ? {
+    const reservaExistente = await this.prisma.reserva.findFirst({
+      where: {
+        fkVueloReserva: idVuelo,
+        fkPasajeroReserva: idPasajero,
+        ...(idReservaExcluir !== undefined
+          ? {
               NOT: {
                 idReserva: idReservaExcluir,
               },
             }
-            : {}),
-        },
-      });
+          : {}),
+      },
+    });
 
     if (reservaExistente) {
       throw new ConflictException(
@@ -305,22 +292,21 @@ export class ReservasService {
     capacidadAvion: number,
     idReservaExcluir?: number,
   ): Promise<void> {
-    const cantidadReservas =
-      await this.prisma.reserva.count({
-        where: {
-          fkVueloReserva: idVuelo,
-          estadoReserva: {
-            not: EstadoReserva.CANCELADA,
-          },
-          ...(idReservaExcluir !== undefined
-            ? {
+    const cantidadReservas = await this.prisma.reserva.count({
+      where: {
+        fkVueloReserva: idVuelo,
+        estadoReserva: {
+          not: EstadoReserva.CANCELADA,
+        },
+        ...(idReservaExcluir !== undefined
+          ? {
               NOT: {
                 idReserva: idReservaExcluir,
               },
             }
-            : {}),
-        },
-      });
+          : {}),
+      },
+    });
 
     if (cantidadReservas >= capacidadAvion) {
       throw new ConflictException(
@@ -329,19 +315,14 @@ export class ReservasService {
     }
   }
 
-  async create(
-    createReservaDto: CreateReservaDto,
-  ) {
-    await this.verificarAerolineaOperativa(
-      createReservaDto.fkAerolineaReserva,
-    );
+  async create(createReservaDto: CreateReservaDto) {
+    await this.verificarAerolineaOperativa(createReservaDto.fkAerolineaReserva);
 
-    const vueloEncontrado =
-      await this.obtenerVueloDelTenant(
-        createReservaDto.fkVueloReserva,
-        createReservaDto.fkAerolineaReserva,
-        true,
-      );
+    const vueloEncontrado = await this.obtenerVueloDelTenant(
+      createReservaDto.fkVueloReserva,
+      createReservaDto.fkAerolineaReserva,
+      true,
+    );
 
     await this.verificarPasajeroDelTenant(
       createReservaDto.fkPasajeroReserva,
@@ -349,10 +330,8 @@ export class ReservasService {
     );
 
     if (
-      createReservaDto.fkUsuarioRegistroReserva !==
-      undefined &&
-      createReservaDto.fkUsuarioRegistroReserva !==
-      null
+      createReservaDto.fkUsuarioRegistroReserva !== undefined &&
+      createReservaDto.fkUsuarioRegistroReserva !== null
     ) {
       await this.verificarUsuarioDelTenant(
         createReservaDto.fkUsuarioRegistroReserva,
@@ -371,8 +350,7 @@ export class ReservasService {
     );
 
     const estadoReserva =
-      createReservaDto.estadoReserva ??
-      EstadoReserva.PENDIENTE;
+      createReservaDto.estadoReserva ?? EstadoReserva.PENDIENTE;
 
     if (estadoReserva !== EstadoReserva.CANCELADA) {
       await this.verificarCapacidadVuelo(
@@ -400,13 +378,12 @@ export class ReservasService {
   }
 
   async findOne(idReserva: number) {
-    const reservaEncontrada =
-      await this.prisma.reserva.findUnique({
-        where: {
-          idReserva,
-        },
-        include: this.relacionesReserva,
-      });
+    const reservaEncontrada = await this.prisma.reserva.findUnique({
+      where: {
+        idReserva,
+      },
+      include: this.relacionesReserva,
+    });
 
     if (!reservaEncontrada) {
       throw new NotFoundException(
@@ -417,23 +394,19 @@ export class ReservasService {
     return reservaEncontrada;
   }
 
-  async update(
-    idReserva: number,
-    updateReservaDto: UpdateReservaDto,
-  ) {
-    const reservaActual =
-      await this.prisma.reserva.findUnique({
-        where: {
-          idReserva,
-        },
-        include: {
-          boletoReserva: {
-            select: {
-              idBoleto: true,
-            },
+  async update(idReserva: number, updateReservaDto: UpdateReservaDto) {
+    const reservaActual = await this.prisma.reserva.findUnique({
+      where: {
+        idReserva,
+      },
+      include: {
+        boletoReserva: {
+          select: {
+            idBoleto: true,
           },
         },
-      });
+      },
+    });
 
     if (!reservaActual) {
       throw new NotFoundException(
@@ -442,73 +415,52 @@ export class ReservasService {
     }
 
     const idAerolineaFinal =
-      updateReservaDto.fkAerolineaReserva ??
-      reservaActual.fkAerolineaReserva;
+      updateReservaDto.fkAerolineaReserva ?? reservaActual.fkAerolineaReserva;
 
     const idVueloFinal =
-      updateReservaDto.fkVueloReserva ??
-      reservaActual.fkVueloReserva;
+      updateReservaDto.fkVueloReserva ?? reservaActual.fkVueloReserva;
 
     const idPasajeroFinal =
-      updateReservaDto.fkPasajeroReserva ??
-      reservaActual.fkPasajeroReserva;
+      updateReservaDto.fkPasajeroReserva ?? reservaActual.fkPasajeroReserva;
 
     const idUsuarioFinal =
-      updateReservaDto.fkUsuarioRegistroReserva !==
-        undefined
+      updateReservaDto.fkUsuarioRegistroReserva !== undefined
         ? updateReservaDto.fkUsuarioRegistroReserva
         : reservaActual.fkUsuarioRegistroReserva;
 
     const codigoReservaFinal =
-      updateReservaDto.codigoReserva ??
-      reservaActual.codigoReserva;
+      updateReservaDto.codigoReserva ?? reservaActual.codigoReserva;
 
     const estadoReservaFinal =
-      updateReservaDto.estadoReserva ??
-      reservaActual.estadoReserva;
+      updateReservaDto.estadoReserva ?? reservaActual.estadoReserva;
 
     const cambiaRelacionPrincipal =
-      idAerolineaFinal !==
-      reservaActual.fkAerolineaReserva ||
+      idAerolineaFinal !== reservaActual.fkAerolineaReserva ||
       idVueloFinal !== reservaActual.fkVueloReserva ||
-      idPasajeroFinal !==
-      reservaActual.fkPasajeroReserva;
+      idPasajeroFinal !== reservaActual.fkPasajeroReserva;
 
-    if (
-      cambiaRelacionPrincipal &&
-      reservaActual.boletoReserva
-    ) {
+    if (cambiaRelacionPrincipal && reservaActual.boletoReserva) {
       throw new ConflictException(
         'No se puede cambiar la aerolínea, el vuelo o el pasajero porque la reserva ya tiene un boleto emitido',
       );
     }
 
     const reactivaReserva =
-      reservaActual.estadoReserva ===
-      EstadoReserva.CANCELADA &&
+      reservaActual.estadoReserva === EstadoReserva.CANCELADA &&
       estadoReservaFinal !== EstadoReserva.CANCELADA;
 
-    await this.verificarAerolineaOperativa(
+    await this.verificarAerolineaOperativa(idAerolineaFinal);
+
+    const vueloEncontrado = await this.obtenerVueloDelTenant(
+      idVueloFinal,
       idAerolineaFinal,
+      cambiaRelacionPrincipal || reactivaReserva,
     );
 
-    const vueloEncontrado =
-      await this.obtenerVueloDelTenant(
-        idVueloFinal,
-        idAerolineaFinal,
-        cambiaRelacionPrincipal || reactivaReserva,
-      );
-
-    await this.verificarPasajeroDelTenant(
-      idPasajeroFinal,
-      idAerolineaFinal,
-    );
+    await this.verificarPasajeroDelTenant(idPasajeroFinal, idAerolineaFinal);
 
     if (idUsuarioFinal !== null) {
-      await this.verificarUsuarioDelTenant(
-        idUsuarioFinal,
-        idAerolineaFinal,
-      );
+      await this.verificarUsuarioDelTenant(idUsuarioFinal, idAerolineaFinal);
     }
 
     await this.verificarCodigoReservaUnico(
@@ -523,9 +475,7 @@ export class ReservasService {
       idReserva,
     );
 
-    if (
-      estadoReservaFinal !== EstadoReserva.CANCELADA
-    ) {
+    if (estadoReservaFinal !== EstadoReserva.CANCELADA) {
       await this.verificarCapacidadVuelo(
         idVueloFinal,
         vueloEncontrado.avionVuelo.capacidadAvion,
@@ -543,19 +493,18 @@ export class ReservasService {
   }
 
   async remove(idReserva: number) {
-    const reservaEncontrada =
-      await this.prisma.reserva.findUnique({
-        where: {
-          idReserva,
-        },
-        include: {
-          boletoReserva: {
-            select: {
-              idBoleto: true,
-            },
+    const reservaEncontrada = await this.prisma.reserva.findUnique({
+      where: {
+        idReserva,
+      },
+      include: {
+        boletoReserva: {
+          select: {
+            idBoleto: true,
           },
         },
-      });
+      },
+    });
 
     if (!reservaEncontrada) {
       throw new NotFoundException(

@@ -7,4 +7,4 @@ import { RutasController } from './rutas.controller';
   controllers: [RutasController],
   providers: [RutasService],
 })
-export class RutasModule { }
+export class RutasModule {}

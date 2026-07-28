@@ -1,14 +1,21 @@
 /* saas-backend/src/vuelos/vuelos.controller.ts */
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { CreateVueloDto } from './dto/create-vuelo.dto';
 import { UpdateVueloDto } from './dto/update-vuelo.dto';
 import { VuelosService } from './vuelos.service';
 
 @Controller('vuelos')
 export class VuelosController {
-  constructor(
-    private readonly vuelosService: VuelosService,
-  ) { }
+  constructor(private readonly vuelosService: VuelosService) {}
 
   @Post()
   create(@Body() createVueloDto: CreateVueloDto) {
@@ -34,10 +41,7 @@ export class VuelosController {
     idVuelo: number,
     @Body() updateVueloDto: UpdateVueloDto,
   ) {
-    return this.vuelosService.update(
-      idVuelo,
-      updateVueloDto,
-    );
+    return this.vuelosService.update(idVuelo, updateVueloDto);
   }
 
   @Delete(':idVuelo')

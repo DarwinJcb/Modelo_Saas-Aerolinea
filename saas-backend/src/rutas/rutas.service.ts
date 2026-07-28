@@ -1,13 +1,18 @@
 /* saas-backend/src/rutas/rutas.service.ts */
-import { BadRequestException, ConflictException, Injectable, NotFoundException, } from '@nestjs/common';
-import { EstadoAerolinea, EstadoAeropuerto, } from '../generated/prisma/enums';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { EstadoAerolinea, EstadoAeropuerto } from '../generated/prisma/enums';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateRutaDto } from './dto/create-ruta.dto';
 import { UpdateRutaDto } from './dto/update-ruta.dto';
 
 @Injectable()
 export class RutasService {
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService) {}
 
   private readonly seleccionAerolinea = {
     idAerolinea: true,
@@ -29,12 +34,11 @@ export class RutasService {
   private async verificarAerolineaOperativa(
     idAerolinea: number,
   ): Promise<void> {
-    const aerolineaEncontrada =
-      await this.prisma.aerolinea.findUnique({
-        where: {
-          idAerolinea,
-        },
-      });
+    const aerolineaEncontrada = await this.prisma.aerolinea.findUnique({
+      where: {
+        idAerolinea,
+      },
+    });
 
     if (!aerolineaEncontrada) {
       throw new NotFoundException(
@@ -42,10 +46,7 @@ export class RutasService {
       );
     }
 
-    if (
-      aerolineaEncontrada.estadoAerolinea !==
-      EstadoAerolinea.ACTIVA
-    ) {
+    if (aerolineaEncontrada.estadoAerolinea !== EstadoAerolinea.ACTIVA) {
       throw new ConflictException(
         'La aerolínea debe estar ACTIVA para gestionar rutas',
       );
@@ -56,12 +57,11 @@ export class RutasService {
     idAeropuerto: number,
     tipoAeropuerto: 'origen' | 'destino',
   ): Promise<void> {
-    const aeropuertoEncontrado =
-      await this.prisma.aeropuerto.findUnique({
-        where: {
-          idAeropuerto,
-        },
-      });
+    const aeropuertoEncontrado = await this.prisma.aeropuerto.findUnique({
+      where: {
+        idAeropuerto,
+      },
+    });
 
     if (!aeropuertoEncontrado) {
       throw new NotFoundException(
@@ -69,10 +69,7 @@ export class RutasService {
       );
     }
 
-    if (
-      aeropuertoEncontrado.estadoAeropuerto !==
-      EstadoAeropuerto.ACTIVO
-    ) {
+    if (aeropuertoEncontrado.estadoAeropuerto !== EstadoAeropuerto.ACTIVO) {
       throw new ConflictException(
         `El aeropuerto de ${tipoAeropuerto} debe estar ACTIVO`,
       );
@@ -95,20 +92,19 @@ export class RutasService {
     codigoRuta: string,
     idRutaExcluir?: number,
   ): Promise<void> {
-    const rutaExistente =
-      await this.prisma.ruta.findFirst({
-        where: {
-          fkAerolineaRuta: idAerolinea,
-          codigoRuta,
-          ...(idRutaExcluir !== undefined
-            ? {
+    const rutaExistente = await this.prisma.ruta.findFirst({
+      where: {
+        fkAerolineaRuta: idAerolinea,
+        codigoRuta,
+        ...(idRutaExcluir !== undefined
+          ? {
               NOT: {
                 idRuta: idRutaExcluir,
               },
             }
-            : {}),
-        },
-      });
+          : {}),
+      },
+    });
 
     if (rutaExistente) {
       throw new ConflictException(
@@ -123,21 +119,20 @@ export class RutasService {
     idAeropuertoDestino: number,
     idRutaExcluir?: number,
   ): Promise<void> {
-    const rutaExistente =
-      await this.prisma.ruta.findFirst({
-        where: {
-          fkAerolineaRuta: idAerolinea,
-          fkAeropuertoOrigenRuta: idAeropuertoOrigen,
-          fkAeropuertoDestinoRuta: idAeropuertoDestino,
-          ...(idRutaExcluir !== undefined
-            ? {
+    const rutaExistente = await this.prisma.ruta.findFirst({
+      where: {
+        fkAerolineaRuta: idAerolinea,
+        fkAeropuertoOrigenRuta: idAeropuertoOrigen,
+        fkAeropuertoDestinoRuta: idAeropuertoDestino,
+        ...(idRutaExcluir !== undefined
+          ? {
               NOT: {
                 idRuta: idRutaExcluir,
               },
             }
-            : {}),
-        },
-      });
+          : {}),
+      },
+    });
 
     if (rutaExistente) {
       throw new ConflictException(
@@ -147,9 +142,7 @@ export class RutasService {
   }
 
   async create(createRutaDto: CreateRutaDto) {
-    await this.verificarAerolineaOperativa(
-      createRutaDto.fkAerolineaRuta,
-    );
+    await this.verificarAerolineaOperativa(createRutaDto.fkAerolineaRuta);
 
     this.validarAeropuertosDiferentes(
       createRutaDto.fkAeropuertoOrigenRuta,
@@ -213,23 +206,22 @@ export class RutasService {
   }
 
   async findOne(idRuta: number) {
-    const rutaEncontrada =
-      await this.prisma.ruta.findUnique({
-        where: {
-          idRuta,
+    const rutaEncontrada = await this.prisma.ruta.findUnique({
+      where: {
+        idRuta,
+      },
+      include: {
+        aerolineaRuta: {
+          select: this.seleccionAerolinea,
         },
-        include: {
-          aerolineaRuta: {
-            select: this.seleccionAerolinea,
-          },
-          aeropuertoOrigenRuta: {
-            select: this.seleccionAeropuerto,
-          },
-          aeropuertoDestinoRuta: {
-            select: this.seleccionAeropuerto,
-          },
+        aeropuertoOrigenRuta: {
+          select: this.seleccionAeropuerto,
         },
-      });
+        aeropuertoDestinoRuta: {
+          select: this.seleccionAeropuerto,
+        },
+      },
+    });
 
     if (!rutaEncontrada) {
       throw new NotFoundException(
@@ -240,16 +232,12 @@ export class RutasService {
     return rutaEncontrada;
   }
 
-  async update(
-    idRuta: number,
-    updateRutaDto: UpdateRutaDto,
-  ) {
-    const rutaActual =
-      await this.prisma.ruta.findUnique({
-        where: {
-          idRuta,
-        },
-      });
+  async update(idRuta: number, updateRutaDto: UpdateRutaDto) {
+    const rutaActual = await this.prisma.ruta.findUnique({
+      where: {
+        idRuta,
+      },
+    });
 
     if (!rutaActual) {
       throw new NotFoundException(
@@ -258,36 +246,28 @@ export class RutasService {
     }
 
     const idAerolineaFinal =
-      updateRutaDto.fkAerolineaRuta ??
-      rutaActual.fkAerolineaRuta;
+      updateRutaDto.fkAerolineaRuta ?? rutaActual.fkAerolineaRuta;
 
     const idAeropuertoOrigenFinal =
-      updateRutaDto.fkAeropuertoOrigenRuta ??
-      rutaActual.fkAeropuertoOrigenRuta;
+      updateRutaDto.fkAeropuertoOrigenRuta ?? rutaActual.fkAeropuertoOrigenRuta;
 
     const idAeropuertoDestinoFinal =
       updateRutaDto.fkAeropuertoDestinoRuta ??
       rutaActual.fkAeropuertoDestinoRuta;
 
-    const codigoRutaFinal =
-      updateRutaDto.codigoRuta ??
-      rutaActual.codigoRuta;
+    const codigoRutaFinal = updateRutaDto.codigoRuta ?? rutaActual.codigoRuta;
 
     const modificaRelacionPrincipal =
-      idAerolineaFinal !==
-      rutaActual.fkAerolineaRuta ||
-      idAeropuertoOrigenFinal !==
-      rutaActual.fkAeropuertoOrigenRuta ||
-      idAeropuertoDestinoFinal !==
-      rutaActual.fkAeropuertoDestinoRuta;
+      idAerolineaFinal !== rutaActual.fkAerolineaRuta ||
+      idAeropuertoOrigenFinal !== rutaActual.fkAeropuertoOrigenRuta ||
+      idAeropuertoDestinoFinal !== rutaActual.fkAeropuertoDestinoRuta;
 
     if (modificaRelacionPrincipal) {
-      const cantidadVuelos =
-        await this.prisma.vuelo.count({
-          where: {
-            fkRutaVuelo: idRuta,
-          },
-        });
+      const cantidadVuelos = await this.prisma.vuelo.count({
+        where: {
+          fkRutaVuelo: idRuta,
+        },
+      });
 
       if (cantidadVuelos > 0) {
         throw new ConflictException(
@@ -296,19 +276,14 @@ export class RutasService {
       }
     }
 
-    await this.verificarAerolineaOperativa(
-      idAerolineaFinal,
-    );
+    await this.verificarAerolineaOperativa(idAerolineaFinal);
 
     this.validarAeropuertosDiferentes(
       idAeropuertoOrigenFinal,
       idAeropuertoDestinoFinal,
     );
 
-    await this.verificarAeropuertoOperativo(
-      idAeropuertoOrigenFinal,
-      'origen',
-    );
+    await this.verificarAeropuertoOperativo(idAeropuertoOrigenFinal, 'origen');
 
     await this.verificarAeropuertoOperativo(
       idAeropuertoDestinoFinal,
@@ -348,12 +323,11 @@ export class RutasService {
   }
 
   async remove(idRuta: number) {
-    const rutaEncontrada =
-      await this.prisma.ruta.findUnique({
-        where: {
-          idRuta,
-        },
-      });
+    const rutaEncontrada = await this.prisma.ruta.findUnique({
+      where: {
+        idRuta,
+      },
+    });
 
     if (!rutaEncontrada) {
       throw new NotFoundException(
@@ -361,12 +335,11 @@ export class RutasService {
       );
     }
 
-    const cantidadVuelos =
-      await this.prisma.vuelo.count({
-        where: {
-          fkRutaVuelo: idRuta,
-        },
-      });
+    const cantidadVuelos = await this.prisma.vuelo.count({
+      where: {
+        fkRutaVuelo: idRuta,
+      },
+    });
 
     if (cantidadVuelos > 0) {
       throw new ConflictException(

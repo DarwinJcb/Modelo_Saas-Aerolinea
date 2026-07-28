@@ -1,12 +1,21 @@
 /* saas-backend/src/aerolineas/aerolineas.controller.ts */
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { AerolineasService } from './aerolineas.service';
 import { CreateAerolineaDto } from './dto/create-aerolinea.dto';
 import { UpdateAerolineaDto } from './dto/update-aerolinea.dto';
 
 @Controller('aerolineas')
 export class AerolineasController {
-  constructor(private readonly aerolineasService: AerolineasService) { }
+  constructor(private readonly aerolineasService: AerolineasService) {}
 
   @Post()
   create(@Body() createAerolineaDto: CreateAerolineaDto) {
@@ -19,9 +28,7 @@ export class AerolineasController {
   }
 
   @Get(':idAerolinea')
-  findOne(
-    @Param('idAerolinea', ParseIntPipe) idAerolinea: number,
-  ) {
+  findOne(@Param('idAerolinea', ParseIntPipe) idAerolinea: number) {
     return this.aerolineasService.findOne(idAerolinea);
   }
 
@@ -30,16 +37,11 @@ export class AerolineasController {
     @Param('idAerolinea', ParseIntPipe) idAerolinea: number,
     @Body() updateAerolineaDto: UpdateAerolineaDto,
   ) {
-    return this.aerolineasService.update(
-      idAerolinea,
-      updateAerolineaDto,
-    );
+    return this.aerolineasService.update(idAerolinea, updateAerolineaDto);
   }
 
   @Delete(':idAerolinea')
-  remove(
-    @Param('idAerolinea', ParseIntPipe) idAerolinea: number,
-  ) {
+  remove(@Param('idAerolinea', ParseIntPipe) idAerolinea: number) {
     return this.aerolineasService.remove(idAerolinea);
   }
 }

@@ -1,14 +1,21 @@
 /* saas-backend/src/boletos/boletos.controller.ts */
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { BoletosService } from './boletos.service';
 import { CreateBoletoDto } from './dto/create-boleto.dto';
 import { UpdateBoletoDto } from './dto/update-boleto.dto';
 
 @Controller('boletos')
 export class BoletosController {
-  constructor(
-    private readonly boletosService: BoletosService,
-  ) { }
+  constructor(private readonly boletosService: BoletosService) {}
 
   @Post()
   create(@Body() createBoletoDto: CreateBoletoDto) {
@@ -34,10 +41,7 @@ export class BoletosController {
     idBoleto: number,
     @Body() updateBoletoDto: UpdateBoletoDto,
   ) {
-    return this.boletosService.update(
-      idBoleto,
-      updateBoletoDto,
-    );
+    return this.boletosService.update(idBoleto, updateBoletoDto);
   }
 
   @Delete(':idBoleto')

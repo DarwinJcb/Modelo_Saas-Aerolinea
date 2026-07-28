@@ -1,13 +1,23 @@
 /* saas-backend/src/boletos/boletos.service.ts */
-import { BadRequestException, ConflictException, Injectable, NotFoundException, } from '@nestjs/common';
-import { EstadoAerolinea, EstadoBoleto, EstadoReserva, EstadoVuelo, } from '../generated/prisma/enums';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import {
+  EstadoAerolinea,
+  EstadoBoleto,
+  EstadoReserva,
+  EstadoVuelo,
+} from '../generated/prisma/enums';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateBoletoDto } from './dto/create-boleto.dto';
 import { UpdateBoletoDto } from './dto/update-boleto.dto';
 
 @Injectable()
 export class BoletosService {
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService) {}
 
   private readonly relacionesBoleto = {
     aerolineaBoleto: {
@@ -73,12 +83,11 @@ export class BoletosService {
   private async verificarAerolineaOperativa(
     idAerolinea: number,
   ): Promise<void> {
-    const aerolineaEncontrada =
-      await this.prisma.aerolinea.findUnique({
-        where: {
-          idAerolinea,
-        },
-      });
+    const aerolineaEncontrada = await this.prisma.aerolinea.findUnique({
+      where: {
+        idAerolinea,
+      },
+    });
 
     if (!aerolineaEncontrada) {
       throw new NotFoundException(
@@ -86,10 +95,7 @@ export class BoletosService {
       );
     }
 
-    if (
-      aerolineaEncontrada.estadoAerolinea !==
-      EstadoAerolinea.ACTIVA
-    ) {
+    if (aerolineaEncontrada.estadoAerolinea !== EstadoAerolinea.ACTIVA) {
       throw new ConflictException(
         'La aerolínea debe estar ACTIVA para emitir boletos',
       );
@@ -100,32 +106,31 @@ export class BoletosService {
     idReserva: number,
     idAerolinea: number,
   ) {
-    const reservaEncontrada =
-      await this.prisma.reserva.findUnique({
-        where: {
-          idReserva,
-        },
-        include: {
-          boletoReserva: {
-            select: {
-              idBoleto: true,
-            },
-          },
-          vueloReserva: {
-            select: {
-              idVuelo: true,
-              fkAerolineaVuelo: true,
-              estadoVuelo: true,
-              fechaHoraSalidaVuelo: true,
-            },
-          },
-          pasajeroReserva: {
-            select: {
-              fkAerolineaPasajero: true,
-            },
+    const reservaEncontrada = await this.prisma.reserva.findUnique({
+      where: {
+        idReserva,
+      },
+      include: {
+        boletoReserva: {
+          select: {
+            idBoleto: true,
           },
         },
-      });
+        vueloReserva: {
+          select: {
+            idVuelo: true,
+            fkAerolineaVuelo: true,
+            estadoVuelo: true,
+            fechaHoraSalidaVuelo: true,
+          },
+        },
+        pasajeroReserva: {
+          select: {
+            fkAerolineaPasajero: true,
+          },
+        },
+      },
+    });
 
     if (!reservaEncontrada) {
       throw new NotFoundException(
@@ -133,44 +138,31 @@ export class BoletosService {
       );
     }
 
-    if (
-      reservaEncontrada.fkAerolineaReserva !==
-      idAerolinea
-    ) {
+    if (reservaEncontrada.fkAerolineaReserva !== idAerolinea) {
       throw new BadRequestException(
         'La reserva seleccionada no pertenece a la aerolínea del boleto',
       );
     }
 
-    if (
-      reservaEncontrada.vueloReserva
-        .fkAerolineaVuelo !== idAerolinea
-    ) {
+    if (reservaEncontrada.vueloReserva.fkAerolineaVuelo !== idAerolinea) {
       throw new BadRequestException(
         'El vuelo de la reserva no pertenece a la aerolínea del boleto',
       );
     }
 
-    if (
-      reservaEncontrada.pasajeroReserva
-        .fkAerolineaPasajero !== idAerolinea
-    ) {
+    if (reservaEncontrada.pasajeroReserva.fkAerolineaPasajero !== idAerolinea) {
       throw new BadRequestException(
         'El pasajero de la reserva no pertenece a la aerolínea del boleto',
       );
     }
 
-    if (
-      reservaEncontrada.estadoReserva !==
-      EstadoReserva.CONFIRMADA
-    ) {
+    if (reservaEncontrada.estadoReserva !== EstadoReserva.CONFIRMADA) {
       throw new ConflictException(
         'La reserva debe estar CONFIRMADA antes de emitir el boleto',
       );
     }
 
-    const estadoVuelo =
-      reservaEncontrada.vueloReserva.estadoVuelo;
+    const estadoVuelo = reservaEncontrada.vueloReserva.estadoVuelo;
 
     if (
       estadoVuelo !== EstadoVuelo.PROGRAMADO &&
@@ -181,19 +173,14 @@ export class BoletosService {
       );
     }
 
-    if (
-      reservaEncontrada.vueloReserva
-        .fechaHoraSalidaVuelo <= new Date()
-    ) {
+    if (reservaEncontrada.vueloReserva.fechaHoraSalidaVuelo <= new Date()) {
       throw new ConflictException(
         'No se puede emitir un boleto para un vuelo cuya salida ya ocurrió',
       );
     }
 
     if (reservaEncontrada.boletoReserva) {
-      throw new ConflictException(
-        'La reserva ya tiene un boleto emitido',
-      );
+      throw new ConflictException('La reserva ya tiene un boleto emitido');
     }
 
     return reservaEncontrada;
@@ -204,20 +191,19 @@ export class BoletosService {
     numeroBoleto: string,
     idBoletoExcluir?: number,
   ): Promise<void> {
-    const boletoExistente =
-      await this.prisma.boleto.findFirst({
-        where: {
-          fkAerolineaBoleto: idAerolinea,
-          numeroBoleto,
-          ...(idBoletoExcluir !== undefined
-            ? {
+    const boletoExistente = await this.prisma.boleto.findFirst({
+      where: {
+        fkAerolineaBoleto: idAerolinea,
+        numeroBoleto,
+        ...(idBoletoExcluir !== undefined
+          ? {
               NOT: {
                 idBoleto: idBoletoExcluir,
               },
             }
-            : {}),
-        },
-      });
+          : {}),
+      },
+    });
 
     if (boletoExistente) {
       throw new ConflictException(
@@ -231,27 +217,26 @@ export class BoletosService {
     asientoBoleto: string,
     idBoletoExcluir?: number,
   ): Promise<void> {
-    const boletoExistente =
-      await this.prisma.boleto.findFirst({
-        where: {
-          asientoBoleto,
-          estadoBoleto: {
-            not: EstadoBoleto.CANCELADO,
+    const boletoExistente = await this.prisma.boleto.findFirst({
+      where: {
+        asientoBoleto,
+        estadoBoleto: {
+          not: EstadoBoleto.CANCELADO,
+        },
+        reservaBoleto: {
+          is: {
+            fkVueloReserva: idVuelo,
           },
-          reservaBoleto: {
-            is: {
-              fkVueloReserva: idVuelo,
-            },
-          },
-          ...(idBoletoExcluir !== undefined
-            ? {
+        },
+        ...(idBoletoExcluir !== undefined
+          ? {
               NOT: {
                 idBoleto: idBoletoExcluir,
               },
             }
-            : {}),
-        },
-      });
+          : {}),
+      },
+    });
 
     if (boletoExistente) {
       throw new ConflictException(
@@ -261,25 +246,21 @@ export class BoletosService {
   }
 
   async create(createBoletoDto: CreateBoletoDto) {
-    await this.verificarAerolineaOperativa(
-      createBoletoDto.fkAerolineaBoleto,
-    );
+    await this.verificarAerolineaOperativa(createBoletoDto.fkAerolineaBoleto);
 
     if (
       createBoletoDto.estadoBoleto !== undefined &&
-      createBoletoDto.estadoBoleto !==
-      EstadoBoleto.EMITIDO
+      createBoletoDto.estadoBoleto !== EstadoBoleto.EMITIDO
     ) {
       throw new BadRequestException(
         'Un boleto nuevo debe crearse con estado EMITIDO',
       );
     }
 
-    const reservaEncontrada =
-      await this.obtenerReservaValidaParaEmision(
-        createBoletoDto.fkReservaBoleto,
-        createBoletoDto.fkAerolineaBoleto,
-      );
+    const reservaEncontrada = await this.obtenerReservaValidaParaEmision(
+      createBoletoDto.fkReservaBoleto,
+      createBoletoDto.fkAerolineaBoleto,
+    );
 
     await this.verificarNumeroBoletoUnico(
       createBoletoDto.fkAerolineaBoleto,
@@ -293,18 +274,12 @@ export class BoletosService {
 
     return this.prisma.boleto.create({
       data: {
-        fkAerolineaBoleto:
-          createBoletoDto.fkAerolineaBoleto,
-        fkReservaBoleto:
-          createBoletoDto.fkReservaBoleto,
-        numeroBoleto:
-          createBoletoDto.numeroBoleto,
-        asientoBoleto:
-          createBoletoDto.asientoBoleto,
-        claseBoleto:
-          createBoletoDto.claseBoleto,
-        precioFinalBoleto:
-          createBoletoDto.precioFinalBoleto,
+        fkAerolineaBoleto: createBoletoDto.fkAerolineaBoleto,
+        fkReservaBoleto: createBoletoDto.fkReservaBoleto,
+        numeroBoleto: createBoletoDto.numeroBoleto,
+        asientoBoleto: createBoletoDto.asientoBoleto,
+        claseBoleto: createBoletoDto.claseBoleto,
+        precioFinalBoleto: createBoletoDto.precioFinalBoleto,
         estadoBoleto: EstadoBoleto.EMITIDO,
       },
       include: this.relacionesBoleto,
@@ -321,13 +296,12 @@ export class BoletosService {
   }
 
   async findOne(idBoleto: number) {
-    const boletoEncontrado =
-      await this.prisma.boleto.findUnique({
-        where: {
-          idBoleto,
-        },
-        include: this.relacionesBoleto,
-      });
+    const boletoEncontrado = await this.prisma.boleto.findUnique({
+      where: {
+        idBoleto,
+      },
+      include: this.relacionesBoleto,
+    });
 
     if (!boletoEncontrado) {
       throw new NotFoundException(
@@ -338,23 +312,19 @@ export class BoletosService {
     return boletoEncontrado;
   }
 
-  async update(
-    idBoleto: number,
-    updateBoletoDto: UpdateBoletoDto,
-  ) {
-    const boletoActual =
-      await this.prisma.boleto.findUnique({
-        where: {
-          idBoleto,
-        },
-        include: {
-          reservaBoleto: {
-            select: {
-              fkVueloReserva: true,
-            },
+  async update(idBoleto: number, updateBoletoDto: UpdateBoletoDto) {
+    const boletoActual = await this.prisma.boleto.findUnique({
+      where: {
+        idBoleto,
+      },
+      include: {
+        reservaBoleto: {
+          select: {
+            fkVueloReserva: true,
           },
         },
-      });
+      },
+    });
 
     if (!boletoActual) {
       throw new NotFoundException(
@@ -362,22 +332,17 @@ export class BoletosService {
       );
     }
 
-    if (
-      boletoActual.estadoBoleto ===
-      EstadoBoleto.UTILIZADO
-    ) {
+    if (boletoActual.estadoBoleto === EstadoBoleto.UTILIZADO) {
       throw new ConflictException(
         'No se puede modificar un boleto que ya fue UTILIZADO',
       );
     }
 
     const estadoFinal =
-      updateBoletoDto.estadoBoleto ??
-      boletoActual.estadoBoleto;
+      updateBoletoDto.estadoBoleto ?? boletoActual.estadoBoleto;
 
     if (
-      boletoActual.estadoBoleto ===
-      EstadoBoleto.CANCELADO &&
+      boletoActual.estadoBoleto === EstadoBoleto.CANCELADO &&
       estadoFinal !== EstadoBoleto.CANCELADO
     ) {
       throw new ConflictException(
@@ -386,12 +351,10 @@ export class BoletosService {
     }
 
     const numeroBoletoFinal =
-      updateBoletoDto.numeroBoleto ??
-      boletoActual.numeroBoleto;
+      updateBoletoDto.numeroBoleto ?? boletoActual.numeroBoleto;
 
     const asientoBoletoFinal =
-      updateBoletoDto.asientoBoleto ??
-      boletoActual.asientoBoleto;
+      updateBoletoDto.asientoBoleto ?? boletoActual.asientoBoleto;
 
     await this.verificarNumeroBoletoUnico(
       boletoActual.fkAerolineaBoleto,
@@ -401,8 +364,7 @@ export class BoletosService {
 
     if (estadoFinal !== EstadoBoleto.CANCELADO) {
       await this.verificarAsientoDisponible(
-        boletoActual.reservaBoleto
-          .fkVueloReserva,
+        boletoActual.reservaBoleto.fkVueloReserva,
         asientoBoletoFinal,
         idBoleto,
       );
@@ -418,12 +380,11 @@ export class BoletosService {
   }
 
   async remove(idBoleto: number) {
-    const boletoEncontrado =
-      await this.prisma.boleto.findUnique({
-        where: {
-          idBoleto,
-        },
-      });
+    const boletoEncontrado = await this.prisma.boleto.findUnique({
+      where: {
+        idBoleto,
+      },
+    });
 
     if (!boletoEncontrado) {
       throw new NotFoundException(
@@ -431,10 +392,7 @@ export class BoletosService {
       );
     }
 
-    if (
-      boletoEncontrado.estadoBoleto !==
-      EstadoBoleto.CANCELADO
-    ) {
+    if (boletoEncontrado.estadoBoleto !== EstadoBoleto.CANCELADO) {
       throw new ConflictException(
         'Solo se puede eliminar un boleto con estado CANCELADO',
       );

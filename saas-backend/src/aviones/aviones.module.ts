@@ -7,4 +7,4 @@ import { AvionesController } from './aviones.controller';
   controllers: [AvionesController],
   providers: [AvionesService],
 })
-export class AvionesModule { }
+export class AvionesModule {}

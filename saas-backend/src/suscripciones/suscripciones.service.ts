@@ -1,5 +1,10 @@
 /* saas-backend/src/suscripciones/suscripciones.service.ts */
-import { BadRequestException, ConflictException, Injectable, NotFoundException, } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { EstadoSuscripcion } from '../generated/prisma/enums';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateSuscripcionDto } from './dto/create-suscripcion.dto';
@@ -7,34 +12,26 @@ import { UpdateSuscripcionDto } from './dto/update-suscripcion.dto';
 
 @Injectable()
 export class SuscripcionesService {
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService) {}
 
-  private async verificarPlan(
-    idPlan: number,
-  ): Promise<void> {
-    const planEncontrado =
-      await this.prisma.plan.findUnique({
-        where: {
-          idPlan,
-        },
-      });
+  private async verificarPlan(idPlan: number): Promise<void> {
+    const planEncontrado = await this.prisma.plan.findUnique({
+      where: {
+        idPlan,
+      },
+    });
 
     if (!planEncontrado) {
-      throw new NotFoundException(
-        `No se encontró un plan con el ID ${idPlan}`,
-      );
+      throw new NotFoundException(`No se encontró un plan con el ID ${idPlan}`);
     }
   }
 
-  private async verificarAerolinea(
-    idAerolinea: number,
-  ): Promise<void> {
-    const aerolineaEncontrada =
-      await this.prisma.aerolinea.findUnique({
-        where: {
-          idAerolinea,
-        },
-      });
+  private async verificarAerolinea(idAerolinea: number): Promise<void> {
+    const aerolineaEncontrada = await this.prisma.aerolinea.findUnique({
+      where: {
+        idAerolinea,
+      },
+    });
 
     if (!aerolineaEncontrada) {
       throw new NotFoundException(
@@ -47,9 +44,7 @@ export class SuscripcionesService {
     fechaInicioSuscripcion: Date,
     fechaFinSuscripcion: Date,
   ): void {
-    if (
-      fechaFinSuscripcion <= fechaInicioSuscripcion
-    ) {
+    if (fechaFinSuscripcion <= fechaInicioSuscripcion) {
       throw new BadRequestException(
         'La fecha de finalización debe ser posterior a la fecha de inicio de la suscripción',
       );
@@ -60,21 +55,19 @@ export class SuscripcionesService {
     idAerolinea: number,
     idSuscripcionExcluir?: number,
   ): Promise<void> {
-    const suscripcionActiva =
-      await this.prisma.suscripcion.findFirst({
-        where: {
-          fkAerolineaSuscripcion: idAerolinea,
-          estadoSuscripcion: EstadoSuscripcion.ACTIVA,
-          ...(idSuscripcionExcluir !== undefined
-            ? {
+    const suscripcionActiva = await this.prisma.suscripcion.findFirst({
+      where: {
+        fkAerolineaSuscripcion: idAerolinea,
+        estadoSuscripcion: EstadoSuscripcion.ACTIVA,
+        ...(idSuscripcionExcluir !== undefined
+          ? {
               NOT: {
-                idSuscripcion:
-                  idSuscripcionExcluir,
+                idSuscripcion: idSuscripcionExcluir,
               },
             }
-            : {}),
-        },
-      });
+          : {}),
+      },
+    });
 
     if (suscripcionActiva) {
       throw new ConflictException(
@@ -83,20 +76,13 @@ export class SuscripcionesService {
     }
   }
 
-  async create(
-    createSuscripcionDto: CreateSuscripcionDto,
-  ) {
-    await this.verificarPlan(
-      createSuscripcionDto.fkPlanSuscripcion,
-    );
+  async create(createSuscripcionDto: CreateSuscripcionDto) {
+    await this.verificarPlan(createSuscripcionDto.fkPlanSuscripcion);
 
-    await this.verificarAerolinea(
-      createSuscripcionDto.fkAerolineaSuscripcion,
-    );
+    await this.verificarAerolinea(createSuscripcionDto.fkAerolineaSuscripcion);
 
     const fechaInicioSuscripcion =
-      createSuscripcionDto.fechaInicioSuscripcion ??
-      new Date();
+      createSuscripcionDto.fechaInicioSuscripcion ?? new Date();
 
     this.validarFechas(
       fechaInicioSuscripcion,
@@ -104,13 +90,9 @@ export class SuscripcionesService {
     );
 
     const estadoSuscripcion =
-      createSuscripcionDto.estadoSuscripcion ??
-      EstadoSuscripcion.ACTIVA;
+      createSuscripcionDto.estadoSuscripcion ?? EstadoSuscripcion.ACTIVA;
 
-    if (
-      estadoSuscripcion ===
-      EstadoSuscripcion.ACTIVA
-    ) {
+    if (estadoSuscripcion === EstadoSuscripcion.ACTIVA) {
       await this.verificarSuscripcionActiva(
         createSuscripcionDto.fkAerolineaSuscripcion,
       );
@@ -170,30 +152,29 @@ export class SuscripcionesService {
   }
 
   async findOne(idSuscripcion: number) {
-    const suscripcionEncontrada =
-      await this.prisma.suscripcion.findUnique({
-        where: {
-          idSuscripcion,
-        },
-        include: {
-          planSuscripcion: {
-            select: {
-              idPlan: true,
-              nombrePlan: true,
-              precioMensualPlan: true,
-              estadoPlan: true,
-            },
-          },
-          aerolineaSuscripcion: {
-            select: {
-              idAerolinea: true,
-              nombreComercialAerolinea: true,
-              correoAerolinea: true,
-              estadoAerolinea: true,
-            },
+    const suscripcionEncontrada = await this.prisma.suscripcion.findUnique({
+      where: {
+        idSuscripcion,
+      },
+      include: {
+        planSuscripcion: {
+          select: {
+            idPlan: true,
+            nombrePlan: true,
+            precioMensualPlan: true,
+            estadoPlan: true,
           },
         },
-      });
+        aerolineaSuscripcion: {
+          select: {
+            idAerolinea: true,
+            nombreComercialAerolinea: true,
+            correoAerolinea: true,
+            estadoAerolinea: true,
+          },
+        },
+      },
+    });
 
     if (!suscripcionEncontrada) {
       throw new NotFoundException(
@@ -208,12 +189,11 @@ export class SuscripcionesService {
     idSuscripcion: number,
     updateSuscripcionDto: UpdateSuscripcionDto,
   ) {
-    const suscripcionActual =
-      await this.prisma.suscripcion.findUnique({
-        where: {
-          idSuscripcion,
-        },
-      });
+    const suscripcionActual = await this.prisma.suscripcion.findUnique({
+      where: {
+        idSuscripcion,
+      },
+    });
 
     if (!suscripcionActual) {
       throw new NotFoundException(
@@ -240,22 +220,14 @@ export class SuscripcionesService {
       updateSuscripcionDto.fechaFinSuscripcion ??
       suscripcionActual.fechaFinSuscripcion;
 
-    this.validarFechas(
-      fechaInicioFinal,
-      fechaFinFinal,
-    );
+    this.validarFechas(fechaInicioFinal, fechaFinFinal);
 
     const estadoFinal =
       updateSuscripcionDto.estadoSuscripcion ??
       suscripcionActual.estadoSuscripcion;
 
-    if (
-      estadoFinal === EstadoSuscripcion.ACTIVA
-    ) {
-      await this.verificarSuscripcionActiva(
-        idAerolineaFinal,
-        idSuscripcion,
-      );
+    if (estadoFinal === EstadoSuscripcion.ACTIVA) {
+      await this.verificarSuscripcionActiva(idAerolineaFinal, idSuscripcion);
     }
 
     return this.prisma.suscripcion.update({
@@ -285,12 +257,11 @@ export class SuscripcionesService {
   }
 
   async remove(idSuscripcion: number) {
-    const suscripcionEncontrada =
-      await this.prisma.suscripcion.findUnique({
-        where: {
-          idSuscripcion,
-        },
-      });
+    const suscripcionEncontrada = await this.prisma.suscripcion.findUnique({
+      where: {
+        idSuscripcion,
+      },
+    });
 
     if (!suscripcionEncontrada) {
       throw new NotFoundException(
@@ -298,10 +269,7 @@ export class SuscripcionesService {
       );
     }
 
-    if (
-      suscripcionEncontrada.estadoSuscripcion ===
-      EstadoSuscripcion.ACTIVA
-    ) {
+    if (suscripcionEncontrada.estadoSuscripcion === EstadoSuscripcion.ACTIVA) {
       throw new ConflictException(
         'No se puede eliminar una suscripción activa. Primero debe cambiar su estado a CANCELADA o VENCIDA.',
       );

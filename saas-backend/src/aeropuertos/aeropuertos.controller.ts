@@ -1,22 +1,25 @@
 /* saas-backend/src/aeropuertos/aeropuertos.controller.ts */
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { AeropuertosService } from './aeropuertos.service';
 import { CreateAeropuertoDto } from './dto/create-aeropuerto.dto';
 import { UpdateAeropuertoDto } from './dto/update-aeropuerto.dto';
 
 @Controller('aeropuertos')
 export class AeropuertosController {
-  constructor(
-    private readonly aeropuertosService: AeropuertosService,
-  ) { }
+  constructor(private readonly aeropuertosService: AeropuertosService) {}
 
   @Post()
-  create(
-    @Body() createAeropuertoDto: CreateAeropuertoDto,
-  ) {
-    return this.aeropuertosService.create(
-      createAeropuertoDto,
-    );
+  create(@Body() createAeropuertoDto: CreateAeropuertoDto) {
+    return this.aeropuertosService.create(createAeropuertoDto);
   }
 
   @Get()
@@ -29,9 +32,7 @@ export class AeropuertosController {
     @Param('idAeropuerto', ParseIntPipe)
     idAeropuerto: number,
   ) {
-    return this.aeropuertosService.findOne(
-      idAeropuerto,
-    );
+    return this.aeropuertosService.findOne(idAeropuerto);
   }
 
   @Patch(':idAeropuerto')
@@ -40,10 +41,7 @@ export class AeropuertosController {
     idAeropuerto: number,
     @Body() updateAeropuertoDto: UpdateAeropuertoDto,
   ) {
-    return this.aeropuertosService.update(
-      idAeropuerto,
-      updateAeropuertoDto,
-    );
+    return this.aeropuertosService.update(idAeropuerto, updateAeropuertoDto);
   }
 
   @Delete(':idAeropuerto')
@@ -51,8 +49,6 @@ export class AeropuertosController {
     @Param('idAeropuerto', ParseIntPipe)
     idAeropuerto: number,
   ) {
-    return this.aeropuertosService.remove(
-      idAeropuerto,
-    );
+    return this.aeropuertosService.remove(idAeropuerto);
   }
 }

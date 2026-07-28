@@ -7,4 +7,4 @@ import { ReservasController } from './reservas.controller';
   controllers: [ReservasController],
   providers: [ReservasService],
 })
-export class ReservasModule { }
+export class ReservasModule {}

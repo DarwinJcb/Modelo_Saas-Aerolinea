@@ -1,5 +1,11 @@
 /* saas-backend/src/auth/guards/roles.guard.ts */
-import { CanActivate, ExecutionContext, ForbiddenException, Injectable, UnauthorizedException, } from '@nestjs/common';
+import {
+  CanActivate,
+  ExecutionContext,
+  ForbiddenException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import type { RolUsuario } from '../../generated/prisma/enums';
 import { ROLES_KEY } from '../decorators/roles.decorator';
@@ -11,27 +17,19 @@ interface SolicitudConUsuario {
 
 @Injectable()
 export class RolesGuard implements CanActivate {
-  constructor(private readonly reflector: Reflector) { }
+  constructor(private readonly reflector: Reflector) {}
 
   canActivate(context: ExecutionContext): boolean {
-    const rolesPermitidos =
-      this.reflector.getAllAndOverride<RolUsuario[]>(
-        ROLES_KEY,
-        [
-          context.getHandler(),
-          context.getClass(),
-        ],
-      );
+    const rolesPermitidos = this.reflector.getAllAndOverride<RolUsuario[]>(
+      ROLES_KEY,
+      [context.getHandler(), context.getClass()],
+    );
 
-    if (
-      !rolesPermitidos ||
-      rolesPermitidos.length === 0
-    ) {
+    if (!rolesPermitidos || rolesPermitidos.length === 0) {
       return true;
     }
 
-    const solicitud =
-      context.switchToHttp().getRequest<SolicitudConUsuario>();
+    const solicitud = context.switchToHttp().getRequest<SolicitudConUsuario>();
 
     const usuarioAutenticado = solicitud.usuario;
 
@@ -41,10 +39,9 @@ export class RolesGuard implements CanActivate {
       );
     }
 
-    const tieneRolPermitido =
-      rolesPermitidos.includes(
-        usuarioAutenticado.rolUsuario,
-      );
+    const tieneRolPermitido = rolesPermitidos.includes(
+      usuarioAutenticado.rolUsuario,
+    );
 
     if (!tieneRolPermitido) {
       throw new ForbiddenException(
