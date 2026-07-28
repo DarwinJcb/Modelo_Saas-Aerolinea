@@ -97,8 +97,10 @@ GET http://localhost:3000/api/planes/2
 }
 
 
-POST http://localhost:3000/api/usuarios
 Creación del SUPERADMIN inicial:
+El SUPERADMIN administra toda la plataforma y no pertenece a ninguna aerolínea. Su valor se almacenará como: (fkAerolineaUsuario = null)
+
+POST http://localhost:3000/api/usuarios
 {
   "nombresUsuario": "Darwin",
   "apellidosUsuario": "Administrador",
