@@ -3,10 +3,12 @@ import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req, UseGuards, } fr
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
-import type { SolicitudConUsuario } from './interfaces/auth.interface';
 import { RolUsuario } from '../generated/prisma/enums';
 import { Roles } from './decorators/roles.decorator';
 import { RolesGuard } from './guards/roles.guard';
+import { UsuarioActual } from './decorators/usuario-actual.decorator';
+import type { UsuarioAutenticado } from './interfaces/auth.interface';
+// import type { SolicitudConUsuario } from './interfaces/auth.interface';
 
 @Controller('auth')
 export class AuthController {
@@ -23,7 +25,10 @@ export class AuthController {
     @Roles(RolUsuario.SUPERADMIN)
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Get('perfil')
-    perfil(@Req() solicitud: SolicitudConUsuario) {
-        return solicitud.usuario;
+    perfil(
+        @UsuarioActual()
+        usuario: UsuarioAutenticado,
+    ) {
+        return usuario;
     }
 }
