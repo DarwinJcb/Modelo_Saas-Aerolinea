@@ -14,9 +14,10 @@ import { RutasModule } from './rutas/rutas.module';
 import { VuelosModule } from './vuelos/vuelos.module';
 import { PasajerosModule } from './pasajeros/pasajeros.module';
 import { ReservasModule } from './reservas/reservas.module';
+import { BoletosModule } from './boletos/boletos.module';
 
 @Module({
-  imports: [PrismaModule, PlanesModule, AerolineasModule, SuscripcionesModule, UsuariosModule, AuthModule, AvionesModule, AeropuertosModule, RutasModule, VuelosModule, PasajerosModule, ReservasModule],
+  imports: [PrismaModule, PlanesModule, AerolineasModule, SuscripcionesModule, UsuariosModule, AuthModule, AvionesModule, AeropuertosModule, RutasModule, VuelosModule, PasajerosModule, ReservasModule, BoletosModule],
   controllers: [AppController],
   providers: [AppService],
 })
