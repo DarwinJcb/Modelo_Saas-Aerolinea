@@ -1,16 +1,22 @@
 /* saas-backend/src/pasajeros/pasajeros.controller.ts */
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { PasajerosService } from './pasajeros.service';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, } from '@nestjs/common';
 import { CreatePasajeroDto } from './dto/create-pasajero.dto';
 import { UpdatePasajeroDto } from './dto/update-pasajero.dto';
+import { PasajerosService } from './pasajeros.service';
 
 @Controller('pasajeros')
 export class PasajerosController {
-  constructor(private readonly pasajerosService: PasajerosService) { }
+  constructor(
+    private readonly pasajerosService: PasajerosService,
+  ) { }
 
   @Post()
-  create(@Body() createPasajeroDto: CreatePasajeroDto) {
-    return this.pasajerosService.create(createPasajeroDto);
+  create(
+    @Body() createPasajeroDto: CreatePasajeroDto,
+  ) {
+    return this.pasajerosService.create(
+      createPasajeroDto,
+    );
   }
 
   @Get()
@@ -18,18 +24,35 @@ export class PasajerosController {
     return this.pasajerosService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.pasajerosService.findOne(+id);
+  @Get(':idPasajero')
+  findOne(
+    @Param('idPasajero', ParseIntPipe)
+    idPasajero: number,
+  ) {
+    return this.pasajerosService.findOne(
+      idPasajero,
+    );
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePasajeroDto: UpdatePasajeroDto) {
-    return this.pasajerosService.update(+id, updatePasajeroDto);
+  @Patch(':idPasajero')
+  update(
+    @Param('idPasajero', ParseIntPipe)
+    idPasajero: number,
+    @Body() updatePasajeroDto: UpdatePasajeroDto,
+  ) {
+    return this.pasajerosService.update(
+      idPasajero,
+      updatePasajeroDto,
+    );
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.pasajerosService.remove(+id);
+  @Delete(':idPasajero')
+  remove(
+    @Param('idPasajero', ParseIntPipe)
+    idPasajero: number,
+  ) {
+    return this.pasajerosService.remove(
+      idPasajero,
+    );
   }
 }
