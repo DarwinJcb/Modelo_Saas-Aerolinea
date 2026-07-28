@@ -1,15 +1,6 @@
 /* saas-backend/src/aerolineas/dto/create-aerolinea.dto.ts */
 import { Transform } from 'class-transformer';
-import {
-  IsEmail,
-  IsEnum,
-  IsOptional,
-  IsString,
-  IsUrl,
-  Length,
-  Matches,
-  MaxLength,
-} from 'class-validator';
+import { IsEmail, IsEnum, IsOptional, IsString, IsUrl, Length, Matches, MaxLength, } from 'class-validator';
 import { EstadoAerolinea } from '../../generated/prisma/enums';
 
 export class CreateAerolineaDto {
