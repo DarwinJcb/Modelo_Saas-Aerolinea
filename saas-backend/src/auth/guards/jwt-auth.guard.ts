@@ -3,7 +3,7 @@ import { CanActivate, ExecutionContext, ForbiddenException, Injectable, Unauthor
 import { JwtService } from '@nestjs/jwt';
 import { EstadoAerolinea, EstadoSuscripcion, EstadoUsuario, RolUsuario, } from '../../generated/prisma/enums';
 import { PrismaService } from '../../prisma/prisma.service';
-import { JwtPayload, SolicitudConUsuario, } from '../interfaces/auth.interface';
+import type { JwtPayload, SolicitudConUsuario, } from '../interfaces/auth.interface';
 
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
