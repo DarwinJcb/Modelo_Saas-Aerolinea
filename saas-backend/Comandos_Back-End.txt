@@ -95,3 +95,55 @@ GET http://localhost:3000/api/planes/2
     "error": "Not Found",
     "statusCode": 404
 }
+
+
+POST http://localhost:3000/api/usuarios
+Creación del SUPERADMIN inicial:
+{
+  "nombresUsuario": "Darwin",
+  "apellidosUsuario": "Administrador",
+  "correoUsuario": "darwinjaviercb@outlook.com",
+  "contrasenaUsuario": "AerolineaD@rwin1001",
+  "rolUsuario": "SUPERADMIN",
+  "estadoUsuario": "ACTIVO"
+}
+
+GET http://localhost:3000/api/usuarios/
+[
+    {
+        "idUsuario": 1,
+        "fkAerolineaUsuario": null,
+        "nombresUsuario": "Darwin",
+        "apellidosUsuario": "Administrador",
+        "correoUsuario": "darwinjaviercb@outlook.com",
+        "rolUsuario": "SUPERADMIN",
+        "estadoUsuario": "ACTIVO",
+        "ultimoAccesoUsuario": "2026-07-28T19:56:17.490Z",
+        "fechaCreacionUsuario": "2026-07-28T19:53:24.893Z",
+        "fechaActualizacionUsuario": "2026-07-28T19:56:17.494Z",
+        "aerolineaUsuario": null
+    }
+]
+
+POST http://localhost:3000/api/auth/login
+{
+  "correoUsuario": "darwinjaviercb@outlook.com",
+  "contrasenaUsuario": "AerolineaD@rwin1001"
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
