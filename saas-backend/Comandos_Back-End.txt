@@ -258,7 +258,7 @@ POST http://localhost:3000/api/suscripciones (Bearer Token del SUPERADMIN)
   "estadoSuscripcion": "ACTIVA"
 }
 
-Administrador de Aerolínea y Andina
+Administrador de Aerolínea Pacífico
 POST http://localhost:3000/api/usuarios (Bearer Token) 
 {
   "fkAerolineaUsuario": 2,
