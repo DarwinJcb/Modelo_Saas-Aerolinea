@@ -1323,8 +1323,6 @@ function App() {
 
   useEffect(() => {
     if (!token) {
-      setUsuario(null)
-      setEstadoSesion('sin-sesion')
       return
     }
 
