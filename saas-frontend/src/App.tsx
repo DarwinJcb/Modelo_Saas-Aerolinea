@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from 'react'
 import type { FormEvent } from 'react'
 import './App.css'
 import { AeropuertosModulo } from './modules/aeropuertos/AeropuertosModulo'
+import { RutasModulo } from './modules/rutas/RutasModulo'
 
 const API_URL = 'http://localhost:3000/api'
 const TOKEN_STORAGE_KEY = 'aerosaas_token'
@@ -1278,13 +1279,23 @@ function PanelPrincipal({
                 </div>
               </section>
             </>
+
+
           ) : moduloActivo.id === 'aeropuertos' ? (
             <AeropuertosModulo
               token={token}
               rolUsuario={usuario.rolUsuario}
               onSesionExpirada={onCerrarSesion}
             />
+          ) : moduloActivo.id === 'rutas' ? (
+            <RutasModulo
+              token={token}
+              rolUsuario={usuario.rolUsuario}
+              nombreAerolinea={obtenerNombreAerolinea(usuario)}
+              onSesionExpirada={onCerrarSesion}
+            />
           ) : (
+
             <section className="modulo-en-construccion">
               <div className="modulo-en-construccion__icono">
                 <Icono
