@@ -6,6 +6,7 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { RolesGuard } from './guards/roles.guard';
+import { ContrasenasService } from './services/contrasenas.service';
 
 const jwtSecret = process.env.JWT_SECRET;
 
@@ -27,7 +28,7 @@ if (!jwtSecret) {
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtAuthGuard, RolesGuard],
+  providers: [AuthService, JwtAuthGuard, RolesGuard, ContrasenasService],
   exports: [AuthService, JwtAuthGuard, RolesGuard],
 })
 export class AuthModule { }
