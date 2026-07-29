@@ -1,0 +1,1047 @@
+/* saas-frontend/src/modules/pasajeros/PasajerosModulo.css */
+.pasajeros-modulo {
+    display: grid;
+    gap: 20px;
+    width: 100%;
+    color: #10243b;
+}
+
+.pasajeros-modulo button,
+.pasajeros-modulo input,
+.pasajeros-modulo select {
+    font: inherit;
+}
+
+.pasajeros-cabecera {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+    min-height: 158px;
+    padding: 32px;
+    border: 1px solid #d8e4ed;
+    border-radius: 22px;
+    background:
+        radial-gradient(circle at 91% 12%, rgba(38, 199, 207, 0.13), transparent 30%),
+        linear-gradient(110deg, #ffffff 0%, #ffffff 63%, #f3fbfc 100%);
+    box-shadow: 0 16px 38px rgba(20, 52, 78, 0.08);
+}
+
+.pasajeros-cabecera__texto {
+    max-width: 820px;
+}
+
+.pasajeros-etiqueta {
+    display: block;
+    margin-bottom: 10px;
+    color: #0876a8;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.pasajeros-cabecera h2 {
+    margin: 0;
+    color: #0b2037;
+    font-size: clamp(28px, 3vw, 36px);
+    line-height: 1.1;
+}
+
+.pasajeros-cabecera p {
+    margin: 12px 0 0;
+    color: #60758d;
+    font-size: 15px;
+    line-height: 1.65;
+}
+
+.pasajeros-cabecera__acciones,
+.pasajeros-modal__acciones,
+.pasajeros-confirmacion__acciones {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.pasajeros-boton-principal,
+.pasajeros-boton-secundario,
+.pasajeros-boton-peligro {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-height: 48px;
+    padding: 0 18px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 750;
+    cursor: pointer;
+    transition:
+        transform 160ms ease,
+        box-shadow 160ms ease,
+        border-color 160ms ease,
+        background 160ms ease;
+}
+
+.pasajeros-boton-principal {
+    border: 1px solid #0b719b;
+    color: #ffffff;
+    background: linear-gradient(135deg, #0a658d, #168ab0);
+    box-shadow: 0 12px 22px rgba(8, 104, 145, 0.2);
+}
+
+.pasajeros-boton-principal:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 15px 26px rgba(8, 104, 145, 0.27);
+}
+
+.pasajeros-boton-secundario {
+    border: 1px solid #c9d9e5;
+    color: #10243b;
+    background: #ffffff;
+}
+
+.pasajeros-boton-secundario:hover:not(:disabled) {
+    transform: translateY(-1px);
+    border-color: #8eb4c9;
+    background: #f8fcfe;
+}
+
+.pasajeros-boton-peligro {
+    border: 1px solid #d84352;
+    color: #ffffff;
+    background: #d84352;
+}
+
+.pasajeros-boton-peligro:hover:not(:disabled) {
+    transform: translateY(-1px);
+    background: #c83443;
+    box-shadow: 0 12px 22px rgba(196, 52, 67, 0.2);
+}
+
+.pasajeros-modulo button:disabled {
+    cursor: not-allowed;
+    opacity: 0.58;
+    box-shadow: none;
+}
+
+.pasajeros-aviso,
+.pasajeros-mensaje {
+    display: flex;
+    align-items: flex-start;
+    gap: 13px;
+    padding: 16px 18px;
+    border-radius: 14px;
+    font-size: 14px;
+}
+
+.pasajeros-aviso>svg,
+.pasajeros-mensaje>svg {
+    flex: 0 0 auto;
+    margin-top: 1px;
+}
+
+.pasajeros-aviso div {
+    display: grid;
+    gap: 4px;
+}
+
+.pasajeros-aviso strong {
+    color: #10304a;
+}
+
+.pasajeros-aviso span {
+    color: #55758c;
+    line-height: 1.5;
+}
+
+.pasajeros-aviso--operacion {
+    border: 1px solid #bfe5ec;
+    color: #087aa2;
+    background: #eefbfc;
+}
+
+.pasajeros-aviso--advertencia {
+    border: 1px solid #f0d6a6;
+    color: #a36708;
+    background: #fff9ed;
+}
+
+.pasajeros-mensaje--exito {
+    border: 1px solid #bce9d9;
+    color: #08795f;
+    background: #ecfbf5;
+}
+
+.pasajeros-mensaje--exito>span:first-child {
+    display: grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    flex: 0 0 auto;
+    border-radius: 50%;
+    color: #ffffff;
+    background: #169472;
+    font-weight: 800;
+}
+
+.pasajeros-mensaje--error {
+    border: 1px solid #f0c5c9;
+    color: #bd3442;
+    background: #fff1f2;
+}
+
+.pasajeros-resumen {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.pasajeros-resumen article {
+    display: grid;
+    align-content: center;
+    min-height: 118px;
+    padding: 22px;
+    border: 1px solid #dbe5ed;
+    border-radius: 17px;
+    background: #ffffff;
+    box-shadow: 0 11px 28px rgba(25, 57, 80, 0.06);
+}
+
+.pasajeros-resumen span {
+    color: #546b82;
+    font-size: 13px;
+}
+
+.pasajeros-resumen strong {
+    margin: 4px 0;
+    color: #071d34;
+    font-size: 29px;
+    line-height: 1;
+}
+
+.pasajeros-resumen small {
+    color: #8193a4;
+    font-size: 12px;
+}
+
+.pasajeros-catalogo {
+    overflow: hidden;
+    border: 1px solid #d8e4ed;
+    border-radius: 19px;
+    background: #ffffff;
+    box-shadow: 0 15px 34px rgba(20, 52, 78, 0.07);
+}
+
+.pasajeros-filtros {
+    display: grid;
+    grid-template-columns: minmax(310px, 1fr) 165px 165px 190px auto;
+    align-items: center;
+    gap: 12px;
+    min-height: 84px;
+    padding: 16px 20px;
+    border-bottom: 1px solid #dce6ee;
+    background: #fbfdff;
+}
+
+.pasajeros-buscador {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    min-height: 50px;
+    padding: 0 15px;
+    border: 1px solid #c9d9e5;
+    border-radius: 12px;
+    color: #7c91a6;
+    background: #ffffff;
+    transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.pasajeros-buscador:focus-within {
+    border-color: #1284ac;
+    box-shadow: 0 0 0 3px rgba(18, 132, 172, 0.12);
+}
+
+.pasajeros-buscador input {
+    width: 100%;
+    min-width: 0;
+    border: 0;
+    outline: 0;
+    color: #17304a;
+    background: transparent;
+}
+
+.pasajeros-buscador input::placeholder {
+    color: #90a1b5;
+}
+
+.pasajeros-selector-filtro {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: 50px;
+    padding: 0 11px;
+    border: 1px solid #c9d9e5;
+    border-radius: 12px;
+    background: #ffffff;
+}
+
+.pasajeros-selector-filtro>span {
+    flex: 0 0 auto;
+    margin-right: 8px;
+    color: #8092a5;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.pasajeros-selector-filtro select {
+    width: 100%;
+    min-width: 0;
+    border: 0;
+    outline: 0;
+    color: #132b44;
+    background: transparent;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.pasajeros-resultados {
+    justify-self: end;
+    color: #8697a9;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.pasajeros-tabla-contenedor {
+    overflow-x: auto;
+}
+
+.pasajeros-tabla {
+    width: 100%;
+    min-width: 1050px;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.pasajeros-tabla th {
+    padding: 17px 20px;
+    border-bottom: 1px solid #dce6ee;
+    color: #7b8da0;
+    background: #f8fafc;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    text-align: left;
+    text-transform: uppercase;
+}
+
+.pasajeros-tabla th:nth-child(1) {
+    width: 29%;
+}
+
+.pasajeros-tabla th:nth-child(2) {
+    width: 18%;
+}
+
+.pasajeros-tabla th:nth-child(3) {
+    width: 20%;
+}
+
+.pasajeros-tabla th:nth-child(4) {
+    width: 23%;
+}
+
+.pasajeros-tabla th:nth-child(5) {
+    width: 10%;
+}
+
+.pasajeros-tabla td {
+    padding: 20px;
+    border-bottom: 1px solid #e4ebf1;
+    vertical-align: middle;
+}
+
+.pasajeros-tabla tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.pasajeros-tabla tbody tr {
+    transition: background 160ms ease;
+}
+
+.pasajeros-tabla tbody tr:hover {
+    background: #fbfdff;
+}
+
+.pasajeros-identidad {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.pasajeros-avatar {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    flex: 0 0 auto;
+    border-radius: 14px;
+    color: #067c9f;
+    background: linear-gradient(135deg, #e8f8fa, #edf5fb);
+    font-size: 14px;
+    font-weight: 850;
+}
+
+.pasajeros-identidad>div,
+.pasajeros-documento,
+.pasajeros-perfil-datos,
+.pasajeros-contacto {
+    display: grid;
+    gap: 5px;
+    min-width: 0;
+}
+
+.pasajeros-identidad strong,
+.pasajeros-documento strong {
+    overflow: hidden;
+    color: #0d253e;
+    font-size: 14px;
+    text-overflow: ellipsis;
+}
+
+.pasajeros-identidad span,
+.pasajeros-identidad small,
+.pasajeros-perfil-datos small {
+    color: #8193a5;
+    font-size: 12px;
+}
+
+.pasajeros-identidad small {
+    color: #06799c;
+    font-weight: 700;
+}
+
+.pasajeros-insignia-documento {
+    justify-self: start;
+    padding: 5px 8px;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.035em;
+    text-transform: uppercase;
+}
+
+.pasajeros-insignia-documento--cedula {
+    color: #08779a;
+    background: #e5f6fa;
+}
+
+.pasajeros-insignia-documento--pasaporte {
+    color: #6745a0;
+    background: #f0eafd;
+}
+
+.pasajeros-insignia-documento--otro {
+    color: #8a6716;
+    background: #fff6d9;
+}
+
+.pasajeros-perfil-datos>div,
+.pasajeros-contacto>div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    color: #567087;
+    font-size: 12px;
+}
+
+.pasajeros-perfil-datos svg,
+.pasajeros-contacto svg {
+    flex: 0 0 auto;
+    color: #0788ac;
+}
+
+.pasajeros-perfil-datos span,
+.pasajeros-contacto span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.pasajeros-sin-contacto {
+    display: inline-flex;
+    align-items: center;
+    min-height: 31px;
+    padding: 0 10px;
+    border-radius: 9px;
+    color: #8999a9;
+    background: #f4f7f9;
+    font-size: 12px;
+}
+
+.pasajeros-acciones-fila {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pasajeros-boton-icono {
+    display: grid;
+    place-items: center;
+    width: 43px;
+    height: 43px;
+    padding: 0;
+    border: 1px solid #cddce7;
+    border-radius: 11px;
+    color: #0a7fa5;
+    background: #ffffff;
+    cursor: pointer;
+    transition:
+        transform 160ms ease,
+        border-color 160ms ease,
+        background 160ms ease;
+}
+
+.pasajeros-boton-icono:hover:not(:disabled) {
+    transform: translateY(-1px);
+    border-color: #7eb2c8;
+    background: #f3fbfd;
+}
+
+.pasajeros-boton-icono--peligro {
+    color: #d13c49;
+}
+
+.pasajeros-boton-icono--peligro:hover:not(:disabled) {
+    border-color: #e7a8ae;
+    background: #fff5f6;
+}
+
+.pasajeros-estado-vacio {
+    display: grid;
+    place-items: center;
+    min-height: 320px;
+    padding: 50px 24px;
+    text-align: center;
+}
+
+.pasajeros-estado-vacio__icono {
+    display: grid;
+    place-items: center;
+    width: 78px;
+    height: 78px;
+    margin-bottom: 14px;
+    border-radius: 22px;
+    color: #0c86ad;
+    background: #eaf7fa;
+}
+
+.pasajeros-estado-vacio strong {
+    color: #0b2037;
+    font-size: 17px;
+}
+
+.pasajeros-estado-vacio p {
+    max-width: 520px;
+    margin: 8px 0 20px;
+    color: #73869a;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.pasajeros-cargador {
+    width: 34px;
+    height: 34px;
+    margin-bottom: 16px;
+    border: 3px solid #d6e9f0;
+    border-top-color: #0c84aa;
+    border-radius: 50%;
+    animation: pasajeros-girar 720ms linear infinite;
+}
+
+.pasajeros-cargador--boton {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    border-width: 2px;
+    border-color: rgba(255, 255, 255, 0.35);
+    border-top-color: #ffffff;
+}
+
+@keyframes pasajeros-girar {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.pasajeros-modal-capa {
+    position: fixed;
+    z-index: 1000;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: 22px;
+    background: rgba(6, 24, 39, 0.58);
+    backdrop-filter: blur(5px);
+}
+
+.pasajeros-modal {
+    width: min(980px, 100%);
+    max-height: calc(100vh - 44px);
+    overflow: auto;
+    border: 1px solid #d8e4ed;
+    border-radius: 22px;
+    background: #ffffff;
+    box-shadow: 0 28px 75px rgba(5, 24, 40, 0.26);
+}
+
+.pasajeros-modal__cabecera {
+    position: sticky;
+    z-index: 2;
+    top: 0;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 22px;
+    padding: 24px 28px;
+    border-bottom: 1px solid #dbe5ed;
+    background:
+        radial-gradient(circle at 90% 8%, rgba(35, 196, 205, 0.14), transparent 34%),
+        #ffffff;
+}
+
+.pasajeros-modal__titulo {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.pasajeros-modal__icono {
+    display: grid;
+    place-items: center;
+    width: 54px;
+    height: 54px;
+    flex: 0 0 auto;
+    border-radius: 15px;
+    color: #087ea3;
+    background: #e9f7fa;
+}
+
+.pasajeros-modal__titulo>div>span {
+    color: #0876a8;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.pasajeros-modal__titulo h3 {
+    margin: 5px 0 6px;
+    color: #0b2037;
+    font-size: 25px;
+}
+
+.pasajeros-modal__titulo p {
+    margin: 0;
+    color: #667b91;
+    font-size: 13px;
+    line-height: 1.55;
+}
+
+.pasajeros-modal__cerrar {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    flex: 0 0 auto;
+    padding: 0;
+    border: 1px solid #cadbe7;
+    border-radius: 12px;
+    color: #667c91;
+    background: #ffffff;
+    cursor: pointer;
+}
+
+.pasajeros-modal__cerrar:hover:not(:disabled) {
+    color: #0b719b;
+    border-color: #8cb7ca;
+    background: #f6fbfd;
+}
+
+.pasajeros-formulario {
+    display: grid;
+    gap: 20px;
+    padding: 26px 28px 28px;
+}
+
+.pasajeros-propietario {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 14px 16px;
+    border: 1px solid #c7e4eb;
+    border-radius: 13px;
+    color: #0781a5;
+    background: #eefafd;
+}
+
+.pasajeros-propietario div {
+    display: grid;
+    gap: 2px;
+}
+
+.pasajeros-propietario span {
+    color: #71899c;
+    font-size: 11px;
+    text-transform: uppercase;
+}
+
+.pasajeros-propietario strong {
+    color: #12314a;
+    font-size: 14px;
+}
+
+.pasajeros-formulario__rejilla {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.pasajeros-campo {
+    display: grid;
+    gap: 8px;
+}
+
+.pasajeros-campo--completo {
+    grid-column: 1 / -1;
+}
+
+.pasajeros-campo>span {
+    color: #17304a;
+    font-size: 13px;
+    font-weight: 750;
+}
+
+.pasajeros-campo>small {
+    color: #8495a7;
+    font-size: 11px;
+}
+
+.pasajeros-campo input,
+.pasajeros-campo select {
+    width: 100%;
+    min-height: 52px;
+    padding: 0 14px;
+    border: 1px solid #c8d9e5;
+    border-radius: 12px;
+    outline: 0;
+    color: #122b44;
+    background: #ffffff;
+    transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.pasajeros-campo input:focus,
+.pasajeros-campo select:focus {
+    border-color: #1284ac;
+    box-shadow: 0 0 0 3px rgba(18, 132, 172, 0.12);
+}
+
+.pasajeros-campo input::placeholder {
+    color: #a1afbe;
+}
+
+.pasajeros-campo input:disabled,
+.pasajeros-campo select:disabled {
+    color: #7c8ea0;
+    background: #f3f6f8;
+    cursor: not-allowed;
+}
+
+.pasajeros-campo-con-icono {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 52px;
+    padding: 0 14px;
+    border: 1px solid #c8d9e5;
+    border-radius: 12px;
+    color: #8093a7;
+    background: #ffffff;
+    transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.pasajeros-campo-con-icono:focus-within {
+    border-color: #1284ac;
+    box-shadow: 0 0 0 3px rgba(18, 132, 172, 0.12);
+}
+
+.pasajeros-campo-con-icono input {
+    min-height: auto;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.pasajeros-campo-con-icono input:focus {
+    border: 0;
+    box-shadow: none;
+}
+
+.pasajeros-nota-formulario {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 13px 15px;
+    border: 1px solid #cae6ec;
+    border-radius: 12px;
+    color: #53768b;
+    background: #f0fafc;
+    font-size: 12px;
+    line-height: 1.55;
+}
+
+.pasajeros-nota-formulario svg {
+    flex: 0 0 auto;
+    margin-top: 1px;
+    color: #0784a8;
+}
+
+.pasajeros-modal__acciones {
+    justify-content: flex-end;
+    padding-top: 20px;
+    border-top: 1px solid #dce6ee;
+}
+
+.pasajeros-confirmacion {
+    width: min(500px, 100%);
+    padding: 30px;
+    border: 1px solid #d8e4ed;
+    border-radius: 21px;
+    background: #ffffff;
+    box-shadow: 0 26px 68px rgba(5, 24, 40, 0.28);
+    text-align: center;
+}
+
+.pasajeros-confirmacion__icono {
+    display: grid;
+    place-items: center;
+    width: 62px;
+    height: 62px;
+    margin: 0 auto 16px;
+    border-radius: 18px;
+    color: #d13c49;
+    background: #fff0f2;
+}
+
+.pasajeros-confirmacion h3 {
+    margin: 4px 0 10px;
+    color: #0c243c;
+    font-size: 22px;
+}
+
+.pasajeros-confirmacion p {
+    margin: 0;
+    color: #687e92;
+    font-size: 13px;
+    line-height: 1.65;
+}
+
+.pasajeros-confirmacion__detalle {
+    display: grid;
+    gap: 5px;
+    margin: 20px 0;
+    padding: 15px;
+    border: 1px solid #dce6ee;
+    border-radius: 12px;
+    background: #f8fafc;
+}
+
+.pasajeros-confirmacion__detalle strong {
+    color: #18334c;
+    font-size: 13px;
+}
+
+.pasajeros-confirmacion__detalle span {
+    color: #7a8ea1;
+    font-size: 12px;
+}
+
+.pasajeros-confirmacion__acciones {
+    justify-content: center;
+}
+
+@media (max-width: 1280px) {
+    .pasajeros-filtros {
+        grid-template-columns: minmax(280px, 1fr) 155px 155px;
+    }
+
+    .pasajeros-filtros .pasajeros-selector-filtro:nth-of-type(4) {
+        grid-column: auto;
+    }
+
+    .pasajeros-resultados {
+        grid-column: -2 / -1;
+    }
+}
+
+@media (max-width: 900px) {
+    .pasajeros-cabecera {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 26px;
+    }
+
+    .pasajeros-cabecera__acciones {
+        width: 100%;
+    }
+
+    .pasajeros-cabecera__acciones button {
+        flex: 1;
+    }
+
+    .pasajeros-resumen {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .pasajeros-filtros {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .pasajeros-buscador {
+        grid-column: 1 / -1;
+    }
+
+    .pasajeros-resultados {
+        grid-column: 1 / -1;
+        justify-self: start;
+    }
+}
+
+@media (max-width: 680px) {
+    .pasajeros-modulo {
+        gap: 15px;
+    }
+
+    .pasajeros-cabecera {
+        min-height: auto;
+        padding: 22px;
+        border-radius: 17px;
+    }
+
+    .pasajeros-cabecera h2 {
+        font-size: 27px;
+    }
+
+    .pasajeros-cabecera__acciones {
+        flex-direction: column;
+    }
+
+    .pasajeros-cabecera__acciones button {
+        width: 100%;
+    }
+
+    .pasajeros-resumen {
+        grid-template-columns: 1fr;
+        gap: 11px;
+    }
+
+    .pasajeros-resumen article {
+        min-height: 100px;
+    }
+
+    .pasajeros-filtros {
+        grid-template-columns: 1fr;
+        padding: 14px;
+    }
+
+    .pasajeros-buscador,
+    .pasajeros-resultados {
+        grid-column: auto;
+    }
+
+    .pasajeros-tabla {
+        min-width: 0;
+    }
+
+    .pasajeros-tabla thead {
+        display: none;
+    }
+
+    .pasajeros-tabla,
+    .pasajeros-tabla tbody,
+    .pasajeros-tabla tr,
+    .pasajeros-tabla td {
+        display: block;
+        width: 100%;
+    }
+
+    .pasajeros-tabla tr {
+        padding: 18px;
+        border-bottom: 1px solid #dde7ef;
+    }
+
+    .pasajeros-tabla td {
+        display: grid;
+        grid-template-columns: 112px minmax(0, 1fr);
+        gap: 14px;
+        padding: 11px 0;
+        border: 0;
+    }
+
+    .pasajeros-tabla td::before {
+        content: attr(data-label);
+        color: #7b8da0;
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+    }
+
+    .pasajeros-modal-capa {
+        align-items: end;
+        padding: 0;
+    }
+
+    .pasajeros-modal {
+        width: 100%;
+        max-height: 94vh;
+        border-radius: 20px 20px 0 0;
+    }
+
+    .pasajeros-modal__cabecera {
+        padding: 20px;
+    }
+
+    .pasajeros-modal__icono {
+        display: none;
+    }
+
+    .pasajeros-formulario {
+        padding: 22px 20px 26px;
+    }
+
+    .pasajeros-formulario__rejilla {
+        grid-template-columns: 1fr;
+    }
+
+    .pasajeros-modal__acciones,
+    .pasajeros-confirmacion__acciones {
+        flex-direction: column-reverse;
+    }
+
+    .pasajeros-modal__acciones button,
+    .pasajeros-confirmacion__acciones button {
+        width: 100%;
+    }
+
+    .pasajeros-confirmacion {
+        width: calc(100% - 24px);
+        margin-bottom: 12px;
+        padding: 24px;
+    }
+}
