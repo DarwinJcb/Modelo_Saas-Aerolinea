@@ -1,10 +1,5 @@
 /* saas-backend/src/rutas/rutas.service.ts */
-import {
-  BadRequestException,
-  ConflictException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, NotFoundException, } from '@nestjs/common';
 import { EstadoAerolinea, EstadoAeropuerto } from '../generated/prisma/enums';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateRutaDto } from './dto/create-ruta.dto';
@@ -12,7 +7,7 @@ import { UpdateRutaDto } from './dto/update-ruta.dto';
 
 @Injectable()
 export class RutasService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   private readonly seleccionAerolinea = {
     idAerolinea: true,
@@ -98,10 +93,10 @@ export class RutasService {
         codigoRuta,
         ...(idRutaExcluir !== undefined
           ? {
-              NOT: {
-                idRuta: idRutaExcluir,
-              },
-            }
+            NOT: {
+              idRuta: idRutaExcluir,
+            },
+          }
           : {}),
       },
     });
@@ -126,10 +121,10 @@ export class RutasService {
         fkAeropuertoDestinoRuta: idAeropuertoDestino,
         ...(idRutaExcluir !== undefined
           ? {
-              NOT: {
-                idRuta: idRutaExcluir,
-              },
-            }
+            NOT: {
+              idRuta: idRutaExcluir,
+            },
+          }
           : {}),
       },
     });

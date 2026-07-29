@@ -1,16 +1,6 @@
 /* saas-backend/src/rutas/dto/create-ruta.dto.ts */
 import { Transform, Type } from 'class-transformer';
-import {
-  IsEnum,
-  IsInt,
-  IsNumber,
-  IsOptional,
-  IsString,
-  Length,
-  Matches,
-  Max,
-  Min,
-} from 'class-validator';
+import { IsEnum, IsInt, IsNumber, IsOptional, IsString, Length, Matches, Max, Min, } from 'class-validator';
 import { EstadoRuta } from '../../generated/prisma/enums';
 
 export class CreateRutaDto {
