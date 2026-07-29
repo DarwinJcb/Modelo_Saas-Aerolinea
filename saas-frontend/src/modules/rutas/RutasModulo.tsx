@@ -946,7 +946,7 @@ export function RutasModulo({
                     <span className="rutas-etiqueta">
                         Operación por aerolínea
                     </span>
-                    <h2>Gestión de rutas</h2>
+                    <h2>Gestión de Rutas</h2>
                     <p>
                         Conecta aeropuertos, define tiempos estimados y
                         administra los trayectos disponibles para cada

@@ -1002,7 +1002,7 @@ export function PasajerosModulo({
                     <span className="pasajeros-etiqueta">
                         Registro por aerolínea
                     </span>
-                    <h2>Gestión de pasajeros</h2>
+                    <h2>Gestión de Pasajeros</h2>
                     <p>
                         Administra identidad, documentos y datos de
                         contacto de los viajeros dentro de cada tenant.

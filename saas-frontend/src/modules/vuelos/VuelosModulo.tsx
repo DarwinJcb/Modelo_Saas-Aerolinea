@@ -1482,7 +1482,7 @@ export function VuelosModulo({
                     <span className="vuelos-etiqueta">
                         Operación y programación
                     </span>
-                    <h2>Gestión de vuelos</h2>
+                    <h2>Gestión de Vuelos</h2>
                     <p>
                         Programa salidas, asigna rutas y aeronaves, y controla
                         el estado operativo de cada vuelo.

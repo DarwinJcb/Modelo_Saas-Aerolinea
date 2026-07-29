@@ -1720,7 +1720,7 @@ export function ReservasModulo({
                     <span className="reservas-etiqueta">
                         Control comercial por aerolínea
                     </span>
-                    <h2>Gestión de reservas</h2>
+                    <h2>Gestión de Reservas</h2>
                     <p>
                         Vincula pasajeros con vuelos, controla la
                         disponibilidad y administra el estado de cada

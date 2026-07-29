@@ -357,7 +357,7 @@ export function AeropuertosModulo({
             <header className="aeropuertos-cabecera">
                 <div className="aeropuertos-cabecera__texto">
                     <span className="aeropuertos-etiqueta">Catálogo global</span>
-                    <h2>Gestión de aeropuertos</h2>
+                    <h2>Gestión de Aeropuertos</h2>
                     <p>Consulta los aeropuertos disponibles para construir rutas y programar vuelos.</p>
                 </div>
 
