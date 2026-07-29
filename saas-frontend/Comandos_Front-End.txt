@@ -1,0 +1,17 @@
+Registrar Aeropuerto #1
+Código IATA: UIO
+Código ICAO: SEQM
+Nombre del aeropuerto: Aeropuerto Internacional Mariscal Sucre
+Ciudad: Quito
+País: Ecuador
+Zona horaria: America/Guayaquil
+Estado: ACTIVO
+
+Registrar Aeropuerto #2
+Código IATA: GYE
+Código ICAO: SEGU
+Nombre del aeropuerto: Aeropuerto Internacional Jose Joaquin de Olmedo
+Ciudad: Guayaquil
+País: Ecuador
+Zona horaria: America/Guayaquil
+Estado: ACTIVO
