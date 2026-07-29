@@ -1329,8 +1329,6 @@ function App() {
     const controlador = new AbortController()
 
     async function cargarPerfil() {
-      setEstadoSesion('verificando')
-
       try {
         const response = await fetch(
           `${API_URL}/auth/perfil`,
@@ -1397,7 +1395,9 @@ function App() {
       TOKEN_STORAGE_KEY,
       nuevoToken,
     )
+
     setAvisoSesion('')
+    setEstadoSesion('verificando')
     setToken(nuevoToken)
   }
 
