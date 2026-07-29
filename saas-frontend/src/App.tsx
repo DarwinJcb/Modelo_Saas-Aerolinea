@@ -4,6 +4,7 @@ import type { FormEvent } from 'react'
 import './App.css'
 import { AeropuertosModulo } from './modules/aeropuertos/AeropuertosModulo'
 import { RutasModulo } from './modules/rutas/RutasModulo'
+import { CambiarContrasenaModal } from './components/CambiarContrasenaModal'
 
 const API_URL = 'http://localhost:3000/api'
 const TOKEN_STORAGE_KEY = 'aerosaas_token'
@@ -67,6 +68,7 @@ interface PanelPrincipalProps {
   usuario: UsuarioSesion
   token: string
   onCerrarSesion: () => void
+  onContrasenaCambiada: () => void
 }
 
 function Icono({
@@ -944,9 +946,14 @@ function PanelPrincipal({
   usuario,
   token,
   onCerrarSesion,
+  onContrasenaCambiada,
 }: PanelPrincipalProps) {
   const [menuAbierto, setMenuAbierto] = useState(false)
   const [perfilAbierto, setPerfilAbierto] = useState(false)
+  const [
+    cambiarContrasenaAbierto,
+    setCambiarContrasenaAbierto,
+  ] = useState(false)
   const [seccionActiva, setSeccionActiva] =
     useState('panel')
 
@@ -1117,6 +1124,18 @@ function PanelPrincipal({
                     {obtenerNombreAerolinea(usuario)}
                   </strong>
                 </div>
+
+                <button
+                  type="button"
+                  className="boton-cambiar-contrasena"
+                  onClick={() => {
+                    setPerfilAbierto(false)
+                    setCambiarContrasenaAbierto(true)
+                  }}
+                >
+                  <Icono nombre="candado" tamano={19} />
+                  Cambiar contraseña
+                </button>
 
                 <button
                   type="button"
@@ -1322,6 +1341,17 @@ function PanelPrincipal({
           )}
         </main>
       </div>
+
+      {cambiarContrasenaAbierto && (
+        <CambiarContrasenaModal
+          token={token}
+          onCerrar={() =>
+            setCambiarContrasenaAbierto(false)
+          }
+          onSesionExpirada={onCerrarSesion}
+          onCambioExitoso={onContrasenaCambiada}
+        />
+      )}
     </div>
   )
 }
@@ -1429,6 +1459,16 @@ function App() {
     setEstadoSesion('sin-sesion')
   }
 
+  function cerrarSesionPorCambioContrasena() {
+    sessionStorage.removeItem(TOKEN_STORAGE_KEY)
+    setToken(null)
+    setUsuario(null)
+    setAvisoSesion(
+      'Contraseña actualizada correctamente. Inicia sesión con tu nueva contraseña.',
+    )
+    setEstadoSesion('sin-sesion')
+  }
+
   if (estadoSesion === 'verificando') {
     return <PantallaCarga />
   }
@@ -1443,6 +1483,9 @@ function App() {
         usuario={usuario}
         token={token}
         onCerrarSesion={cerrarSesion}
+        onContrasenaCambiada={
+          cerrarSesionPorCambioContrasena
+        }
       />
     )
   }
