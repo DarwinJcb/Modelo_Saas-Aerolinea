@@ -319,7 +319,7 @@ Login del Empleado:
 POST http://localhost:3000/api/auth/login (No Auth)
 {
   "correoUsuario": "empleado@aerolineaandina.com",
-  "contrasenaUsuario": "UsuarioNoAerolinea0101"
+  "contrasenaUsuario": "P4tit0.123@456"
 }
 
 
