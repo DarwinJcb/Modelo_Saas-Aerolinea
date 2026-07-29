@@ -2,6 +2,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { FormEvent } from 'react'
 import './App.css'
+import { AeropuertosModulo } from './modules/aeropuertos/AeropuertosModulo'
 
 const API_URL = 'http://localhost:3000/api'
 const TOKEN_STORAGE_KEY = 'aerosaas_token'
@@ -63,6 +64,7 @@ interface PantallaLoginProps {
 
 interface PanelPrincipalProps {
   usuario: UsuarioSesion
+  token: string
   onCerrarSesion: () => void
 }
 
@@ -939,6 +941,7 @@ function PantallaLogin({
 
 function PanelPrincipal({
   usuario,
+  token,
   onCerrarSesion,
 }: PanelPrincipalProps) {
   const [menuAbierto, setMenuAbierto] = useState(false)
@@ -1275,6 +1278,12 @@ function PanelPrincipal({
                 </div>
               </section>
             </>
+          ) : moduloActivo.id === 'aeropuertos' ? (
+            <AeropuertosModulo
+              token={token}
+              rolUsuario={usuario.rolUsuario}
+              onSesionExpirada={onCerrarSesion}
+            />
           ) : (
             <section className="modulo-en-construccion">
               <div className="modulo-en-construccion__icono">
@@ -1415,11 +1424,13 @@ function App() {
 
   if (
     estadoSesion === 'autenticado' &&
-    usuario !== null
+    usuario !== null &&
+    token !== null
   ) {
     return (
       <PanelPrincipal
         usuario={usuario}
+        token={token}
         onCerrarSesion={cerrarSesion}
       />
     )
