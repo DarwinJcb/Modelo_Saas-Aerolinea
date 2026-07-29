@@ -1,17 +1,6 @@
 /* saas-backend/src/pasajeros/dto/create-pasajero.dto.ts */
 import { Transform, Type } from 'class-transformer';
-import {
-  IsDate,
-  IsEmail,
-  IsEnum,
-  IsInt,
-  IsOptional,
-  IsString,
-  Length,
-  Matches,
-  MaxLength,
-  Min,
-} from 'class-validator';
+import { IsDate, IsEmail, IsEnum, IsInt, IsOptional, IsString, Length, Matches, MaxLength, Min, } from 'class-validator';
 import { TipoDocumento } from '../../generated/prisma/enums';
 
 export class CreatePasajeroDto {

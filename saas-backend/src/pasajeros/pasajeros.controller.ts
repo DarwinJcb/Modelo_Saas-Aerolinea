@@ -1,21 +1,12 @@
 /* saas-backend/src/pasajeros/pasajeros.controller.ts */
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  ParseIntPipe,
-  Patch,
-  Post,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, } from '@nestjs/common';
 import { CreatePasajeroDto } from './dto/create-pasajero.dto';
 import { UpdatePasajeroDto } from './dto/update-pasajero.dto';
 import { PasajerosService } from './pasajeros.service';
 
 @Controller('pasajeros')
 export class PasajerosController {
-  constructor(private readonly pasajerosService: PasajerosService) {}
+  constructor(private readonly pasajerosService: PasajerosService) { }
 
   @Post()
   create(@Body() createPasajeroDto: CreatePasajeroDto) {

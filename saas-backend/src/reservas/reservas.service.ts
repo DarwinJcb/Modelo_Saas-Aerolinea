@@ -1,23 +1,13 @@
 /* saas-backend/src/reservas/reservas.service.ts */
-import {
-  BadRequestException,
-  ConflictException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
-import {
-  EstadoAerolinea,
-  EstadoReserva,
-  EstadoUsuario,
-  EstadoVuelo,
-} from '../generated/prisma/enums';
+import { BadRequestException, ConflictException, Injectable, NotFoundException, } from '@nestjs/common';
+import { EstadoAerolinea, EstadoReserva, EstadoUsuario, EstadoVuelo, } from '../generated/prisma/enums';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateReservaDto } from './dto/create-reserva.dto';
 import { UpdateReservaDto } from './dto/update-reserva.dto';
 
 @Injectable()
 export class ReservasService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   private readonly seleccionAerolinea = {
     idAerolinea: true,
@@ -246,10 +236,10 @@ export class ReservasService {
         codigoReserva,
         ...(idReservaExcluir !== undefined
           ? {
-              NOT: {
-                idReserva: idReservaExcluir,
-              },
-            }
+            NOT: {
+              idReserva: idReservaExcluir,
+            },
+          }
           : {}),
       },
     });
@@ -272,10 +262,10 @@ export class ReservasService {
         fkPasajeroReserva: idPasajero,
         ...(idReservaExcluir !== undefined
           ? {
-              NOT: {
-                idReserva: idReservaExcluir,
-              },
-            }
+            NOT: {
+              idReserva: idReservaExcluir,
+            },
+          }
           : {}),
       },
     });
@@ -300,10 +290,10 @@ export class ReservasService {
         },
         ...(idReservaExcluir !== undefined
           ? {
-              NOT: {
-                idReserva: idReservaExcluir,
-              },
-            }
+            NOT: {
+              idReserva: idReservaExcluir,
+            },
+          }
           : {}),
       },
     });

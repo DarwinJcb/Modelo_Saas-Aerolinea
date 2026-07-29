@@ -1,10 +1,5 @@
 /* saas-backend/src/pasajeros/pasajeros.service.ts */
-import {
-  BadRequestException,
-  ConflictException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, NotFoundException, } from '@nestjs/common';
 import { EstadoAerolinea } from '../generated/prisma/enums';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreatePasajeroDto } from './dto/create-pasajero.dto';
@@ -12,7 +7,7 @@ import { UpdatePasajeroDto } from './dto/update-pasajero.dto';
 
 @Injectable()
 export class PasajerosService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   private readonly seleccionAerolinea = {
     idAerolinea: true,
@@ -67,10 +62,10 @@ export class PasajerosService {
         numeroDocumentoPasajero,
         ...(idPasajeroExcluir !== undefined
           ? {
-              NOT: {
-                idPasajero: idPasajeroExcluir,
-              },
-            }
+            NOT: {
+              idPasajero: idPasajeroExcluir,
+            },
+          }
           : {}),
       },
     });
