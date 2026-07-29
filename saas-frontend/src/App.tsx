@@ -5,6 +5,7 @@ import './App.css'
 import { AeropuertosModulo } from './modules/aeropuertos/AeropuertosModulo'
 import { RutasModulo } from './modules/rutas/RutasModulo'
 import { VuelosModulo } from './modules/vuelos/VuelosModulo'
+import { PasajerosModulo } from './modules/pasajeros/PasajerosModulo'
 import { CambiarContrasenaModal } from './components/CambiarContrasenaModal'
 
 const API_URL = 'http://localhost:3000/api'
@@ -1316,6 +1317,13 @@ function PanelPrincipal({
             />
           ) : moduloActivo.id === 'vuelos' ? (
             <VuelosModulo
+              token={token}
+              rolUsuario={usuario.rolUsuario}
+              nombreAerolinea={obtenerNombreAerolinea(usuario)}
+              onSesionExpirada={onCerrarSesion}
+            />
+          ) : moduloActivo.id === 'pasajeros' ? (
+            <PasajerosModulo
               token={token}
               rolUsuario={usuario.rolUsuario}
               nombreAerolinea={obtenerNombreAerolinea(usuario)}
