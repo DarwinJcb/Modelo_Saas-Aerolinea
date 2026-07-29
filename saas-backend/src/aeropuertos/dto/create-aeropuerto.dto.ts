@@ -1,13 +1,6 @@
 /* saas-backend/src/aeropuertos/dto/create-aeropuerto.dto.ts */
 import { Transform } from 'class-transformer';
-import {
-  IsEnum,
-  IsOptional,
-  IsString,
-  Length,
-  Matches,
-  MaxLength,
-} from 'class-validator';
+import { IsEnum, IsOptional, IsString, Length, Matches, MaxLength, } from 'class-validator';
 import { EstadoAeropuerto } from '../../generated/prisma/enums';
 
 export class CreateAeropuertoDto {

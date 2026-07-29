@@ -1,16 +1,12 @@
 /* saas-backend/src/aeropuertos/aeropuertos.service.ts */
-import {
-  ConflictException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException, } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateAeropuertoDto } from './dto/create-aeropuerto.dto';
 import { UpdateAeropuertoDto } from './dto/update-aeropuerto.dto';
 
 @Injectable()
 export class AeropuertosService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   private async verificarCodigoIataUnico(
     codigoIataAeropuerto: string,
@@ -21,10 +17,10 @@ export class AeropuertosService {
         codigoIataAeropuerto,
         ...(idAeropuertoExcluir !== undefined
           ? {
-              NOT: {
-                idAeropuerto: idAeropuertoExcluir,
-              },
-            }
+            NOT: {
+              idAeropuerto: idAeropuertoExcluir,
+            },
+          }
           : {}),
       },
     });
@@ -45,10 +41,10 @@ export class AeropuertosService {
         codigoIcaoAeropuerto,
         ...(idAeropuertoExcluir !== undefined
           ? {
-              NOT: {
-                idAeropuerto: idAeropuertoExcluir,
-              },
-            }
+            NOT: {
+              idAeropuerto: idAeropuertoExcluir,
+            },
+          }
           : {}),
       },
     });

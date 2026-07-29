@@ -127,7 +127,8 @@ GET http://localhost:3000/api/usuarios/
     }
 ]
 
-POST http://localhost:3000/api/auth/login (SUPER ADMIN)
+LOGIN DEL SUPER ADMINISTRADOR
+POST http://localhost:3000/api/auth/login 
 {
   "correoUsuario": "darwinjaviercb@outlook.com",
   "contrasenaUsuario": "AerolineaD@rwin1001"
@@ -189,6 +190,7 @@ POST http://localhost:3000/api/usuarios (Bearer Token)
   "estadoUsuario": "ACTIVO"
 }
 
+LOGIN DE AEROLÍNEA ANDINA:
 POST http://localhost:3000/api/auth/login (No Auth)
 {
   "correoUsuario": "admin@aerolineaandina.com",
@@ -268,6 +270,7 @@ POST http://localhost:3000/api/usuarios (Bearer Token)
   "estadoUsuario": "ACTIVO"
 }
 
+LOGIN DE AEROLÍNEA PACÍFICO:
 POST http://localhost:3000/api/auth/login (No Auth)
 {
   "correoUsuario": "admin@aerolineapacifico.com",
@@ -312,8 +315,63 @@ POST http://localhost:3000/api/usuarios (Bearer Token de Aerolínea Andina)
   "estadoUsuario": "ACTIVO"
 }
 
+
 POST http://localhost:3000/api/auth/login (No Auth)
 {
   "correoUsuario": "empleado@aerolineaandina.com",
-  "contrasenaUsuario": "TU_CONTRASEÑA_REAL"
+  "contrasenaUsuario": "UsuarioNoAerolinea0101"
 }
+
+
+GET http://localhost:3000/api/aviones (No Auth) Prueba 1 — Acceso sin autenticación
+
+GET http://localhost:3000/api/aviones (Bearer Token de Empleado) Prueba 2 — El EMPLEADO puede consultar aviones
+
+POST http://localhost:3000/api/aviones (Bearer Token de Empleado) Prueba 3 — El EMPLEADO no puede crear aviones
+{
+  "matriculaAvion": "HC-AND-001",
+  "codigoInternoAvion": "AND-001",
+  "modeloAvion": "Airbus A320",
+  "fabricanteAvion": "Airbus",
+  "capacidadAvion": 180,
+  "anioFabricacionAvion": 2020,
+  "estadoAvion": "DISPONIBLE"
+}
+
+POST http://localhost:3000/api/aviones (Bearer Token de Aerolínea Andina) Prueba 4 — ADMIN_AEROLINEA crea un avión sin enviar tenant
+{
+  "matriculaAvion": "HC-AND-001",
+  "codigoInternoAvion": "AND-001",
+  "modeloAvion": "Airbus A320",
+  "fabricanteAvion": "Airbus",
+  "capacidadAvion": 180,
+  "anioFabricacionAvion": 2020,
+  "estadoAvion": "DISPONIBLE"
+}
+
+POST http://localhost:3000/api/aviones (Bearer Token de Aerolínea Pacífico) Prueba 5 — Admin Pacífico crea su avión sin enviar tenant
+{
+  "matriculaAvion": "HC-PAC-001",
+  "codigoInternoAvion": "PAC-001",
+  "modeloAvion": "Boeing 737-800",
+  "fabricanteAvion": "Boeing",
+  "capacidadAvion": 189,
+  "anioFabricacionAvion": 2019,
+  "estadoAvion": "DISPONIBLE"
+}
+
+
+GET http://localhost:3000/api/aviones (Bearer Token de Aerolínea Andina)
+Prueba 6 — Comparar los listados de ambos tenants
+
+
+
+GET http://localhost:3000/api/aviones (Bearer Token de Aerolínea Pacífico)
+Prueba 6 — Comparar los listados de ambos tenants
+
+
+GET http://localhost:3000/api/aviones/2 (Bearer Token de Aerolínea Andina) Prueba 7 — Acceso directo al avión de otro tenant
+
+ 
+GET http://localhost:3000/api/aviones (Bearer Token del SUPERADMIN) Prueba 8 — Vista global del SUPERADMIN
+
