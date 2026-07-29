@@ -1,7 +1,7 @@
 /* saas-backend/src/usuarios/usuarios.service.ts */
 import { BadRequestException, ConflictException, ForbiddenException, Injectable, NotFoundException, } from '@nestjs/common';
-import { randomBytes, scrypt } from 'node:crypto';
 import type { UsuarioAutenticado } from '../auth/interfaces/auth.interface';
+import { ContrasenasService } from '../auth/services/contrasenas.service';
 import { EstadoAerolinea, EstadoPlan, EstadoSuscripcion, EstadoUsuario, RolUsuario, } from '../generated/prisma/enums';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
@@ -9,7 +9,10 @@ import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 
 @Injectable()
 export class UsuariosService {
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly contrasenasService: ContrasenasService,
+  ) {}
 
   private readonly seleccionUsuario = {
     idUsuario: true,
@@ -31,35 +34,6 @@ export class UsuariosService {
       },
     },
   } as const;
-
-  private generarHashContrasena(
-    contrasenaUsuario: string,
-  ): Promise<string> {
-    return new Promise((resolve, reject) => {
-      const saltContrasena = randomBytes(16).toString(
-        'hex',
-      );
-
-      scrypt(
-        contrasenaUsuario,
-        saltContrasena,
-        64,
-        (error, claveDerivada) => {
-          if (error) {
-            reject(error);
-            return;
-          }
-
-          const hashContrasena =
-            claveDerivada.toString('hex');
-
-          resolve(
-            `${saltContrasena}:${hashContrasena}`,
-          );
-        },
-      );
-    });
-  }
 
   private obtenerIdAerolineaAdministrador(
     usuarioActual: UsuarioAutenticado,
@@ -473,7 +447,7 @@ export class UsuariosService {
       EstadoUsuario.ACTIVO;
 
     const contrasenaUsuario =
-      await this.generarHashContrasena(
+      await this.contrasenasService.generarHashContrasena(
         createUsuarioDto.contrasenaUsuario,
       );
 
@@ -689,7 +663,7 @@ export class UsuariosService {
       ...(updateUsuarioDto.contrasenaUsuario
         ? {
           contrasenaUsuario:
-            await this.generarHashContrasena(
+            await this.contrasenasService.generarHashContrasena(
               updateUsuarioDto.contrasenaUsuario,
             ),
         }
