@@ -1,6 +1,7 @@
 /* saas-backend/src/rutas/rutas.service.ts */
-import { BadRequestException, ConflictException, Injectable, NotFoundException, } from '@nestjs/common';
-import { EstadoAerolinea, EstadoAeropuerto } from '../generated/prisma/enums';
+import { BadRequestException, ConflictException, ForbiddenException, Injectable, NotFoundException, } from '@nestjs/common';
+import type { UsuarioAutenticado } from '../auth/interfaces/auth.interface';
+import { EstadoAerolinea, EstadoAeropuerto, RolUsuario, } from '../generated/prisma/enums';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateRutaDto } from './dto/create-ruta.dto';
 import { UpdateRutaDto } from './dto/update-ruta.dto';
@@ -26,14 +27,79 @@ export class RutasService {
     estadoAeropuerto: true,
   } as const;
 
+  private obtenerIdAerolineaUsuario(
+    usuarioActual: UsuarioAutenticado,
+  ): number {
+    const idAerolinea = usuarioActual.fkAerolineaUsuario;
+
+    if (idAerolinea === null || idAerolinea === undefined) {
+      throw new ForbiddenException(
+        'El usuario autenticado no pertenece a una aerolínea',
+      );
+    }
+
+    return idAerolinea;
+  }
+
+  private resolverIdAerolineaCreacion(
+    createRutaDto: CreateRutaDto,
+    usuarioActual: UsuarioAutenticado,
+  ): number {
+    if (usuarioActual.rolUsuario === RolUsuario.SUPERADMIN) {
+      if (
+        createRutaDto.fkAerolineaRuta === undefined ||
+        createRutaDto.fkAerolineaRuta === null
+      ) {
+        throw new BadRequestException(
+          'El SUPERADMIN debe indicar la aerolínea propietaria de la ruta',
+        );
+      }
+
+      return createRutaDto.fkAerolineaRuta;
+    }
+
+    const idAerolineaUsuario =
+      this.obtenerIdAerolineaUsuario(usuarioActual);
+
+    if (
+      createRutaDto.fkAerolineaRuta !== undefined &&
+      createRutaDto.fkAerolineaRuta !== null &&
+      createRutaDto.fkAerolineaRuta !== idAerolineaUsuario
+    ) {
+      throw new ForbiddenException(
+        'No puede registrar rutas para otra aerolínea',
+      );
+    }
+
+    return idAerolineaUsuario;
+  }
+
+  private construirFiltroAcceso(
+    idRuta: number,
+    usuarioActual: UsuarioAutenticado,
+  ) {
+    if (usuarioActual.rolUsuario === RolUsuario.SUPERADMIN) {
+      return {
+        idRuta,
+      };
+    }
+
+    return {
+      idRuta,
+      fkAerolineaRuta:
+        this.obtenerIdAerolineaUsuario(usuarioActual),
+    };
+  }
+
   private async verificarAerolineaOperativa(
     idAerolinea: number,
   ): Promise<void> {
-    const aerolineaEncontrada = await this.prisma.aerolinea.findUnique({
-      where: {
-        idAerolinea,
-      },
-    });
+    const aerolineaEncontrada =
+      await this.prisma.aerolinea.findUnique({
+        where: {
+          idAerolinea,
+        },
+      });
 
     if (!aerolineaEncontrada) {
       throw new NotFoundException(
@@ -41,7 +107,10 @@ export class RutasService {
       );
     }
 
-    if (aerolineaEncontrada.estadoAerolinea !== EstadoAerolinea.ACTIVA) {
+    if (
+      aerolineaEncontrada.estadoAerolinea !==
+      EstadoAerolinea.ACTIVA
+    ) {
       throw new ConflictException(
         'La aerolínea debe estar ACTIVA para gestionar rutas',
       );
@@ -52,11 +121,12 @@ export class RutasService {
     idAeropuerto: number,
     tipoAeropuerto: 'origen' | 'destino',
   ): Promise<void> {
-    const aeropuertoEncontrado = await this.prisma.aeropuerto.findUnique({
-      where: {
-        idAeropuerto,
-      },
-    });
+    const aeropuertoEncontrado =
+      await this.prisma.aeropuerto.findUnique({
+        where: {
+          idAeropuerto,
+        },
+      });
 
     if (!aeropuertoEncontrado) {
       throw new NotFoundException(
@@ -64,7 +134,10 @@ export class RutasService {
       );
     }
 
-    if (aeropuertoEncontrado.estadoAeropuerto !== EstadoAeropuerto.ACTIVO) {
+    if (
+      aeropuertoEncontrado.estadoAeropuerto !==
+      EstadoAeropuerto.ACTIVO
+    ) {
       throw new ConflictException(
         `El aeropuerto de ${tipoAeropuerto} debe estar ACTIVO`,
       );
@@ -136,8 +209,17 @@ export class RutasService {
     }
   }
 
-  async create(createRutaDto: CreateRutaDto) {
-    await this.verificarAerolineaOperativa(createRutaDto.fkAerolineaRuta);
+  async create(
+    createRutaDto: CreateRutaDto,
+    usuarioActual: UsuarioAutenticado,
+  ) {
+    const idAerolinea =
+      this.resolverIdAerolineaCreacion(
+        createRutaDto,
+        usuarioActual,
+      );
+
+    await this.verificarAerolineaOperativa(idAerolinea);
 
     this.validarAeropuertosDiferentes(
       createRutaDto.fkAeropuertoOrigenRuta,
@@ -155,18 +237,23 @@ export class RutasService {
     );
 
     await this.verificarCodigoRutaUnico(
-      createRutaDto.fkAerolineaRuta,
+      idAerolinea,
       createRutaDto.codigoRuta,
     );
 
     await this.verificarTrayectoUnico(
-      createRutaDto.fkAerolineaRuta,
+      idAerolinea,
       createRutaDto.fkAeropuertoOrigenRuta,
       createRutaDto.fkAeropuertoDestinoRuta,
     );
 
+    const datosRuta = {
+      ...createRutaDto,
+      fkAerolineaRuta: idAerolinea,
+    };
+
     return this.prisma.ruta.create({
-      data: createRutaDto,
+      data: datosRuta,
       include: {
         aerolineaRuta: {
           select: this.seleccionAerolinea,
@@ -181,8 +268,17 @@ export class RutasService {
     });
   }
 
-  async findAll() {
+  async findAll(usuarioActual: UsuarioAutenticado) {
+    const filtroAerolinea =
+      usuarioActual.rolUsuario === RolUsuario.SUPERADMIN
+        ? undefined
+        : {
+          fkAerolineaRuta:
+            this.obtenerIdAerolineaUsuario(usuarioActual),
+        };
+
     return this.prisma.ruta.findMany({
+      where: filtroAerolinea,
       include: {
         aerolineaRuta: {
           select: this.seleccionAerolinea,
@@ -200,11 +296,15 @@ export class RutasService {
     });
   }
 
-  async findOne(idRuta: number) {
-    const rutaEncontrada = await this.prisma.ruta.findUnique({
-      where: {
+  async findOne(
+    idRuta: number,
+    usuarioActual: UsuarioAutenticado,
+  ) {
+    const rutaEncontrada = await this.prisma.ruta.findFirst({
+      where: this.construirFiltroAcceso(
         idRuta,
-      },
+        usuarioActual,
+      ),
       include: {
         aerolineaRuta: {
           select: this.seleccionAerolinea,
@@ -220,44 +320,49 @@ export class RutasService {
 
     if (!rutaEncontrada) {
       throw new NotFoundException(
-        `No se encontró una ruta con el ID ${idRuta}`,
+        `No se encontró una ruta accesible con el ID ${idRuta}`,
       );
     }
 
     return rutaEncontrada;
   }
 
-  async update(idRuta: number, updateRutaDto: UpdateRutaDto) {
-    const rutaActual = await this.prisma.ruta.findUnique({
-      where: {
+  async update(
+    idRuta: number,
+    updateRutaDto: UpdateRutaDto,
+    usuarioActual: UsuarioAutenticado,
+  ) {
+    const rutaActual = await this.prisma.ruta.findFirst({
+      where: this.construirFiltroAcceso(
         idRuta,
-      },
+        usuarioActual,
+      ),
     });
 
     if (!rutaActual) {
       throw new NotFoundException(
-        `No se encontró una ruta con el ID ${idRuta}`,
+        `No se encontró una ruta accesible con el ID ${idRuta}`,
       );
     }
 
-    const idAerolineaFinal =
-      updateRutaDto.fkAerolineaRuta ?? rutaActual.fkAerolineaRuta;
-
     const idAeropuertoOrigenFinal =
-      updateRutaDto.fkAeropuertoOrigenRuta ?? rutaActual.fkAeropuertoOrigenRuta;
+      updateRutaDto.fkAeropuertoOrigenRuta ??
+      rutaActual.fkAeropuertoOrigenRuta;
 
     const idAeropuertoDestinoFinal =
       updateRutaDto.fkAeropuertoDestinoRuta ??
       rutaActual.fkAeropuertoDestinoRuta;
 
-    const codigoRutaFinal = updateRutaDto.codigoRuta ?? rutaActual.codigoRuta;
+    const codigoRutaFinal =
+      updateRutaDto.codigoRuta ?? rutaActual.codigoRuta;
 
-    const modificaRelacionPrincipal =
-      idAerolineaFinal !== rutaActual.fkAerolineaRuta ||
-      idAeropuertoOrigenFinal !== rutaActual.fkAeropuertoOrigenRuta ||
-      idAeropuertoDestinoFinal !== rutaActual.fkAeropuertoDestinoRuta;
+    const modificaTrayecto =
+      idAeropuertoOrigenFinal !==
+      rutaActual.fkAeropuertoOrigenRuta ||
+      idAeropuertoDestinoFinal !==
+      rutaActual.fkAeropuertoDestinoRuta;
 
-    if (modificaRelacionPrincipal) {
+    if (modificaTrayecto) {
       const cantidadVuelos = await this.prisma.vuelo.count({
         where: {
           fkRutaVuelo: idRuta,
@@ -266,19 +371,24 @@ export class RutasService {
 
       if (cantidadVuelos > 0) {
         throw new ConflictException(
-          'No se puede cambiar la aerolínea, el origen o el destino porque la ruta tiene vuelos asociados',
+          'No se puede cambiar el origen o el destino porque la ruta tiene vuelos asociados',
         );
       }
     }
 
-    await this.verificarAerolineaOperativa(idAerolineaFinal);
+    await this.verificarAerolineaOperativa(
+      rutaActual.fkAerolineaRuta,
+    );
 
     this.validarAeropuertosDiferentes(
       idAeropuertoOrigenFinal,
       idAeropuertoDestinoFinal,
     );
 
-    await this.verificarAeropuertoOperativo(idAeropuertoOrigenFinal, 'origen');
+    await this.verificarAeropuertoOperativo(
+      idAeropuertoOrigenFinal,
+      'origen',
+    );
 
     await this.verificarAeropuertoOperativo(
       idAeropuertoDestinoFinal,
@@ -286,13 +396,13 @@ export class RutasService {
     );
 
     await this.verificarCodigoRutaUnico(
-      idAerolineaFinal,
+      rutaActual.fkAerolineaRuta,
       codigoRutaFinal,
       idRuta,
     );
 
     await this.verificarTrayectoUnico(
-      idAerolineaFinal,
+      rutaActual.fkAerolineaRuta,
       idAeropuertoOrigenFinal,
       idAeropuertoDestinoFinal,
       idRuta,
@@ -317,16 +427,20 @@ export class RutasService {
     });
   }
 
-  async remove(idRuta: number) {
-    const rutaEncontrada = await this.prisma.ruta.findUnique({
-      where: {
+  async remove(
+    idRuta: number,
+    usuarioActual: UsuarioAutenticado,
+  ) {
+    const rutaEncontrada = await this.prisma.ruta.findFirst({
+      where: this.construirFiltroAcceso(
         idRuta,
-      },
+        usuarioActual,
+      ),
     });
 
     if (!rutaEncontrada) {
       throw new NotFoundException(
-        `No se encontró una ruta con el ID ${idRuta}`,
+        `No se encontró una ruta accesible con el ID ${idRuta}`,
       );
     }
 
