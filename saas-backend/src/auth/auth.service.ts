@@ -1,10 +1,12 @@
 /* saas-backend/src/auth/auth.service.ts */
-import { ForbiddenException, Injectable, UnauthorizedException, } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable, UnauthorizedException, } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { scrypt, timingSafeEqual } from 'node:crypto';
 import { EstadoAerolinea, EstadoSuscripcion, EstadoUsuario, RolUsuario, } from '../generated/prisma/enums';
 import { PrismaService } from '../prisma/prisma.service';
+import { CambiarContrasenaDto } from './dto/cambiar-contrasena.dto';
 import { LoginDto } from './dto/login.dto';
+import type { UsuarioAutenticado } from './interfaces/auth.interface';
+import { ContrasenasService } from './services/contrasenas.service';
 
 type SuscripcionActualLogin = {
     idSuscripcion: number;
@@ -25,62 +27,8 @@ export class AuthService {
     constructor(
         private readonly prisma: PrismaService,
         private readonly jwtService: JwtService,
+        private readonly contrasenasService: ContrasenasService,
     ) { }
-
-    private derivarClave(
-        contrasenaUsuario: string,
-        saltContrasena: string,
-    ): Promise<Buffer> {
-        return new Promise((resolve, reject) => {
-            scrypt(
-                contrasenaUsuario,
-                saltContrasena,
-                64,
-                (error, claveDerivada) => {
-                    if (error) {
-                        reject(error);
-                        return;
-                    }
-
-                    resolve(claveDerivada);
-                },
-            );
-        });
-    }
-
-    private async verificarContrasena(
-        contrasenaIngresada: string,
-        contrasenaAlmacenada: string,
-    ): Promise<boolean> {
-        const partesContrasena = contrasenaAlmacenada.split(':');
-
-        if (partesContrasena.length !== 2) {
-            return false;
-        }
-
-        const [saltContrasena, hashContrasena] =
-            partesContrasena;
-
-        if (!saltContrasena || !hashContrasena || !/^[0-9a-f]{32}$/i.test(saltContrasena) || !/^[0-9a-f]{128}$/i.test(hashContrasena)) {
-            return false;
-        }
-
-        const hashIngresado = await this.derivarClave(
-            contrasenaIngresada,
-            saltContrasena,
-        );
-
-        const hashGuardado = Buffer.from(
-            hashContrasena,
-            'hex',
-        );
-
-        if (hashIngresado.length !== hashGuardado.length) {
-            return false;
-        }
-
-        return timingSafeEqual(hashIngresado, hashGuardado);
-    }
 
     async login(loginDto: LoginDto) {
         const usuarioEncontrado =
@@ -107,7 +55,7 @@ export class AuthService {
         }
 
         const contrasenaCorrecta =
-            await this.verificarContrasena(
+            await this.contrasenasService.verificarContrasena(
                 loginDto.contrasenaUsuario,
                 usuarioEncontrado.contrasenaUsuario,
             );
@@ -238,4 +186,89 @@ export class AuthService {
             suscripcionActual,
         };
     }
+
+    async cambiarContrasena(
+        cambiarContrasenaDto: CambiarContrasenaDto,
+        usuarioActual: UsuarioAutenticado,
+    ) {
+        const usuarioEncontrado =
+            await this.prisma.usuario.findUnique({
+                where: {
+                    idUsuario: usuarioActual.idUsuario,
+                },
+                select: {
+                    idUsuario: true,
+                    contrasenaUsuario: true,
+                    estadoUsuario: true,
+                },
+            });
+
+        if (!usuarioEncontrado) {
+            throw new UnauthorizedException(
+                'El usuario autenticado ya no existe',
+            );
+        }
+
+        if (
+            usuarioEncontrado.estadoUsuario !==
+            EstadoUsuario.ACTIVO
+        ) {
+            throw new ForbiddenException(
+                'El usuario no se encuentra ACTIVO',
+            );
+        }
+
+        const contrasenaActualCorrecta =
+            await this.contrasenasService.verificarContrasena(
+                cambiarContrasenaDto.contrasenaActual,
+                usuarioEncontrado.contrasenaUsuario,
+            );
+
+        if (!contrasenaActualCorrecta) {
+            throw new BadRequestException(
+                'La contraseña actual es incorrecta',
+            );
+        }
+
+        if (
+            cambiarContrasenaDto.nuevaContrasena !==
+            cambiarContrasenaDto.confirmarNuevaContrasena
+        ) {
+            throw new BadRequestException(
+                'La nueva contraseña y su confirmación no coinciden',
+            );
+        }
+
+        const nuevaContrasenaEsActual =
+            await this.contrasenasService.verificarContrasena(
+                cambiarContrasenaDto.nuevaContrasena,
+                usuarioEncontrado.contrasenaUsuario,
+            );
+
+        if (nuevaContrasenaEsActual) {
+            throw new BadRequestException(
+                'La nueva contraseña debe ser diferente de la contraseña actual',
+            );
+        }
+
+        const nuevaContrasenaHash =
+            await this.contrasenasService.generarHashContrasena(
+                cambiarContrasenaDto.nuevaContrasena,
+            );
+
+        await this.prisma.usuario.update({
+            where: {
+                idUsuario: usuarioEncontrado.idUsuario,
+            },
+            data: {
+                contrasenaUsuario: nuevaContrasenaHash,
+            },
+        });
+
+        return {
+            mensaje:
+                'Contraseña actualizada correctamente. Inicie sesión nuevamente.',
+        };
+    }
+
 }
