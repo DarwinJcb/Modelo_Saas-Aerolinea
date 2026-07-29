@@ -1,16 +1,6 @@
 /* saas-backend/src/vuelos/dto/create-vuelo.dto.ts */
 import { Transform, Type } from 'class-transformer';
-import {
-  IsDate,
-  IsEnum,
-  IsNumber,
-  IsOptional,
-  IsString,
-  Length,
-  Matches,
-  MaxLength,
-  Min,
-} from 'class-validator';
+import { IsDate, IsEnum, IsNumber, IsOptional, IsString, Length, Matches, MaxLength, Min, } from 'class-validator';
 import { EstadoVuelo } from '../../generated/prisma/enums';
 
 export class CreateVueloDto {

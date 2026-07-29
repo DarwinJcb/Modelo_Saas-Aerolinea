@@ -1,26 +1,13 @@
 /* saas-backend/src/vuelos/vuelos.service.ts */
-import {
-  BadRequestException,
-  ConflictException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
-import {
-  EstadoAerolinea,
-  EstadoAeropuerto,
-  EstadoAvion,
-  EstadoPlan,
-  EstadoRuta,
-  EstadoSuscripcion,
-  EstadoVuelo,
-} from '../generated/prisma/enums';
+import { BadRequestException, ConflictException, Injectable, NotFoundException, } from '@nestjs/common';
+import { EstadoAerolinea, EstadoAeropuerto, EstadoAvion, EstadoPlan, EstadoRuta, EstadoSuscripcion, EstadoVuelo, } from '../generated/prisma/enums';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateVueloDto } from './dto/create-vuelo.dto';
 import { UpdateVueloDto } from './dto/update-vuelo.dto';
 
 @Injectable()
 export class VuelosService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   private readonly seleccionAerolinea = {
     idAerolinea: true,
@@ -167,7 +154,7 @@ export class VuelosService {
     if (
       exigirRutaActiva &&
       rutaEncontrada.aeropuertoOrigenRuta.estadoAeropuerto !==
-        EstadoAeropuerto.ACTIVO
+      EstadoAeropuerto.ACTIVO
     ) {
       throw new ConflictException(
         'El aeropuerto de origen de la ruta no está activo',
@@ -177,7 +164,7 @@ export class VuelosService {
     if (
       exigirRutaActiva &&
       rutaEncontrada.aeropuertoDestinoRuta.estadoAeropuerto !==
-        EstadoAeropuerto.ACTIVO
+      EstadoAeropuerto.ACTIVO
     ) {
       throw new ConflictException(
         'El aeropuerto de destino de la ruta no está activo',
@@ -249,10 +236,10 @@ export class VuelosService {
         fechaHoraSalidaVuelo,
         ...(idVueloExcluir !== undefined
           ? {
-              NOT: {
-                idVuelo: idVueloExcluir,
-              },
-            }
+            NOT: {
+              idVuelo: idVueloExcluir,
+            },
+          }
           : {}),
       },
     });
@@ -284,10 +271,10 @@ export class VuelosService {
         },
         ...(idVueloExcluir !== undefined
           ? {
-              NOT: {
-                idVuelo: idVueloExcluir,
-              },
-            }
+            NOT: {
+              idVuelo: idVueloExcluir,
+            },
+          }
           : {}),
       },
     });
@@ -336,10 +323,10 @@ export class VuelosService {
         },
         ...(idVueloExcluir !== undefined
           ? {
-              NOT: {
-                idVuelo: idVueloExcluir,
-              },
-            }
+            NOT: {
+              idVuelo: idVueloExcluir,
+            },
+          }
           : {}),
       },
     });
