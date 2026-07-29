@@ -127,7 +127,7 @@ GET http://localhost:3000/api/usuarios/
     }
 ]
 
-POST http://localhost:3000/api/auth/login
+POST http://localhost:3000/api/auth/login (SUPER ADMIN)
 {
   "correoUsuario": "darwinjaviercb@outlook.com",
   "contrasenaUsuario": "AerolineaD@rwin1001"
@@ -153,17 +153,167 @@ GET http://localhost:3000/api/auth/perfil/ (SÍ Token Bearer)
 }
 
 
+POST http://localhost:3000/api/aerolineas (Bearer Token)
+{
+  "rucAerolinea": "1799999999001",
+  "codigoIataAerolinea": "DJ",
+  "codigoIcaoAerolinea": "DJA",
+  "nombreComercialAerolinea": "Aerolínea Andina",
+  "razonSocialAerolinea": "Aerolínea Andina S.A.",
+  "correoAerolinea": "administracion@aerolineaandina.com",
+  "telefonoAerolinea": "+593 99 999 9999",
+  "paisAerolinea": "Ecuador",
+  "codigoPaisAerolinea": "EC",
+  "monedaAerolinea": "USD",
+  "zonaHorariaAerolinea": "America/Guayaquil",
+  "estadoAerolinea": "ACTIVA"
+}
 
 
+POST http://localhost:3000/api/suscripciones (Bearer Token)
+{
+  "fkPlanSuscripcion": 1,
+  "fkAerolineaSuscripcion": 1,
+  "fechaFinSuscripcion": "2027-07-28T23:59:59.000Z",
+  "estadoSuscripcion": "ACTIVA"
+}
+
+Administrador de Aerolínea y Creación de Aerolínea Andina
+POST http://localhost:3000/api/usuarios (Bearer Token) 
+  "fkAerolineaUsuario": 1,
+  "nombresUsuario": "Administrador",
+  "apellidosUsuario": "Andina",
+  "correoUsuario": "admin@aerolineaandina.com",
+  "contrasenaUsuario": "AdminDarwin0101",
+  "rolUsuario": "ADMIN_AEROLINEA",
+  "estadoUsuario": "ACTIVO"
+}
+
+POST http://localhost:3000/api/auth/login (No Auth)
+{
+  "correoUsuario": "admin@aerolineaandina.com",
+  "contrasenaUsuario": "AdminDarwin0101"
+}
+
+GET http://localhost:3000/api/auth/perfil (Bearer Token de Aerolínea Andina)
+{
+    "idUsuario": 2,
+    "fkAerolineaUsuario": 1,
+    "nombresUsuario": "Administrador",
+    "apellidosUsuario": "Andina",
+    "correoUsuario": "admin@aerolineaandina.com",
+    "rolUsuario": "ADMIN_AEROLINEA",
+    "estadoUsuario": "ACTIVO",
+    "aerolineaUsuario": {
+        "idAerolinea": 1,
+        "nombreComercialAerolinea": "Aerolínea Andina",
+        "estadoAerolinea": "ACTIVA"
+    }
+}
+
+GET http://localhost:3000/api/planes (Bearer Token de Aerolínea Andina) 
+{
+    "message": "No tiene permisos para realizar esta operación",
+    "error": "Forbidden",
+    "statusCode": 403
+}
+
+GET http://localhost:3000/api/aerolineas (Bearer Token de Aerolínea Andina)
+{
+    "message": "No tiene permisos para realizar esta operación",
+    "error": "Forbidden",
+    "statusCode": 403
+}
+
+GET http://localhost:3000/api/suscripciones (Bearer Token de Aerolínea Andina)
+{
+    "message": "No tiene permisos para realizar esta operación",
+    "error": "Forbidden",
+    "statusCode": 403
+}
+
+POST http://localhost:3000/api/aerolineas (Bearer Token del SUPERADMIN)
+{
+  "rucAerolinea": "1799999999002",
+  "codigoIataAerolinea": "PX",
+  "codigoIcaoAerolinea": "PXA",
+  "nombreComercialAerolinea": "Aerolínea Pacífico",
+  "razonSocialAerolinea": "Aerolínea Pacífico S.A.",
+  "correoAerolinea": "administracion@aerolineapacifico.com",
+  "telefonoAerolinea": "+593 98 888 8888",
+  "paisAerolinea": "Ecuador",
+  "codigoPaisAerolinea": "EC",
+  "monedaAerolinea": "USD",
+  "zonaHorariaAerolinea": "America/Guayaquil",
+  "estadoAerolinea": "ACTIVA"
+}
+
+POST http://localhost:3000/api/suscripciones (Bearer Token del SUPERADMIN)
+{
+  "fkPlanSuscripcion": 1,
+  "fkAerolineaSuscripcion": 2,
+  "fechaFinSuscripcion": "2027-07-28T23:59:59.000Z",
+  "estadoSuscripcion": "ACTIVA"
+}
+
+Administrador de Aerolínea y Andina
+POST http://localhost:3000/api/usuarios (Bearer Token) 
+{
+  "fkAerolineaUsuario": 2,
+  "nombresUsuario": "Administrador",
+  "apellidosUsuario": "Pacífico",
+  "correoUsuario": "admin@aerolineapacifico.com",
+  "contrasenaUsuario": "AdminDarwin0101",
+  "rolUsuario": "ADMIN_AEROLINEA",
+  "estadoUsuario": "ACTIVO"
+}
+
+POST http://localhost:3000/api/auth/login (No Auth)
+{
+  "correoUsuario": "admin@aerolineapacifico.com",
+  "contrasenaUsuario": "AdminDarwin0101"
+}
+
+GET http://localhost:3000/api/usuarios (Bearer Token de Aerolínea Andina) 
 
 
+GET http://localhost:3000/api/usuarios (Bearer Token de Aerolínea Pacifico) 
 
+GET http://localhost:3000/api/usuarios/ID_ADMIN_PACIFICO (Bearer Token de Aerolínea Andina) 
 
+POST http://localhost:3000/api/usuarios (Bearer Token de Aerolínea Andina)
+{
+  "nombresUsuario": "Elena",
+  "apellidosUsuario": "Operaciones",
+  "correoUsuario": "empleado@aerolineaandina.com",
+  "contrasenaUsuario": "UsuarioNoAerolinea0101",
+  "rolUsuario": "EMPLEADO",
+  "estadoUsuario": "ACTIVO"
+}
 
+POST http://localhost:3000/api/usuarios (Bearer Token de Aerolínea Andina)
+{
+  "fkAerolineaUsuario": 2,
+  "nombresUsuario": "Usuario",
+  "apellidosUsuario": "Tenant Incorrecto",
+  "correoUsuario": "tenant.incorrecto@aerolineaandina.com",
+  "contrasenaUsuario": "UsuarioSiAerolinea0101",
+  "rolUsuario": "EMPLEADO",
+  "estadoUsuario": "ACTIVO"
+}
 
+POST http://localhost:3000/api/usuarios (Bearer Token de Aerolínea Andina)
+{
+  "nombresUsuario": "Superadministrador",
+  "apellidosUsuario": "No Permitido",
+  "correoUsuario": "super.no.permitido@aerolineaandina.com",
+  "contrasenaUsuario": "SuperAdminAerolinea0101",
+  "rolUsuario": "SUPERADMIN",
+  "estadoUsuario": "ACTIVO"
+}
 
-
-
-
-
-
+POST http://localhost:3000/api/auth/login (No Auth)
+{
+  "correoUsuario": "empleado@aerolineaandina.com",
+  "contrasenaUsuario": "TU_CONTRASEÑA_REAL"
+}

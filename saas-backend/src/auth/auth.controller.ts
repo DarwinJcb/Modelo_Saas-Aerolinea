@@ -1,14 +1,10 @@
 /* saas-backend/src/auth/auth.controller.ts */
-import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req, UseGuards, } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Post, UseGuards, } from '@nestjs/common';
 import { AuthService } from './auth.service';
+import { UsuarioActual } from './decorators/usuario-actual.decorator';
 import { LoginDto } from './dto/login.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
-import { RolUsuario } from '../generated/prisma/enums';
-import { Roles } from './decorators/roles.decorator';
-import { RolesGuard } from './guards/roles.guard';
-import { UsuarioActual } from './decorators/usuario-actual.decorator';
 import type { UsuarioAutenticado } from './interfaces/auth.interface';
-// import type { SolicitudConUsuario } from './interfaces/auth.interface';
 
 @Controller('auth')
 export class AuthController {
@@ -22,8 +18,7 @@ export class AuthController {
         return this.authService.login(loginDto);
     }
 
-    @Roles(RolUsuario.SUPERADMIN)
-    @UseGuards(JwtAuthGuard, RolesGuard)
+    @UseGuards(JwtAuthGuard)
     @Get('perfil')
     perfil(
         @UsuarioActual()

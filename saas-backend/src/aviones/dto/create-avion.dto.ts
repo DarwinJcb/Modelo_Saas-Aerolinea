@@ -1,14 +1,6 @@
 /* saas-backend/src/aviones/dto/create-avion.dto.ts */
 import { Transform, Type } from 'class-transformer';
-import {
-  IsEnum,
-  IsInt,
-  IsOptional,
-  IsString,
-  Length,
-  Max,
-  Min,
-} from 'class-validator';
+import { IsEnum, IsInt, IsOptional, IsString, Length, Max, Min, } from 'class-validator';
 import { EstadoAvion } from '../../generated/prisma/enums';
 
 export class CreateAvionDto {

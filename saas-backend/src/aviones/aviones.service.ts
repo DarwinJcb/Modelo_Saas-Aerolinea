@@ -1,21 +1,13 @@
 /* saas-backend/src/aviones/aviones.service.ts */
-import {
-  ConflictException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
-import {
-  EstadoAerolinea,
-  EstadoPlan,
-  EstadoSuscripcion,
-} from '../generated/prisma/enums';
+import { ConflictException, Injectable, NotFoundException, } from '@nestjs/common';
+import { EstadoAerolinea, EstadoPlan, EstadoSuscripcion, } from '../generated/prisma/enums';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateAvionDto } from './dto/create-avion.dto';
 import { UpdateAvionDto } from './dto/update-avion.dto';
 
 @Injectable()
 export class AvionesService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   private readonly seleccionAerolinea = {
     idAerolinea: true,
@@ -95,10 +87,10 @@ export class AvionesService {
         fkAerolineaAvion: idAerolinea,
         ...(idAvionExcluir !== undefined
           ? {
-              NOT: {
-                idAvion: idAvionExcluir,
-              },
-            }
+            NOT: {
+              idAvion: idAvionExcluir,
+            },
+          }
           : {}),
       },
     });
@@ -121,10 +113,10 @@ export class AvionesService {
         matriculaAvion,
         ...(idAvionExcluir !== undefined
           ? {
-              NOT: {
-                idAvion: idAvionExcluir,
-              },
-            }
+            NOT: {
+              idAvion: idAvionExcluir,
+            },
+          }
           : {}),
       },
     });
@@ -147,10 +139,10 @@ export class AvionesService {
         codigoInternoAvion,
         ...(idAvionExcluir !== undefined
           ? {
-              NOT: {
-                idAvion: idAvionExcluir,
-              },
-            }
+            NOT: {
+              idAvion: idAvionExcluir,
+            },
+          }
           : {}),
       },
     });
