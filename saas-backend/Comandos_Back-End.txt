@@ -315,7 +315,7 @@ POST http://localhost:3000/api/usuarios (Bearer Token de Aerolínea Andina)
   "estadoUsuario": "ACTIVO"
 }
 
-
+Login del Empleado:
 POST http://localhost:3000/api/auth/login (No Auth)
 {
   "correoUsuario": "empleado@aerolineaandina.com",
