@@ -1,6 +1,7 @@
 /* saas-backend/src/aviones/aviones.service.ts */
-import { ConflictException, Injectable, NotFoundException, } from '@nestjs/common';
-import { EstadoAerolinea, EstadoPlan, EstadoSuscripcion, } from '../generated/prisma/enums';
+import { BadRequestException, ConflictException, ForbiddenException, Injectable, NotFoundException, } from '@nestjs/common';
+import type { UsuarioAutenticado } from '../auth/interfaces/auth.interface';
+import { EstadoAerolinea, EstadoPlan, EstadoSuscripcion, RolUsuario, } from '../generated/prisma/enums';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateAvionDto } from './dto/create-avion.dto';
 import { UpdateAvionDto } from './dto/update-avion.dto';
@@ -17,14 +18,79 @@ export class AvionesService {
     estadoAerolinea: true,
   } as const;
 
+  private obtenerIdAerolineaUsuario(
+    usuarioActual: UsuarioAutenticado,
+  ): number {
+    const idAerolinea = usuarioActual.fkAerolineaUsuario;
+
+    if (idAerolinea === null || idAerolinea === undefined) {
+      throw new ForbiddenException(
+        'El usuario autenticado no pertenece a una aerolínea',
+      );
+    }
+
+    return idAerolinea;
+  }
+
+  private resolverIdAerolineaCreacion(
+    createAvionDto: CreateAvionDto,
+    usuarioActual: UsuarioAutenticado,
+  ): number {
+    if (usuarioActual.rolUsuario === RolUsuario.SUPERADMIN) {
+      if (
+        createAvionDto.fkAerolineaAvion === undefined ||
+        createAvionDto.fkAerolineaAvion === null
+      ) {
+        throw new BadRequestException(
+          'El SUPERADMIN debe indicar la aerolínea propietaria del avión',
+        );
+      }
+
+      return createAvionDto.fkAerolineaAvion;
+    }
+
+    const idAerolineaUsuario =
+      this.obtenerIdAerolineaUsuario(usuarioActual);
+
+    if (
+      createAvionDto.fkAerolineaAvion !== undefined &&
+      createAvionDto.fkAerolineaAvion !== null &&
+      createAvionDto.fkAerolineaAvion !== idAerolineaUsuario
+    ) {
+      throw new ForbiddenException(
+        'No puede registrar aviones para otra aerolínea',
+      );
+    }
+
+    return idAerolineaUsuario;
+  }
+
+  private construirFiltroAcceso(
+    idAvion: number,
+    usuarioActual: UsuarioAutenticado,
+  ) {
+    if (usuarioActual.rolUsuario === RolUsuario.SUPERADMIN) {
+      return {
+        idAvion,
+      };
+    }
+
+    return {
+      idAvion,
+      fkAerolineaAvion:
+        this.obtenerIdAerolineaUsuario(usuarioActual),
+    };
+  }
+
   private async verificarAerolineaOperativa(
     idAerolinea: number,
   ): Promise<void> {
-    const aerolineaEncontrada = await this.prisma.aerolinea.findUnique({
-      where: {
-        idAerolinea,
-      },
-    });
+    const aerolineaEncontrada =
+      await this.prisma.aerolinea.findUnique({
+        where: {
+          idAerolinea,
+        },
+      });
 
     if (!aerolineaEncontrada) {
       throw new NotFoundException(
@@ -32,39 +98,45 @@ export class AvionesService {
       );
     }
 
-    if (aerolineaEncontrada.estadoAerolinea !== EstadoAerolinea.ACTIVA) {
+    if (
+      aerolineaEncontrada.estadoAerolinea !==
+      EstadoAerolinea.ACTIVA
+    ) {
       throw new ConflictException(
         'La aerolínea debe estar ACTIVA para gestionar aviones',
       );
     }
   }
 
-  private async obtenerSuscripcionVigente(idAerolinea: number) {
+  private async obtenerSuscripcionVigente(
+    idAerolinea: number,
+  ) {
     const fechaActual = new Date();
 
-    const suscripcionEncontrada = await this.prisma.suscripcion.findFirst({
-      where: {
-        fkAerolineaSuscripcion: idAerolinea,
-        estadoSuscripcion: EstadoSuscripcion.ACTIVA,
-        fechaInicioSuscripcion: {
-          lte: fechaActual,
-        },
-        fechaFinSuscripcion: {
-          gt: fechaActual,
-        },
-        planSuscripcion: {
-          is: {
-            estadoPlan: EstadoPlan.ACTIVO,
+    const suscripcionEncontrada =
+      await this.prisma.suscripcion.findFirst({
+        where: {
+          fkAerolineaSuscripcion: idAerolinea,
+          estadoSuscripcion: EstadoSuscripcion.ACTIVA,
+          fechaInicioSuscripcion: {
+            lte: fechaActual,
+          },
+          fechaFinSuscripcion: {
+            gt: fechaActual,
+          },
+          planSuscripcion: {
+            is: {
+              estadoPlan: EstadoPlan.ACTIVO,
+            },
           },
         },
-      },
-      include: {
-        planSuscripcion: true,
-      },
-      orderBy: {
-        fechaFinSuscripcion: 'desc',
-      },
-    });
+        include: {
+          planSuscripcion: true,
+        },
+        orderBy: {
+          fechaFinSuscripcion: 'desc',
+        },
+      });
 
     if (!suscripcionEncontrada) {
       throw new ConflictException(
@@ -77,7 +149,6 @@ export class AvionesService {
 
   private async verificarLimiteAviones(
     idAerolinea: number,
-    idAvionExcluir?: number,
   ): Promise<void> {
     const suscripcionVigente =
       await this.obtenerSuscripcionVigente(idAerolinea);
@@ -85,17 +156,11 @@ export class AvionesService {
     const cantidadAviones = await this.prisma.avion.count({
       where: {
         fkAerolineaAvion: idAerolinea,
-        ...(idAvionExcluir !== undefined
-          ? {
-            NOT: {
-              idAvion: idAvionExcluir,
-            },
-          }
-          : {}),
       },
     });
 
-    const limiteAviones = suscripcionVigente.planSuscripcion.limiteAvionesPlan;
+    const limiteAviones =
+      suscripcionVigente.planSuscripcion.limiteAvionesPlan;
 
     if (cantidadAviones >= limiteAviones) {
       throw new ConflictException(
@@ -154,20 +219,33 @@ export class AvionesService {
     }
   }
 
-  async create(createAvionDto: CreateAvionDto) {
-    await this.verificarAerolineaOperativa(createAvionDto.fkAerolineaAvion);
+  async create(
+    createAvionDto: CreateAvionDto,
+    usuarioActual: UsuarioAutenticado,
+  ) {
+    const idAerolinea =
+      this.resolverIdAerolineaCreacion(
+        createAvionDto,
+        usuarioActual,
+      );
 
-    await this.verificarLimiteAviones(createAvionDto.fkAerolineaAvion);
-
-    await this.verificarMatriculaUnica(createAvionDto.matriculaAvion);
-
+    await this.verificarAerolineaOperativa(idAerolinea);
+    await this.verificarLimiteAviones(idAerolinea);
+    await this.verificarMatriculaUnica(
+      createAvionDto.matriculaAvion,
+    );
     await this.verificarCodigoInternoUnico(
-      createAvionDto.fkAerolineaAvion,
+      idAerolinea,
       createAvionDto.codigoInternoAvion,
     );
 
+    const datosAvion = {
+      ...createAvionDto,
+      fkAerolineaAvion: idAerolinea,
+    };
+
     return this.prisma.avion.create({
-      data: createAvionDto,
+      data: datosAvion,
       include: {
         aerolineaAvion: {
           select: this.seleccionAerolinea,
@@ -176,8 +254,17 @@ export class AvionesService {
     });
   }
 
-  async findAll() {
+  async findAll(usuarioActual: UsuarioAutenticado) {
+    const filtroAerolinea =
+      usuarioActual.rolUsuario === RolUsuario.SUPERADMIN
+        ? undefined
+        : {
+          fkAerolineaAvion:
+            this.obtenerIdAerolineaUsuario(usuarioActual),
+        };
+
     return this.prisma.avion.findMany({
+      where: filtroAerolinea,
       include: {
         aerolineaAvion: {
           select: this.seleccionAerolinea,
@@ -189,11 +276,15 @@ export class AvionesService {
     });
   }
 
-  async findOne(idAvion: number) {
-    const avionEncontrado = await this.prisma.avion.findUnique({
-      where: {
+  async findOne(
+    idAvion: number,
+    usuarioActual: UsuarioAutenticado,
+  ) {
+    const avionEncontrado = await this.prisma.avion.findFirst({
+      where: this.construirFiltroAcceso(
         idAvion,
-      },
+        usuarioActual,
+      ),
       include: {
         aerolineaAvion: {
           select: this.seleccionAerolinea,
@@ -203,47 +294,54 @@ export class AvionesService {
 
     if (!avionEncontrado) {
       throw new NotFoundException(
-        `No se encontró un avión con el ID ${idAvion}`,
+        `No se encontró un avión accesible con el ID ${idAvion}`,
       );
     }
 
     return avionEncontrado;
   }
 
-  async update(idAvion: number, updateAvionDto: UpdateAvionDto) {
-    const avionActual = await this.prisma.avion.findUnique({
-      where: {
+  async update(
+    idAvion: number,
+    updateAvionDto: UpdateAvionDto,
+    usuarioActual: UsuarioAutenticado,
+  ) {
+    const avionActual = await this.prisma.avion.findFirst({
+      where: this.construirFiltroAcceso(
         idAvion,
-      },
+        usuarioActual,
+      ),
     });
 
     if (!avionActual) {
       throw new NotFoundException(
-        `No se encontró un avión con el ID ${idAvion}`,
+        `No se encontró un avión accesible con el ID ${idAvion}`,
       );
     }
 
-    const idAerolineaFinal =
-      updateAvionDto.fkAerolineaAvion ?? avionActual.fkAerolineaAvion;
-
     const matriculaFinal =
-      updateAvionDto.matriculaAvion ?? avionActual.matriculaAvion;
+      updateAvionDto.matriculaAvion ??
+      avionActual.matriculaAvion;
 
     const codigoInternoFinal =
-      updateAvionDto.codigoInternoAvion ?? avionActual.codigoInternoAvion;
+      updateAvionDto.codigoInternoAvion ??
+      avionActual.codigoInternoAvion;
 
-    await this.verificarAerolineaOperativa(idAerolineaFinal);
+    await this.verificarAerolineaOperativa(
+      avionActual.fkAerolineaAvion,
+    );
 
-    await this.obtenerSuscripcionVigente(idAerolineaFinal);
+    await this.obtenerSuscripcionVigente(
+      avionActual.fkAerolineaAvion,
+    );
 
-    if (idAerolineaFinal !== avionActual.fkAerolineaAvion) {
-      await this.verificarLimiteAviones(idAerolineaFinal, idAvion);
-    }
-
-    await this.verificarMatriculaUnica(matriculaFinal, idAvion);
+    await this.verificarMatriculaUnica(
+      matriculaFinal,
+      idAvion,
+    );
 
     await this.verificarCodigoInternoUnico(
-      idAerolineaFinal,
+      avionActual.fkAerolineaAvion,
       codigoInternoFinal,
       idAvion,
     );
@@ -261,16 +359,20 @@ export class AvionesService {
     });
   }
 
-  async remove(idAvion: number) {
-    const avionEncontrado = await this.prisma.avion.findUnique({
-      where: {
+  async remove(
+    idAvion: number,
+    usuarioActual: UsuarioAutenticado,
+  ) {
+    const avionEncontrado = await this.prisma.avion.findFirst({
+      where: this.construirFiltroAcceso(
         idAvion,
-      },
+        usuarioActual,
+      ),
     });
 
     if (!avionEncontrado) {
       throw new NotFoundException(
-        `No se encontró un avión con el ID ${idAvion}`,
+        `No se encontró un avión accesible con el ID ${idAvion}`,
       );
     }
 
