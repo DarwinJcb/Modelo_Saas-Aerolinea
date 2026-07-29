@@ -138,8 +138,7 @@ export class ReservasService {
     if (
       createReservaDto.fkAerolineaReserva !== undefined &&
       createReservaDto.fkAerolineaReserva !== null &&
-      createReservaDto.fkAerolineaReserva !==
-      idAerolineaUsuario
+      createReservaDto.fkAerolineaReserva !== idAerolineaUsuario
     ) {
       throw new ForbiddenException(
         'No puede registrar reservas para otra aerolínea',
@@ -197,19 +196,20 @@ export class ReservasService {
     idAerolinea: number,
     exigirVueloReservable: boolean,
   ) {
-    const vueloEncontrado = await this.prisma.vuelo.findFirst({
-      where: {
-        idVuelo,
-        fkAerolineaVuelo: idAerolinea,
-      },
-      include: {
-        avionVuelo: {
-          select: {
-            capacidadAvion: true,
+    const vueloEncontrado =
+      await this.prisma.vuelo.findFirst({
+        where: {
+          idVuelo,
+          fkAerolineaVuelo: idAerolinea,
+        },
+        include: {
+          avionVuelo: {
+            select: {
+              capacidadAvion: true,
+            },
           },
         },
-      },
-    });
+      });
 
     if (!vueloEncontrado) {
       throw new NotFoundException(
@@ -352,12 +352,11 @@ export class ReservasService {
 
     await this.verificarAerolineaOperativa(idAerolinea);
 
-    const vueloEncontrado =
-      await this.obtenerVueloDelTenant(
-        createReservaDto.fkVueloReserva,
-        idAerolinea,
-        true,
-      );
+    const vueloEncontrado = await this.obtenerVueloDelTenant(
+      createReservaDto.fkVueloReserva,
+      idAerolinea,
+      true,
+    );
 
     await this.verificarPasajeroDelTenant(
       createReservaDto.fkPasajeroReserva,
@@ -385,11 +384,16 @@ export class ReservasService {
       );
     }
 
+    const idUsuarioRegistroReserva =
+      usuarioActual.rolUsuario === RolUsuario.SUPERADMIN
+        ? null
+        : usuarioActual.idUsuario;
+
     return this.prisma.reserva.create({
       data: {
         ...createReservaDto,
         fkAerolineaReserva: idAerolinea,
-        fkUsuarioRegistroReserva: usuarioActual.idUsuario,
+        fkUsuarioRegistroReserva: idUsuarioRegistroReserva,
         estadoReserva,
       },
       include: this.relacionesReserva,
