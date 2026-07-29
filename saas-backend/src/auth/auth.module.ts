@@ -28,7 +28,17 @@ if (!jwtSecret) {
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtAuthGuard, RolesGuard, ContrasenasService],
-  exports: [AuthService, JwtAuthGuard, RolesGuard],
+  providers: [
+    AuthService,
+    ContrasenasService,
+    JwtAuthGuard,
+    RolesGuard,
+  ],
+  exports: [
+    AuthService,
+    ContrasenasService,
+    JwtAuthGuard,
+    RolesGuard,
+  ],
 })
 export class AuthModule { }

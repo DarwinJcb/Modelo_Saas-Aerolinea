@@ -12,7 +12,7 @@ export class UsuariosService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly contrasenasService: ContrasenasService,
-  ) {}
+  ) { }
 
   private readonly seleccionUsuario = {
     idUsuario: true,

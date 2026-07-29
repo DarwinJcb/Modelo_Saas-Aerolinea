@@ -1,9 +1,11 @@
 /* saas-backend/src/usuarios/usuarios.module.ts */
 import { Module } from '@nestjs/common';
-import { UsuariosService } from './usuarios.service';
+import { AuthModule } from '../auth/auth.module';
 import { UsuariosController } from './usuarios.controller';
+import { UsuariosService } from './usuarios.service';
 
 @Module({
+  imports: [AuthModule],
   controllers: [UsuariosController],
   providers: [UsuariosService],
 })
