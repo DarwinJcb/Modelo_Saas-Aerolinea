@@ -1,23 +1,13 @@
 /* saas-backend/src/boletos/boletos.service.ts */
-import {
-  BadRequestException,
-  ConflictException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
-import {
-  EstadoAerolinea,
-  EstadoBoleto,
-  EstadoReserva,
-  EstadoVuelo,
-} from '../generated/prisma/enums';
+import { BadRequestException, ConflictException, Injectable, NotFoundException, } from '@nestjs/common';
+import { EstadoAerolinea, EstadoBoleto, EstadoReserva, EstadoVuelo, } from '../generated/prisma/enums';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateBoletoDto } from './dto/create-boleto.dto';
 import { UpdateBoletoDto } from './dto/update-boleto.dto';
 
 @Injectable()
 export class BoletosService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   private readonly relacionesBoleto = {
     aerolineaBoleto: {
@@ -197,10 +187,10 @@ export class BoletosService {
         numeroBoleto,
         ...(idBoletoExcluir !== undefined
           ? {
-              NOT: {
-                idBoleto: idBoletoExcluir,
-              },
-            }
+            NOT: {
+              idBoleto: idBoletoExcluir,
+            },
+          }
           : {}),
       },
     });
@@ -230,10 +220,10 @@ export class BoletosService {
         },
         ...(idBoletoExcluir !== undefined
           ? {
-              NOT: {
-                idBoleto: idBoletoExcluir,
-              },
-            }
+            NOT: {
+              idBoleto: idBoletoExcluir,
+            },
+          }
           : {}),
       },
     });

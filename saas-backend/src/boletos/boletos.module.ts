@@ -7,4 +7,4 @@ import { BoletosController } from './boletos.controller';
   controllers: [BoletosController],
   providers: [BoletosService],
 })
-export class BoletosModule {}
+export class BoletosModule { }
