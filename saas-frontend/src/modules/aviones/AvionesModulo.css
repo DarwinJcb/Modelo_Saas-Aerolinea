@@ -1,0 +1,1007 @@
+/* saas-frontend/src/modules/aviones/AvionesModulo.css */
+.aviones-modulo {
+    display: grid;
+    gap: 22px;
+    min-width: 0;
+}
+
+.aviones-cabecera {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 26px 28px;
+    border: 1px solid rgba(25, 89, 145, 0.12);
+    border-radius: 22px;
+    background:
+        radial-gradient(circle at 88% 20%, rgba(19, 188, 202, 0.13), transparent 30%),
+        linear-gradient(135deg, #ffffff 0%, #f4f9fd 100%);
+    box-shadow: 0 18px 42px rgba(26, 67, 105, 0.08);
+}
+
+.aviones-cabecera__texto {
+    max-width: 720px;
+}
+
+.aviones-etiqueta {
+    display: inline-flex;
+    align-items: center;
+    min-height: 27px;
+    padding: 0 11px;
+    border: 1px solid rgba(11, 145, 168, 0.18);
+    border-radius: 999px;
+    background: rgba(15, 173, 188, 0.08);
+    color: #087f91;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+}
+
+.aviones-cabecera h2 {
+    margin: 13px 0 7px;
+    color: #12385d;
+    font-size: clamp(1.55rem, 2.2vw, 2.05rem);
+    line-height: 1.12;
+}
+
+.aviones-cabecera p {
+    max-width: 670px;
+    margin: 0;
+    color: #60758b;
+    font-size: 0.96rem;
+    line-height: 1.65;
+}
+
+.aviones-cabecera__acciones,
+.aviones-modal__acciones,
+.aviones-confirmacion__acciones {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.aviones-boton-principal,
+.aviones-boton-secundario,
+.aviones-boton-peligro,
+.aviones-boton-icono {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    font: inherit;
+    cursor: pointer;
+    transition:
+        transform 160ms ease,
+        box-shadow 160ms ease,
+        border-color 160ms ease,
+        background 160ms ease,
+        opacity 160ms ease;
+}
+
+.aviones-boton-principal,
+.aviones-boton-secundario,
+.aviones-boton-peligro {
+    min-height: 43px;
+    gap: 9px;
+    padding: 0 16px;
+    border-radius: 12px;
+    font-size: 0.86rem;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.aviones-boton-principal {
+    background: linear-gradient(135deg, #0868ad, #079aae);
+    color: #fff;
+    box-shadow: 0 10px 22px rgba(0, 116, 154, 0.2);
+}
+
+.aviones-boton-secundario {
+    border: 1px solid #d6e2ec;
+    background: #fff;
+    color: #285474;
+}
+
+.aviones-boton-peligro {
+    background: #c73d50;
+    color: #fff;
+    box-shadow: 0 10px 22px rgba(178, 38, 59, 0.2);
+}
+
+.aviones-boton-principal:not(:disabled):hover,
+.aviones-boton-secundario:not(:disabled):hover,
+.aviones-boton-peligro:not(:disabled):hover,
+.aviones-boton-icono:not(:disabled):hover {
+    transform: translateY(-1px);
+}
+
+.aviones-boton-principal:not(:disabled):hover {
+    box-shadow: 0 13px 26px rgba(0, 116, 154, 0.26);
+}
+
+.aviones-boton-secundario:not(:disabled):hover {
+    border-color: #9ebbd0;
+    background: #f8fbfd;
+}
+
+.aviones-boton-peligro:not(:disabled):hover {
+    background: #b42e42;
+}
+
+.aviones-boton-principal:disabled,
+.aviones-boton-secundario:disabled,
+.aviones-boton-peligro:disabled,
+.aviones-boton-icono:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+    transform: none;
+    box-shadow: none;
+}
+
+.aviones-aviso,
+.aviones-mensaje,
+.aviones-nota-formulario {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    border-radius: 15px;
+    line-height: 1.5;
+}
+
+.aviones-aviso {
+    padding: 15px 17px;
+    border: 1px solid rgba(25, 120, 164, 0.16);
+    background: #edf8fc;
+    color: #285d78;
+}
+
+.aviones-aviso svg,
+.aviones-mensaje svg,
+.aviones-nota-formulario svg {
+    flex: 0 0 auto;
+    margin-top: 1px;
+}
+
+.aviones-aviso div {
+    display: grid;
+    gap: 2px;
+}
+
+.aviones-aviso strong {
+    color: #174d6c;
+    font-size: 0.89rem;
+}
+
+.aviones-aviso span {
+    font-size: 0.83rem;
+}
+
+.aviones-mensaje {
+    min-height: 46px;
+    padding: 12px 15px;
+    font-size: 0.86rem;
+    font-weight: 700;
+}
+
+.aviones-mensaje--exito {
+    border: 1px solid rgba(31, 149, 104, 0.2);
+    background: #edf9f4;
+    color: #157151;
+}
+
+.aviones-mensaje--exito>span:first-child {
+    display: grid;
+    width: 23px;
+    height: 23px;
+    flex: 0 0 23px;
+    place-items: center;
+    border-radius: 50%;
+    background: #209a70;
+    color: #fff;
+    font-size: 0.75rem;
+}
+
+.aviones-mensaje--error {
+    border: 1px solid rgba(189, 50, 70, 0.2);
+    background: #fff1f3;
+    color: #a3263d;
+}
+
+.aviones-resumen {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.aviones-resumen article {
+    position: relative;
+    min-height: 126px;
+    overflow: hidden;
+    padding: 20px 21px;
+    border: 1px solid #dfe8ef;
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 12px 28px rgba(30, 66, 98, 0.06);
+}
+
+.aviones-resumen article::after {
+    position: absolute;
+    top: -28px;
+    right: -26px;
+    width: 86px;
+    height: 86px;
+    border-radius: 50%;
+    background: rgba(20, 159, 179, 0.07);
+    content: '';
+}
+
+.aviones-resumen span,
+.aviones-resumen small {
+    display: block;
+}
+
+.aviones-resumen span {
+    color: #697d8f;
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+.aviones-resumen strong {
+    display: block;
+    margin: 8px 0 5px;
+    color: #143d62;
+    font-size: 1.75rem;
+    line-height: 1;
+}
+
+.aviones-resumen small {
+    color: #8796a5;
+    font-size: 0.73rem;
+}
+
+.aviones-texto-disponible {
+    color: #168261 !important;
+}
+
+.aviones-catalogo {
+    overflow: hidden;
+    border: 1px solid #dde7ee;
+    border-radius: 20px;
+    background: #fff;
+    box-shadow: 0 17px 36px rgba(28, 66, 100, 0.07);
+}
+
+.aviones-filtros {
+    display: grid;
+    grid-template-columns: minmax(260px, 1fr) 190px 210px auto;
+    align-items: end;
+    gap: 13px;
+    padding: 17px 18px;
+    border-bottom: 1px solid #e5edf2;
+    background: #fbfdfe;
+}
+
+.aviones-buscador {
+    display: flex;
+    min-width: 0;
+    min-height: 43px;
+    align-items: center;
+    gap: 10px;
+    padding: 0 13px;
+    border: 1px solid #d7e3eb;
+    border-radius: 12px;
+    background: #fff;
+    color: #7590a4;
+}
+
+.aviones-buscador:focus-within,
+.aviones-selector-filtro select:focus,
+.aviones-campo input:focus,
+.aviones-campo select:focus {
+    border-color: #2b9bb2;
+    box-shadow: 0 0 0 3px rgba(25, 157, 179, 0.1);
+    outline: 0;
+}
+
+.aviones-buscador input {
+    width: 100%;
+    min-width: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: #183d5d;
+    font: inherit;
+    font-size: 0.85rem;
+}
+
+.aviones-buscador input::placeholder {
+    color: #93a3b0;
+}
+
+.aviones-selector-filtro {
+    display: grid;
+    gap: 6px;
+}
+
+.aviones-selector-filtro>span,
+.aviones-campo>span {
+    color: #335b78;
+    font-size: 0.74rem;
+    font-weight: 800;
+}
+
+.aviones-selector-filtro select,
+.aviones-campo input,
+.aviones-campo select {
+    width: 100%;
+    min-height: 43px;
+    border: 1px solid #d7e3eb;
+    border-radius: 11px;
+    background: #fff;
+    color: #183d5d;
+    font: inherit;
+    font-size: 0.85rem;
+    transition:
+        border-color 160ms ease,
+        box-shadow 160ms ease;
+}
+
+.aviones-selector-filtro select,
+.aviones-campo select {
+    padding: 0 36px 0 12px;
+}
+
+.aviones-campo input {
+    padding: 0 12px;
+}
+
+.aviones-resultados {
+    align-self: center;
+    justify-self: end;
+    padding-bottom: 10px;
+    color: #778b9c;
+    font-size: 0.78rem;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.aviones-tabla-contenedor {
+    overflow-x: auto;
+}
+
+.aviones-tabla {
+    width: 100%;
+    min-width: 850px;
+    border-collapse: collapse;
+}
+
+.aviones-tabla th,
+.aviones-tabla td {
+    padding: 16px 18px;
+    border-bottom: 1px solid #e8eef3;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.aviones-tabla th {
+    background: #f7fafc;
+    color: #6b8092;
+    font-size: 0.69rem;
+    font-weight: 900;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+}
+
+.aviones-tabla td {
+    color: #37566d;
+    font-size: 0.82rem;
+}
+
+.aviones-tabla tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.aviones-tabla tbody tr:hover {
+    background: #fbfdff;
+}
+
+.aviones-identidad,
+.aviones-capacidad,
+.aviones-acciones-fila {
+    display: flex;
+    align-items: center;
+}
+
+.aviones-identidad {
+    min-width: 190px;
+    gap: 11px;
+}
+
+.aviones-identidad__icono {
+    display: grid;
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+    place-items: center;
+    border-radius: 13px;
+    background: linear-gradient(145deg, #eaf5fb, #e8fbfa);
+    color: #097f9b;
+}
+
+.aviones-identidad>div,
+.aviones-modelo {
+    display: grid;
+    gap: 2px;
+}
+
+.aviones-identidad strong,
+.aviones-modelo strong {
+    color: #183f61;
+    font-size: 0.88rem;
+}
+
+.aviones-identidad span,
+.aviones-modelo span {
+    color: #6c8193;
+    font-size: 0.77rem;
+}
+
+.aviones-identidad small {
+    color: #138397;
+    font-size: 0.69rem;
+    font-weight: 800;
+}
+
+.aviones-modelo {
+    min-width: 190px;
+}
+
+.aviones-capacidad {
+    min-width: 130px;
+    gap: 7px;
+    color: #527189;
+}
+
+.aviones-capacidad svg {
+    color: #0a8ba3;
+}
+
+.aviones-capacidad strong {
+    color: #183f61;
+    font-size: 0.95rem;
+}
+
+.aviones-capacidad span {
+    color: #75899a;
+    font-size: 0.75rem;
+}
+
+.aviones-insignia {
+    display: inline-flex;
+    min-height: 29px;
+    align-items: center;
+    gap: 7px;
+    padding: 0 10px;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 900;
+    white-space: nowrap;
+}
+
+.aviones-insignia i {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+.aviones-insignia--disponible {
+    background: #eaf8f2;
+    color: #177957;
+}
+
+.aviones-insignia--mantenimiento {
+    background: #fff5df;
+    color: #9a6814;
+}
+
+.aviones-insignia--fuera_de_servicio {
+    background: #f1f3f6;
+    color: #667484;
+}
+
+.aviones-acciones-fila {
+    justify-content: flex-end;
+    gap: 7px;
+}
+
+.aviones-boton-icono {
+    width: 36px;
+    height: 36px;
+    border: 1px solid #d8e4ec;
+    border-radius: 10px;
+    background: #fff;
+    color: #2b6486;
+}
+
+.aviones-boton-icono--peligro {
+    color: #bd3d50;
+}
+
+.aviones-boton-icono--peligro:hover {
+    border-color: rgba(189, 61, 80, 0.35) !important;
+    background: #fff5f6 !important;
+}
+
+.aviones-estado-vacio {
+    display: grid;
+    min-height: 310px;
+    place-items: center;
+    align-content: center;
+    gap: 9px;
+    padding: 36px 20px;
+    text-align: center;
+}
+
+.aviones-estado-vacio__icono {
+    display: grid;
+    width: 68px;
+    height: 68px;
+    place-items: center;
+    border-radius: 21px;
+    background: linear-gradient(145deg, #eaf5fb, #e8fbfa);
+    color: #108da2;
+}
+
+.aviones-estado-vacio strong {
+    margin-top: 4px;
+    color: #244b69;
+    font-size: 1rem;
+}
+
+.aviones-estado-vacio p {
+    max-width: 460px;
+    margin: 0 0 5px;
+    color: #7a8d9d;
+    font-size: 0.83rem;
+    line-height: 1.55;
+}
+
+.aviones-cargador {
+    width: 28px;
+    height: 28px;
+    border: 3px solid #d7e8ef;
+    border-top-color: #168fa7;
+    border-radius: 50%;
+    animation: aviones-girar 700ms linear infinite;
+}
+
+.aviones-cargador--boton {
+    width: 17px;
+    height: 17px;
+    border-width: 2px;
+    border-color: rgba(255, 255, 255, 0.4);
+    border-top-color: #fff;
+}
+
+@keyframes aviones-girar {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.aviones-modal-capa {
+    position: fixed;
+    z-index: 1200;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    overflow-y: auto;
+    padding: 28px 20px;
+    background: rgba(8, 26, 43, 0.58);
+    backdrop-filter: blur(5px);
+}
+
+.aviones-modal,
+.aviones-confirmacion {
+    width: min(100%, 760px);
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    border-radius: 22px;
+    background: #fff;
+    box-shadow: 0 28px 80px rgba(3, 20, 35, 0.3);
+}
+
+.aviones-modal {
+    overflow: hidden;
+}
+
+.aviones-modal__cabecera {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 22px 24px;
+    border-bottom: 1px solid #e4edf2;
+    background:
+        radial-gradient(circle at 90% 10%, rgba(33, 194, 196, 0.14), transparent 32%),
+        linear-gradient(145deg, #f7fbfe, #eef7fb);
+}
+
+.aviones-modal__titulo {
+    display: flex;
+    align-items: flex-start;
+    gap: 13px;
+}
+
+.aviones-modal__icono {
+    display: grid;
+    width: 46px;
+    height: 46px;
+    flex: 0 0 46px;
+    place-items: center;
+    border-radius: 14px;
+    background: linear-gradient(145deg, #0969ae, #0aa0ac);
+    color: #fff;
+    box-shadow: 0 10px 22px rgba(5, 125, 158, 0.22);
+}
+
+.aviones-modal__titulo>div {
+    display: grid;
+    gap: 3px;
+}
+
+.aviones-modal__titulo>div>span {
+    color: #13889d;
+    font-size: 0.69rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.aviones-modal__titulo h3,
+.aviones-confirmacion h3 {
+    margin: 0;
+    color: #163f61;
+}
+
+.aviones-modal__titulo h3 {
+    font-size: 1.25rem;
+}
+
+.aviones-modal__titulo p {
+    margin: 0;
+    color: #738697;
+    font-size: 0.79rem;
+    line-height: 1.45;
+}
+
+.aviones-modal__cerrar {
+    display: grid;
+    width: 38px;
+    height: 38px;
+    flex: 0 0 38px;
+    place-items: center;
+    border: 1px solid #d8e4eb;
+    border-radius: 11px;
+    background: rgba(255, 255, 255, 0.82);
+    color: #56738a;
+    cursor: pointer;
+}
+
+.aviones-modal__cerrar:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
+.aviones-formulario {
+    display: grid;
+    max-height: min(720px, calc(100vh - 120px));
+    gap: 18px;
+    overflow-y: auto;
+    padding: 23px 24px 24px;
+}
+
+.aviones-formulario__rejilla {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 15px;
+}
+
+.aviones-campo {
+    display: grid;
+    gap: 7px;
+}
+
+.aviones-campo--completo {
+    grid-column: 1 / -1;
+}
+
+.aviones-campo small {
+    color: #8293a1;
+    font-size: 0.68rem;
+    line-height: 1.4;
+}
+
+.aviones-campo input:disabled,
+.aviones-campo select:disabled {
+    cursor: not-allowed;
+    background: #f3f6f8;
+    color: #8795a1;
+}
+
+.aviones-propietario {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 13px 15px;
+    border: 1px solid #dce9ef;
+    border-radius: 13px;
+    background: #f5fafc;
+    color: #16859a;
+}
+
+.aviones-propietario div {
+    display: grid;
+    gap: 2px;
+}
+
+.aviones-propietario span {
+    color: #748899;
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+
+.aviones-propietario strong {
+    color: #234e6d;
+    font-size: 0.86rem;
+}
+
+.aviones-nota-formulario {
+    padding: 13px 14px;
+    border: 1px solid rgba(22, 137, 161, 0.16);
+    background: #eef8fb;
+    color: #416d82;
+    font-size: 0.76rem;
+}
+
+.aviones-modal__acciones {
+    justify-content: flex-end;
+    padding-top: 4px;
+}
+
+.aviones-confirmacion {
+    display: grid;
+    max-width: 480px;
+    justify-items: center;
+    gap: 10px;
+    padding: 28px;
+    text-align: center;
+}
+
+.aviones-confirmacion__icono {
+    display: grid;
+    width: 58px;
+    height: 58px;
+    place-items: center;
+    border-radius: 18px;
+    background: #fff0f2;
+    color: #bf3d51;
+}
+
+.aviones-confirmacion h3 {
+    font-size: 1.2rem;
+}
+
+.aviones-confirmacion>p {
+    max-width: 390px;
+    margin: 0;
+    color: #718493;
+    font-size: 0.8rem;
+    line-height: 1.55;
+}
+
+.aviones-confirmacion__detalle {
+    display: grid;
+    width: 100%;
+    gap: 3px;
+    padding: 13px 14px;
+    border: 1px solid #e1e9ef;
+    border-radius: 13px;
+    background: #f8fafc;
+}
+
+.aviones-confirmacion__detalle strong {
+    color: #244c69;
+    font-size: 0.9rem;
+}
+
+.aviones-confirmacion__detalle span {
+    color: #768a9b;
+    font-size: 0.74rem;
+}
+
+.aviones-confirmacion__acciones {
+    justify-content: center;
+    margin-top: 5px;
+}
+
+@media (max-width: 1180px) {
+    .aviones-filtros {
+        grid-template-columns: minmax(260px, 1fr) 180px 190px;
+    }
+
+    .aviones-resultados {
+        grid-column: 1 / -1;
+        justify-self: start;
+        padding: 0;
+    }
+}
+
+@media (max-width: 920px) {
+    .aviones-cabecera {
+        flex-direction: column;
+    }
+
+    .aviones-cabecera__acciones {
+        width: 100%;
+    }
+
+    .aviones-cabecera__acciones>button {
+        flex: 1;
+    }
+
+    .aviones-resumen {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .aviones-filtros {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .aviones-buscador {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 680px) {
+    .aviones-modulo {
+        gap: 16px;
+    }
+
+    .aviones-cabecera {
+        padding: 21px 19px;
+        border-radius: 17px;
+    }
+
+    .aviones-cabecera__acciones,
+    .aviones-confirmacion__acciones {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .aviones-cabecera__acciones>button,
+    .aviones-confirmacion__acciones>button {
+        width: 100%;
+    }
+
+    .aviones-resumen {
+        grid-template-columns: 1fr;
+    }
+
+    .aviones-resumen article {
+        min-height: 108px;
+    }
+
+    .aviones-filtros {
+        grid-template-columns: 1fr;
+    }
+
+    .aviones-buscador {
+        grid-column: auto;
+    }
+
+    .aviones-resultados {
+        grid-column: auto;
+    }
+
+    .aviones-tabla {
+        min-width: 0;
+    }
+
+    .aviones-tabla thead {
+        display: none;
+    }
+
+    .aviones-tabla,
+    .aviones-tabla tbody,
+    .aviones-tabla tr,
+    .aviones-tabla td {
+        display: block;
+        width: 100%;
+    }
+
+    .aviones-tabla tr {
+        padding: 13px 15px;
+        border-bottom: 1px solid #e5edf2;
+    }
+
+    .aviones-tabla td {
+        display: grid;
+        grid-template-columns: 110px minmax(0, 1fr);
+        align-items: center;
+        gap: 12px;
+        padding: 9px 0;
+        border: 0;
+    }
+
+    .aviones-tabla td::before {
+        color: #75899a;
+        content: attr(data-label);
+        font-size: 0.68rem;
+        font-weight: 900;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+    }
+
+    .aviones-identidad,
+    .aviones-modelo,
+    .aviones-capacidad {
+        min-width: 0;
+    }
+
+    .aviones-acciones-fila {
+        justify-content: flex-start;
+    }
+
+    .aviones-modal-capa {
+        align-items: start;
+        padding: 12px;
+    }
+
+    .aviones-modal,
+    .aviones-confirmacion {
+        border-radius: 17px;
+    }
+
+    .aviones-modal__cabecera {
+        padding: 19px 17px;
+    }
+
+    .aviones-modal__titulo p {
+        display: none;
+    }
+
+    .aviones-formulario {
+        max-height: none;
+        padding: 19px 17px 20px;
+    }
+
+    .aviones-formulario__rejilla {
+        grid-template-columns: 1fr;
+    }
+
+    .aviones-modal__acciones {
+        flex-direction: column-reverse;
+        width: 100%;
+    }
+
+    .aviones-modal__acciones>button {
+        width: 100%;
+    }
+
+    .aviones-confirmacion {
+        padding: 24px 18px;
+    }
+}
+
+@media (max-width: 430px) {
+    .aviones-tabla td {
+        grid-template-columns: 1fr;
+        gap: 5px;
+    }
+
+    .aviones-cabecera__acciones {
+        gap: 8px;
+    }
+}
