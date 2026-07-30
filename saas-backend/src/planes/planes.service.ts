@@ -1,16 +1,12 @@
 /* saas-backend/src/planes/planes.service.ts */
-import {
-  ConflictException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException, } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreatePlanDto } from './dto/create-plan.dto';
 import { UpdatePlanDto } from './dto/update-plan.dto';
 
 @Injectable()
 export class PlanesService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   async create(createPlanDto: CreatePlanDto) {
     const planExistente = await this.prisma.plan.findUnique({

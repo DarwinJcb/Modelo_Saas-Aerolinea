@@ -1,15 +1,6 @@
 /* saas-backend/src/planes/dto/create-plan.dto.ts */
 import { Type } from 'class-transformer';
-import {
-  IsEnum,
-  IsInt,
-  IsNumber,
-  IsOptional,
-  IsString,
-  Length,
-  MaxLength,
-  Min,
-} from 'class-validator';
+import { IsEnum, IsInt, IsNumber, IsOptional, IsString, Length, MaxLength, Min, } from 'class-validator';
 import { EstadoPlan } from '../../generated/prisma/enums';
 
 export class CreatePlanDto {
