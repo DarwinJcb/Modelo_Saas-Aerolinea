@@ -1497,7 +1497,7 @@ export function VuelosModulo({
                         disabled={cargando}
                     >
                         <Icono nombre="actualizar" />
-                        Actualizar
+                        ACTUALIZAR
                     </button>
 
                     {puedeCrear && (
@@ -1513,7 +1513,7 @@ export function VuelosModulo({
                             }
                         >
                             <Icono nombre="agregar" />
-                            Nuevo vuelo
+                            NUEVO VUELO
                         </button>
                     )}
                 </div>

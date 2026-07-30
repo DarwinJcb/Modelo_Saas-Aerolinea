@@ -968,7 +968,7 @@ export function AvionesModulo({
                         disabled={cargando}
                     >
                         <Icono nombre="actualizar" />
-                        Actualizar
+                        ACTUALIZAR
                     </button>
 
                     {puedeGestionar && (
@@ -984,7 +984,7 @@ export function AvionesModulo({
                             }
                         >
                             <Icono nombre="agregar" />
-                            Nuevo avión
+                            NUEVO AVIÓN
                         </button>
                     )}
                 </div>

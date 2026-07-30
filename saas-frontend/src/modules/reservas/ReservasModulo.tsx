@@ -148,7 +148,7 @@ interface DatosModulo {
     aerolineas: AerolineaResumen[]
 }
 
-class SesionExpiradaError extends Error {}
+class SesionExpiradaError extends Error { }
 
 const formularioInicial: FormularioReserva = {
     fkAerolineaReserva: '',
@@ -575,7 +575,7 @@ function esVueloReservable(
     return (
         vuelo.estadoVuelo === 'PROGRAMADO' &&
         new Date(vuelo.fechaHoraSalidaVuelo).getTime() >
-            Date.now()
+        Date.now()
     )
 }
 
@@ -809,7 +809,7 @@ export function ReservasModulo({
                 if (
                     idAerolinea !== null &&
                     obtenerIdAerolineaVuelo(vuelo) !==
-                        idAerolinea
+                    idAerolinea
                 ) {
                     return false
                 }
@@ -824,9 +824,9 @@ export function ReservasModulo({
                     const yaReservado = reservas.some(
                         (reserva) =>
                             reserva.fkVueloReserva ===
-                                vuelo.idVuelo &&
+                            vuelo.idVuelo &&
                             reserva.fkPasajeroReserva ===
-                                pasajero.idPasajero,
+                            pasajero.idPasajero,
                     )
 
                     return perteneceAerolinea && !yaReservado
@@ -866,7 +866,7 @@ export function ReservasModulo({
                 esSuperadmin &&
                 filtroAerolinea !== 'TODAS' &&
                 reserva.fkAerolineaReserva !==
-                    Number(filtroAerolinea)
+                Number(filtroAerolinea)
             ) {
                 return false
             }
@@ -990,7 +990,7 @@ export function ReservasModulo({
                 !esSuperadmin ||
                 idAerolineaFormulario === null ||
                 obtenerIdAerolineaVuelo(vuelo) ===
-                    idAerolineaFormulario
+                idAerolineaFormulario
 
             const esActual =
                 reservaEdicion?.fkVueloReserva ===
@@ -1014,21 +1014,21 @@ export function ReservasModulo({
 
                     const esRelacionActual =
                         reservaEdicion?.fkVueloReserva ===
-                            vuelo.idVuelo &&
+                        vuelo.idVuelo &&
                         reservaEdicion
                             ?.fkPasajeroReserva ===
-                            pasajero.idPasajero
+                        pasajero.idPasajero
 
                     return (
                         esRelacionActual ||
                         !reservas.some(
                             (reserva) =>
                                 reserva.fkVueloReserva ===
-                                    vuelo.idVuelo &&
+                                vuelo.idVuelo &&
                                 reserva.fkPasajeroReserva ===
-                                    pasajero.idPasajero &&
+                                pasajero.idPasajero &&
                                 reserva.idReserva !==
-                                    reservaEdicion?.idReserva,
+                                reservaEdicion?.idReserva,
                         )
                     )
                 },
@@ -1058,7 +1058,7 @@ export function ReservasModulo({
                 !esSuperadmin ||
                 idAerolineaFormulario === null ||
                 obtenerIdAerolineaPasajero(pasajero) ===
-                    idAerolineaFormulario
+                idAerolineaFormulario
 
             if (!perteneceAerolinea) {
                 return false
@@ -1075,7 +1075,7 @@ export function ReservasModulo({
             const esRelacionActual =
                 reservaEdicion?.fkVueloReserva === idVuelo &&
                 reservaEdicion?.fkPasajeroReserva ===
-                    pasajero.idPasajero
+                pasajero.idPasajero
 
             if (esRelacionActual) {
                 return true
@@ -1085,9 +1085,9 @@ export function ReservasModulo({
                 (reserva) =>
                     reserva.fkVueloReserva === idVuelo &&
                     reserva.fkPasajeroReserva ===
-                        pasajero.idPasajero &&
+                    pasajero.idPasajero &&
                     reserva.idReserva !==
-                        reservaEdicion?.idReserva,
+                    reservaEdicion?.idReserva,
             )
         })
     }, [
@@ -1154,7 +1154,7 @@ export function ReservasModulo({
             if (
                 idAerolinea !== null &&
                 obtenerIdAerolineaVuelo(vuelo) !==
-                    idAerolinea
+                idAerolinea
             ) {
                 continue
             }
@@ -1170,9 +1170,9 @@ export function ReservasModulo({
                     const yaReservado = reservas.some(
                         (reserva) =>
                             reserva.fkVueloReserva ===
-                                vuelo.idVuelo &&
+                            vuelo.idVuelo &&
                             reserva.fkPasajeroReserva ===
-                                pasajero.idPasajero,
+                            pasajero.idPasajero,
                     )
 
                     return perteneceAerolinea && !yaReservado
@@ -1227,7 +1227,7 @@ export function ReservasModulo({
                 aerolineasActivas.length === 1
                     ? aerolineasActivas[0].idAerolinea
                     : aerolineaSeleccionada?.idAerolinea ??
-                        null
+                    null
         }
 
         const recursos =
@@ -1346,20 +1346,20 @@ export function ReservasModulo({
 
                 const esRelacionActual =
                     reservaEdicion?.fkVueloReserva ===
-                        Number(idVuelo) &&
+                    Number(idVuelo) &&
                     reservaEdicion?.fkPasajeroReserva ===
-                        pasajero.idPasajero
+                    pasajero.idPasajero
 
                 return (
                     esRelacionActual ||
                     !reservas.some(
                         (reserva) =>
                             reserva.fkVueloReserva ===
-                                Number(idVuelo) &&
+                            Number(idVuelo) &&
                             reserva.fkPasajeroReserva ===
-                                pasajero.idPasajero &&
+                            pasajero.idPasajero &&
                             reserva.idReserva !==
-                                reservaEdicion?.idReserva,
+                            reservaEdicion?.idReserva,
                     )
                 )
             },
@@ -1460,19 +1460,19 @@ export function ReservasModulo({
         const cambiaRelacion =
             reservaEdicion === null ||
             Number(formulario.fkVueloReserva) !==
-                reservaEdicion.fkVueloReserva ||
+            reservaEdicion.fkVueloReserva ||
             Number(formulario.fkPasajeroReserva) !==
-                reservaEdicion.fkPasajeroReserva
+            reservaEdicion.fkPasajeroReserva
 
         const reactiva =
             reservaEdicion?.estadoReserva ===
-                'CANCELADA' &&
+            'CANCELADA' &&
             formulario.estadoReserva !== 'CANCELADA'
 
         const cambiaAEstadoNoCancelado =
             reservaEdicion !== null &&
             formulario.estadoReserva !==
-                reservaEdicion.estadoReserva &&
+            reservaEdicion.estadoReserva &&
             formulario.estadoReserva !== 'CANCELADA'
 
         if (
@@ -1491,9 +1491,9 @@ export function ReservasModulo({
             const reservaActualOcupaCupo =
                 reservaEdicion !== null &&
                 reservaEdicion.fkVueloReserva ===
-                    vuelo.idVuelo &&
+                vuelo.idVuelo &&
                 reservaEdicion.estadoReserva !==
-                    'CANCELADA'
+                'CANCELADA'
 
             if (reservaActualOcupaCupo) {
                 ocupados -= 1
@@ -1736,7 +1736,7 @@ export function ReservasModulo({
                         disabled={cargando}
                     >
                         <Icono nombre="actualizar" />
-                        Actualizar
+                        ACTUALIZAR
                     </button>
 
                     {puedeCrear && (
@@ -1752,7 +1752,7 @@ export function ReservasModulo({
                             }
                         >
                             <Icono nombre="agregar" />
-                            Nueva reserva
+                            NUEVA RESERVA
                         </button>
                     )}
                 </div>
@@ -2292,7 +2292,7 @@ export function ReservasModulo({
                             onSubmit={guardar}
                         >
                             {esSuperadmin &&
-                            reservaEdicion === null ? (
+                                reservaEdicion === null ? (
                                 <label className="reservas-campo reservas-campo--completo">
                                     <span>
                                         Aerolínea propietaria
@@ -2380,7 +2380,7 @@ export function ReservasModulo({
                                             ) ||
                                             (esSuperadmin &&
                                                 reservaEdicion ===
-                                                    null &&
+                                                null &&
                                                 !formulario.fkAerolineaReserva)
                                         }
                                     >
@@ -2463,7 +2463,7 @@ export function ReservasModulo({
                                             ) ||
                                             (esSuperadmin &&
                                                 reservaEdicion ===
-                                                    null &&
+                                                null &&
                                                 !formulario.fkAerolineaReserva)
                                         }
                                     >
@@ -2655,12 +2655,12 @@ export function ReservasModulo({
                                                     'codigoReserva',
                                                     generarCodigoReserva(
                                                         aerolineaFormulario?.codigoIataAerolinea ??
-                                                            reservaEdicion
-                                                                ?.aerolineaReserva
-                                                                .codigoIataAerolinea ??
-                                                            vueloSeleccionado
-                                                                ?.aerolineaVuelo
-                                                                ?.codigoIataAerolinea,
+                                                        reservaEdicion
+                                                            ?.aerolineaReserva
+                                                            .codigoIataAerolinea ??
+                                                        vueloSeleccionado
+                                                            ?.aerolineaVuelo
+                                                            ?.codigoIataAerolinea,
                                                     ),
                                                 )
                                             }

@@ -363,11 +363,11 @@ export function AeropuertosModulo({
 
                 <div className="aeropuertos-cabecera__acciones">
                     <button type="button" className="aeropuertos-boton-secundario" onClick={() => void recargar()} disabled={cargando}>
-                        <Icono nombre="actualizar" /> Actualizar
+                        <Icono nombre="actualizar" /> ACTUALIZAR
                     </button>
                     {puedeGestionar && (
                         <button type="button" className="aeropuertos-boton-principal" onClick={abrirCreacion}>
-                            <Icono nombre="agregar" /> Nuevo aeropuerto
+                            <Icono nombre="agregar" /> NUEVO AEROPUERTO
                         </button>
                     )}
                 </div>

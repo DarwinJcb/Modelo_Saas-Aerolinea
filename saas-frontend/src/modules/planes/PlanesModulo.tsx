@@ -795,7 +795,7 @@ export function PlanesModulo({
                         disabled={cargando}
                     >
                         <Icono nombre="actualizar" />
-                        Actualizar
+                        ACTUALIZAR
                     </button>
 
                     <button
@@ -804,7 +804,7 @@ export function PlanesModulo({
                         onClick={abrirCreacion}
                     >
                         <Icono nombre="agregar" />
-                        Nuevo plan
+                        NUEVO PLAN
                     </button>
                 </div>
             </header>

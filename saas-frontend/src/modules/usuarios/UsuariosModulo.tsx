@@ -1069,7 +1069,7 @@ export function UsuariosModulo({
                         disabled={cargando}
                     >
                         <Icono nombre="actualizar" />
-                        Actualizar
+                        ACTUALIZAR
                     </button>
 
                     <button
@@ -1078,7 +1078,7 @@ export function UsuariosModulo({
                         onClick={abrirCreacion}
                     >
                         <Icono nombre="agregar" />
-                        Nuevo usuario
+                        NUEVO USUARIO
                     </button>
                 </div>
             </header>

@@ -1052,7 +1052,7 @@ export function AerolineasModulo({
                         disabled={cargando}
                     >
                         <Icono nombre="actualizar" />
-                        Actualizar
+                        ACTUALIZAR
                     </button>
 
                     <button
@@ -1061,7 +1061,7 @@ export function AerolineasModulo({
                         onClick={abrirCreacion}
                     >
                         <Icono nombre="agregar" />
-                        Nueva aerolínea
+                        NUEVA AEROLÍNEA
                     </button>
                 </div>
             </header>

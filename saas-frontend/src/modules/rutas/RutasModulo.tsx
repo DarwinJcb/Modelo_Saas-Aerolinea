@@ -962,7 +962,7 @@ export function RutasModulo({
                         disabled={cargando}
                     >
                         <Icono nombre="actualizar" />
-                        Actualizar
+                        ACTUALIZAR
                     </button>
 
                     {puedeGestionar && (
@@ -978,7 +978,7 @@ export function RutasModulo({
                             }
                         >
                             <Icono nombre="agregar" />
-                            Nueva ruta
+                            NUEVA RUTA
                         </button>
                     )}
                 </div>

@@ -1373,7 +1373,7 @@ export function BoletosModulo({
                         disabled={cargando}
                     >
                         <Icono nombre="actualizar" />
-                        Actualizar
+                        ACTUALIZAR
                     </button>
 
                     {puedeCrear && (
@@ -1389,7 +1389,7 @@ export function BoletosModulo({
                             }
                         >
                             <Icono nombre="agregar" />
-                            Nuevo boleto
+                            NUEVO BOLETO
                         </button>
                     )}
                 </div>

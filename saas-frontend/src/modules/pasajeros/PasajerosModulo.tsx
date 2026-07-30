@@ -1017,7 +1017,7 @@ export function PasajerosModulo({
                         disabled={cargando}
                     >
                         <Icono nombre="actualizar" />
-                        Actualizar
+                        ACTUALIZAR
                     </button>
 
                     {puedeCrear && (
@@ -1033,7 +1033,7 @@ export function PasajerosModulo({
                             }
                         >
                             <Icono nombre="agregar" />
-                            Nuevo pasajero
+                            NUEVO PASAJERO
                         </button>
                     )}
                 </div>
