@@ -1221,7 +1221,7 @@ export function SuscripcionesModulo({
                         disabled={cargando}
                     >
                         <Icono nombre="actualizar" />
-                        Actualizar
+                        ACTUALIZAR
                     </button>
 
                     <button
@@ -1236,7 +1236,7 @@ export function SuscripcionesModulo({
                         }
                     >
                         <Icono nombre="agregar" />
-                        Nueva suscripción
+                        NUEVA SUSCRIPCIÓN
                     </button>
                 </div>
             </header>
