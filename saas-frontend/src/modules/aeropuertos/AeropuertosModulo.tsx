@@ -434,13 +434,13 @@ export function AeropuertosModulo({
                             <tbody>
                                 {aeropuertosFiltrados.map((aeropuerto) => (
                                     <tr key={aeropuerto.idAeropuerto}>
-                                        <td><div className="aeropuertos-codigos"><strong>{aeropuerto.codigoIataAeropuerto}</strong><span>{aeropuerto.codigoIcaoAeropuerto}</span></div></td>
-                                        <td><div className="aeropuertos-nombre"><span className="aeropuertos-nombre__icono"><Icono nombre="aeropuerto" tamano={19} /></span><div><strong>{aeropuerto.nombreAeropuerto}</strong><small>ID #{aeropuerto.idAeropuerto}</small></div></div></td>
-                                        <td><div className="aeropuertos-ubicacion"><Icono nombre="ubicacion" tamano={17} /><div><strong>{aeropuerto.ciudadAeropuerto}</strong><span>{aeropuerto.paisAeropuerto}</span></div></div></td>
-                                        <td><span className="aeropuertos-zona-horaria">{aeropuerto.zonaHorariaAeropuerto}</span></td>
-                                        <td><span className={`aeropuertos-estado aeropuertos-estado--${aeropuerto.estadoAeropuerto.toLowerCase()}`}><span />{aeropuerto.estadoAeropuerto}</span></td>
+                                        <td data-label="Códigos"><div className="aeropuertos-codigos"><strong>{aeropuerto.codigoIataAeropuerto}</strong><span>{aeropuerto.codigoIcaoAeropuerto}</span></div></td>
+                                        <td data-label="Aeropuerto"><div className="aeropuertos-nombre"><span className="aeropuertos-nombre__icono"><Icono nombre="aeropuerto" tamano={19} /></span><div><strong>{aeropuerto.nombreAeropuerto}</strong><small>ID #{aeropuerto.idAeropuerto}</small></div></div></td>
+                                        <td data-label="Ubicación"><div className="aeropuertos-ubicacion"><Icono nombre="ubicacion" tamano={17} /><div><strong>{aeropuerto.ciudadAeropuerto}</strong><span>{aeropuerto.paisAeropuerto}</span></div></div></td>
+                                        <td data-label="Zona horaria"><span className="aeropuertos-zona-horaria">{aeropuerto.zonaHorariaAeropuerto}</span></td>
+                                        <td data-label="Estado"><span className={`aeropuertos-estado aeropuertos-estado--${aeropuerto.estadoAeropuerto.toLowerCase()}`}><span />{aeropuerto.estadoAeropuerto}</span></td>
                                         {puedeGestionar && (
-                                            <td><div className="aeropuertos-acciones-fila">
+                                            <td data-label="Acciones"><div className="aeropuertos-acciones-fila">
                                                 <button type="button" className="aeropuertos-boton-icono" onClick={() => abrirEdicion(aeropuerto)} aria-label={`Editar ${aeropuerto.codigoIataAeropuerto}`} title="Editar aeropuerto"><Icono nombre="editar" tamano={18} /></button>
                                                 <button type="button" className="aeropuertos-boton-icono aeropuertos-boton-icono--peligro" onClick={() => setAeropuertoEliminar(aeropuerto)} aria-label={`Eliminar ${aeropuerto.codigoIataAeropuerto}`} title="Eliminar aeropuerto"><Icono nombre="eliminar" tamano={18} /></button>
                                             </div></td>
@@ -457,10 +457,15 @@ export function AeropuertosModulo({
                 <div className="aeropuertos-modal-capa">
                     <section className="aeropuertos-modal" role="dialog" aria-modal="true" aria-labelledby="titulo-formulario-aeropuerto">
                         <header className="aeropuertos-modal__cabecera">
-                            <div>
-                                <span className="aeropuertos-etiqueta">{aeropuertoEdicion ? 'Actualizar registro' : 'Nuevo registro'}</span>
-                                <h3 id="titulo-formulario-aeropuerto">{aeropuertoEdicion ? 'Editar aeropuerto' : 'Registrar aeropuerto'}</h3>
-                                <p>Completa los datos del catálogo global.</p>
+                            <div className="aeropuertos-modal__titulo">
+                                <span className="aeropuertos-modal__icono">
+                                    <Icono nombre="aeropuerto" tamano={24} />
+                                </span>
+                                <div>
+                                    <span>{aeropuertoEdicion ? 'Actualizar registro' : 'Nuevo registro'}</span>
+                                    <h3 id="titulo-formulario-aeropuerto">{aeropuertoEdicion ? 'Editar aeropuerto' : 'Registrar aeropuerto'}</h3>
+                                    <p>Completa los datos del catálogo global.</p>
+                                </div>
                             </div>
                             <button type="button" className="aeropuertos-modal__cerrar" onClick={cerrarFormulario} disabled={guardando} aria-label="Cerrar formulario"><Icono nombre="cerrar" /></button>
                         </header>

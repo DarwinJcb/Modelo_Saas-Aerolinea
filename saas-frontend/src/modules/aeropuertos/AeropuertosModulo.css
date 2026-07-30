@@ -3,6 +3,7 @@
     display: grid;
     gap: 20px;
     width: 100%;
+    min-width: 0;
     color: #10243b;
 }
 
@@ -19,11 +20,11 @@
     gap: 28px;
     min-height: 158px;
     padding: 32px;
-    border: 1px solid #d8e4ed;
+    border: 1px solid rgba(25, 89, 145, 0.12);
     border-radius: 22px;
     background:
-        radial-gradient(circle at 91% 12%, rgba(38, 199, 207, 0.13), transparent 30%),
-        linear-gradient(110deg, #ffffff 0%, #ffffff 63%, #f3fbfc 100%);
+        radial-gradient(circle at 88% 20%, rgba(19, 188, 202, 0.13), transparent 30%),
+        linear-gradient(135deg, #ffffff 0%, #f4f9fd 100%);
     box-shadow: 0 16px 38px rgba(20, 52, 78, 0.08);
 }
 
@@ -32,26 +33,16 @@
 }
 
 .aeropuertos-etiqueta {
-    display: block;
-    margin-bottom: 10px;
-    color: #0876a8;
-    font-size: 12px;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-}
-
-/* Cápsula solo para "Catálogo global" de la cabecera */
-.aeropuertos-cabecera__texto>.aeropuertos-etiqueta {
     display: inline-flex;
     align-items: center;
     min-height: 27px;
+    margin-bottom: 10px;
     padding: 0 11px;
     border: 1px solid rgba(11, 145, 168, 0.18);
     border-radius: 999px;
     background: rgba(15, 173, 188, 0.08);
     color: #087f91;
-    font-size: 0.72rem;
+    font-size: 12px;
     font-weight: 800;
     letter-spacing: 0.09em;
     text-transform: uppercase;
@@ -59,7 +50,7 @@
 
 .aeropuertos-cabecera h2 {
     margin: 0;
-    color: #0b2037;
+    color: #12385d;
     font-size: clamp(28px, 3vw, 36px);
     line-height: 1.1;
 }
@@ -67,7 +58,7 @@
 .aeropuertos-cabecera p {
     max-width: 820px;
     margin: 12px 0 0;
-    color: #60758d;
+    color: #60758b;
     font-size: 15px;
     line-height: 1.65;
 }
@@ -83,140 +74,154 @@
 
 .aeropuertos-boton-principal,
 .aeropuertos-boton-secundario,
-.aeropuertos-boton-peligro {
+.aeropuertos-boton-peligro,
+.aeropuertos-boton-icono {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 9px;
-    min-height: 48px;
-    padding: 0 18px;
-    border-radius: 12px;
-    font-size: 14px;
-    font-weight: 750;
+    font: inherit;
     cursor: pointer;
     transition:
         transform 160ms ease,
         box-shadow 160ms ease,
         border-color 160ms ease,
-        background 160ms ease;
+        background 160ms ease,
+        opacity 160ms ease;
+}
+
+.aeropuertos-boton-principal,
+.aeropuertos-boton-secundario,
+.aeropuertos-boton-peligro {
+    min-height: 48px;
+    gap: 9px;
+    padding: 0 18px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 750;
+    white-space: nowrap;
 }
 
 .aeropuertos-boton-principal {
-    border: 1px solid #0b719b;
-    color: #ffffff;
-    background: linear-gradient(135deg, #0a658d, #168ab0);
-    box-shadow: 0 12px 22px rgba(8, 104, 145, 0.2);
-}
-
-.aeropuertos-boton-principal:hover:not(:disabled) {
-    transform: translateY(-1px);
-    box-shadow: 0 15px 26px rgba(8, 104, 145, 0.27);
+    border: 0;
+    background: linear-gradient(135deg, #0868ad, #079aae);
+    color: #fff;
+    box-shadow: 0 12px 22px rgba(0, 116, 154, 0.2);
 }
 
 .aeropuertos-boton-secundario {
     border: 1px solid #c9d9e5;
-    color: #10243b;
-    background: #ffffff;
+    background: #fff;
+    color: #285474;
 }
 
-.aeropuertos-boton-secundario:hover:not(:disabled) {
+.aeropuertos-boton-peligro {
+    border: 0;
+    background: #c73d50;
+    color: #fff;
+    box-shadow: 0 12px 22px rgba(178, 38, 59, 0.2);
+}
+
+.aeropuertos-boton-principal:not(:disabled):hover,
+.aeropuertos-boton-secundario:not(:disabled):hover,
+.aeropuertos-boton-peligro:not(:disabled):hover,
+.aeropuertos-boton-icono:not(:disabled):hover {
     transform: translateY(-1px);
+}
+
+.aeropuertos-boton-principal:not(:disabled):hover {
+    box-shadow: 0 15px 26px rgba(0, 116, 154, 0.26);
+}
+
+.aeropuertos-boton-secundario:not(:disabled):hover {
     border-color: #8eb4c9;
     background: #f8fcfe;
 }
 
-.aeropuertos-boton-peligro {
-    border: 1px solid #d84352;
-    color: #ffffff;
-    background: #d84352;
+.aeropuertos-boton-peligro:not(:disabled):hover {
+    background: #b42e42;
+    box-shadow: 0 12px 22px rgba(178, 38, 59, 0.2);
 }
 
-.aeropuertos-boton-peligro:hover:not(:disabled) {
-    transform: translateY(-1px);
-    background: #c83443;
-    box-shadow: 0 12px 22px rgba(196, 52, 67, 0.2);
-}
-
-.aeropuertos-modulo button:disabled {
+.aeropuertos-boton-principal:disabled,
+.aeropuertos-boton-secundario:disabled,
+.aeropuertos-boton-peligro:disabled,
+.aeropuertos-boton-icono:disabled {
     cursor: not-allowed;
-    opacity: 0.58;
+    opacity: 0.55;
+    transform: none;
     box-shadow: none;
 }
 
 .aeropuertos-aviso-lectura,
-.aeropuertos-mensaje {
+.aeropuertos-mensaje,
+.aeropuertos-error-formulario {
     display: flex;
     align-items: flex-start;
     gap: 13px;
-    padding: 16px 18px;
     border-radius: 14px;
-    font-size: 14px;
+    line-height: 1.5;
 }
 
 .aeropuertos-aviso-lectura {
-    border: 1px solid #bfe5ec;
-    color: #087aa2;
-    background: #eefbfc;
+    padding: 16px 18px;
+    border: 1px solid rgba(25, 120, 164, 0.16);
+    background: #edf8fc;
+    color: #285d78;
+    font-size: 14px;
 }
 
-.aeropuertos-aviso-lectura>svg,
-.aeropuertos-mensaje>svg {
+.aeropuertos-aviso-lectura > svg,
+.aeropuertos-mensaje > svg,
+.aeropuertos-error-formulario > svg {
     flex: 0 0 auto;
     margin-top: 1px;
 }
 
-.aeropuertos-aviso-lectura>div {
+.aeropuertos-aviso-lectura > div {
     display: grid;
     gap: 4px;
 }
 
 .aeropuertos-aviso-lectura strong {
-    color: #10304a;
+    color: #174d6c;
+    font-size: 14px;
 }
 
 .aeropuertos-aviso-lectura span {
     color: #55758c;
-    line-height: 1.5;
+    font-size: 14px;
 }
 
 .aeropuertos-mensaje {
-    animation: aeropuertos-aparecer 170ms ease;
+    min-height: 48px;
+    padding: 14px 16px;
+    font-size: 14px;
+    font-weight: 700;
 }
 
 .aeropuertos-mensaje--exito {
-    border: 1px solid #bce9d9;
-    color: #08795f;
-    background: #ecfbf5;
+    border: 1px solid rgba(31, 149, 104, 0.2);
+    background: #edf9f4;
+    color: #157151;
 }
 
-.aeropuertos-mensaje--exito>span {
+.aeropuertos-mensaje--exito > span:first-child {
     display: grid;
-    place-items: center;
     width: 24px;
     height: 24px;
-    flex: 0 0 auto;
+    flex: 0 0 24px;
+    place-items: center;
     border-radius: 50%;
-    color: #ffffff;
-    background: #169472;
-    font-weight: 800;
+    background: #209a70;
+    color: #fff;
+    font-size: 12px;
 }
 
-.aeropuertos-mensaje--error {
-    border: 1px solid #f0c5c9;
-    color: #bd3442;
-    background: #fff1f2;
-}
-
-@keyframes aeropuertos-aparecer {
-    from {
-        opacity: 0;
-        transform: translateY(-4px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.aeropuertos-mensaje--error,
+.aeropuertos-error-formulario {
+    border: 1px solid rgba(189, 50, 70, 0.2);
+    background: #fff1f3;
+    color: #a3263d;
 }
 
 .aeropuertos-resumen {
@@ -226,24 +231,44 @@
 }
 
 .aeropuertos-resumen article {
+    position: relative;
     display: grid;
-    align-content: center;
     min-height: 118px;
+    align-content: center;
+    overflow: hidden;
     padding: 22px;
-    border: 1px solid #dbe5ed;
+    border: 1px solid #dfe8ef;
     border-radius: 17px;
-    background: #ffffff;
+    background: #fff;
     box-shadow: 0 11px 28px rgba(25, 57, 80, 0.06);
+}
+
+.aeropuertos-resumen article::after {
+    position: absolute;
+    top: -28px;
+    right: -26px;
+    width: 86px;
+    height: 86px;
+    border-radius: 50%;
+    background: rgba(20, 159, 179, 0.07);
+    content: '';
+}
+
+.aeropuertos-resumen span,
+.aeropuertos-resumen small {
+    display: block;
 }
 
 .aeropuertos-resumen span {
     color: #546b82;
     font-size: 13px;
+    font-weight: 700;
 }
 
 .aeropuertos-resumen strong {
+    display: block;
     margin: 4px 0;
-    color: #071d34;
+    color: #143d62;
     font-size: 29px;
     line-height: 1;
 }
@@ -254,14 +279,14 @@
 }
 
 .aeropuertos-texto-activo {
-    color: #16715e !important;
+    color: #168261 !important;
 }
 
 .aeropuertos-panel {
     overflow: hidden;
     border: 1px solid #d8e4ed;
     border-radius: 19px;
-    background: #ffffff;
+    background: #fff;
     box-shadow: 0 15px 34px rgba(20, 52, 78, 0.07);
 }
 
@@ -278,22 +303,28 @@
 
 .aeropuertos-buscador {
     display: flex;
+    width: 100%;
+    min-width: 0;
+    min-height: 50px;
     align-items: center;
     gap: 11px;
-    min-height: 50px;
     padding: 0 15px;
     border: 1px solid #c9d9e5;
     border-radius: 12px;
+    background: #fff;
     color: #7c91a6;
-    background: #ffffff;
     transition:
         border-color 160ms ease,
         box-shadow 160ms ease;
 }
 
-.aeropuertos-buscador:focus-within {
+.aeropuertos-buscador:focus-within,
+.aeropuertos-filtro select:focus,
+.aeropuertos-campo input:focus,
+.aeropuertos-campo select:focus {
     border-color: #1687ae;
     box-shadow: 0 0 0 3px rgba(22, 135, 174, 0.1);
+    outline: 0;
 }
 
 .aeropuertos-buscador input {
@@ -301,8 +332,9 @@
     min-width: 0;
     border: 0;
     outline: 0;
-    color: #10243b;
     background: transparent;
+    color: #183d5d;
+    font: inherit;
     font-size: 14px;
 }
 
@@ -312,38 +344,47 @@
 
 .aeropuertos-filtro {
     display: grid;
-    grid-template-columns: auto 1fr;
-    align-items: center;
-    gap: 8px;
-    min-height: 50px;
-    padding: 0 12px;
-    border: 1px solid #c9d9e5;
-    border-radius: 12px;
-    background: #ffffff;
-}
-
-.aeropuertos-filtro span {
-    color: #8193a4;
-    font-size: 10px;
-    font-weight: 800;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-}
-
-.aeropuertos-filtro select {
     min-width: 0;
-    border: 0;
-    outline: 0;
-    color: #10243b;
-    background: transparent;
+    gap: 6px;
+}
+
+.aeropuertos-filtro > span,
+.aeropuertos-campo > span {
+    color: #29435a;
     font-size: 13px;
-    font-weight: 700;
+    font-weight: 750;
+}
+
+.aeropuertos-filtro select,
+.aeropuertos-campo input,
+.aeropuertos-campo select {
+    width: 100%;
+    min-height: 50px;
+    border: 1px solid #c7d8e4;
+    border-radius: 12px;
+    background: #fff;
+    color: #183d5d;
+    font: inherit;
+    font-size: 14px;
+    transition:
+        border-color 160ms ease,
+        box-shadow 160ms ease;
+}
+
+.aeropuertos-filtro select,
+.aeropuertos-campo select {
+    padding: 0 36px 0 14px;
+}
+
+.aeropuertos-campo input {
+    padding: 0 14px;
 }
 
 .aeropuertos-resultados {
     justify-self: end;
     color: #8093a5;
     font-size: 12px;
+    font-weight: 700;
     white-space: nowrap;
 }
 
@@ -354,28 +395,32 @@
 
 .aeropuertos-tabla {
     width: 100%;
-    min-width: 1140px;
+    min-width: 1020px;
     border-collapse: collapse;
+}
+
+.aeropuertos-tabla th,
+.aeropuertos-tabla td {
+    text-align: left;
+    vertical-align: middle;
 }
 
 .aeropuertos-tabla th {
     padding: 16px 20px;
     border-bottom: 1px solid #dce6ee;
-    color: #8092a5;
     background: #f7fafc;
+    color: #8092a5;
     font-size: 11px;
     font-weight: 800;
     letter-spacing: 0.05em;
-    text-align: left;
     text-transform: uppercase;
 }
 
 .aeropuertos-tabla td {
     padding: 17px 20px;
     border-bottom: 1px solid #e5edf3;
-    color: #10243b;
+    color: #37566d;
     font-size: 13px;
-    vertical-align: middle;
 }
 
 .aeropuertos-tabla tbody tr:last-child td {
@@ -392,17 +437,17 @@
 
 .aeropuertos-columna-acciones {
     width: 120px;
-    text-align: center !important;
+    text-align: right !important;
 }
 
 .aeropuertos-codigos {
     display: grid;
-    width: 76px;
+    min-width: 76px;
     gap: 3px;
 }
 
 .aeropuertos-codigos strong {
-    color: #07557b;
+    color: #183f61;
     font-size: 15px;
     letter-spacing: 0.45px;
 }
@@ -414,35 +459,48 @@
 }
 
 .aeropuertos-nombre,
-.aeropuertos-ubicacion {
+.aeropuertos-ubicacion,
+.aeropuertos-acciones-fila {
     display: flex;
     align-items: center;
+}
+
+.aeropuertos-nombre,
+.aeropuertos-ubicacion {
     gap: 11px;
+}
+
+.aeropuertos-nombre {
+    min-width: 260px;
 }
 
 .aeropuertos-nombre__icono {
     display: grid;
-    place-items: center;
     width: 42px;
     height: 42px;
-    flex: 0 0 auto;
+    flex: 0 0 42px;
+    place-items: center;
     border-radius: 12px;
-    color: #0783ad;
-    background: #eaf7fa;
+    background: linear-gradient(145deg, #eaf5fb, #e8fbfa);
+    color: #097f9b;
 }
 
-.aeropuertos-nombre>div,
-.aeropuertos-ubicacion>div {
+.aeropuertos-nombre > div,
+.aeropuertos-ubicacion > div {
     display: grid;
     min-width: 0;
     gap: 2px;
 }
 
+.aeropuertos-nombre strong,
+.aeropuertos-ubicacion strong {
+    color: #183f61;
+    font-size: 14px;
+}
+
 .aeropuertos-nombre strong {
     max-width: 320px;
     overflow: hidden;
-    color: #0d2941;
-    font-size: 14px;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
@@ -454,12 +512,8 @@
 }
 
 .aeropuertos-ubicacion {
-    color: #0788b2;
-}
-
-.aeropuertos-ubicacion strong {
-    color: #18334b;
-    font-size: 13px;
+    min-width: 170px;
+    color: #0a8ba3;
 }
 
 .aeropuertos-zona-horaria {
@@ -468,107 +522,96 @@
     align-items: center;
     padding: 0 10px;
     border-radius: 9px;
-    color: #526779;
     background: #f0f4f7;
+    color: #526779;
     font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
     font-size: 11px;
+    white-space: nowrap;
 }
 
 .aeropuertos-estado {
     display: inline-flex;
+    min-height: 30px;
     align-items: center;
     gap: 7px;
-    min-height: 30px;
     padding: 0 11px;
     border-radius: 999px;
     font-size: 10px;
     font-weight: 800;
     letter-spacing: 0.02em;
     text-transform: uppercase;
+    white-space: nowrap;
 }
 
-.aeropuertos-estado>span {
+.aeropuertos-estado > span {
     width: 7px;
     height: 7px;
     border-radius: 50%;
+    background: currentColor;
 }
 
 .aeropuertos-estado--activo {
-    color: #16715e;
-    background: #e8f7f1;
-}
-
-.aeropuertos-estado--activo>span {
-    background: #16715e;
+    background: #eaf8f2;
+    color: #177957;
 }
 
 .aeropuertos-estado--inactivo {
-    color: #98610b;
-    background: #fff4db;
-}
-
-.aeropuertos-estado--inactivo>span {
-    background: #98610b;
+    background: #fff5df;
+    color: #9a6814;
 }
 
 .aeropuertos-acciones-fila {
-    display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     gap: 8px;
 }
 
 .aeropuertos-boton-icono {
-    display: grid;
-    place-items: center;
     width: 42px;
     height: 42px;
     border: 1px solid #cfdee8;
     border-radius: 11px;
-    color: #087ea7;
-    background: #ffffff;
-    cursor: pointer;
-    transition:
-        transform 150ms ease,
-        border-color 150ms ease,
-        background 150ms ease;
+    background: #fff;
+    color: #2b6486;
 }
 
 .aeropuertos-boton-icono:hover:not(:disabled) {
-    transform: translateY(-1px);
     border-color: #89b8ca;
     background: #f1fafc;
 }
 
 .aeropuertos-boton-icono--peligro {
-    color: #d44250;
+    color: #bd3d50;
 }
 
 .aeropuertos-boton-icono--peligro:hover:not(:disabled) {
-    border-color: #e5aab0;
-    background: #fff3f4;
+    border-color: rgba(189, 61, 80, 0.35) !important;
+    background: #fff5f6 !important;
 }
 
 .aeropuertos-estado-vacio {
     display: grid;
-    place-items: center;
     min-height: 330px;
+    place-items: center;
+    align-content: center;
+    gap: 9px;
     padding: 40px 24px;
     text-align: center;
 }
 
 .aeropuertos-estado-vacio__icono {
     display: grid;
-    place-items: center;
     width: 78px;
     height: 78px;
-    margin-bottom: 15px;
+    margin-bottom: 6px;
+    place-items: center;
     border-radius: 22px;
-    color: #0a82ab;
-    background: #eaf7fa;
+    background: linear-gradient(145deg, #eaf5fb, #e8fbfa);
+    color: #108da2;
 }
 
 .aeropuertos-estado-vacio strong {
-    color: #10243b;
+    margin-top: 4px;
+    color: #244b69;
     font-size: 17px;
 }
 
@@ -584,8 +627,8 @@
     width: 31px;
     height: 31px;
     margin-bottom: 15px;
-    border: 3px solid #d6e7ee;
-    border-top-color: #0b82aa;
+    border: 3px solid #d7e8ef;
+    border-top-color: #168fa7;
     border-radius: 50%;
     animation: aeropuertos-girar 700ms linear infinite;
 }
@@ -596,7 +639,7 @@
     margin: 0;
     border-width: 2px;
     border-color: rgba(255, 255, 255, 0.4);
-    border-top-color: #ffffff;
+    border-top-color: #fff;
 }
 
 @keyframes aeropuertos-girar {
@@ -607,49 +650,29 @@
 
 .aeropuertos-modal-capa {
     position: fixed;
+    z-index: 1200;
     inset: 0;
-    z-index: 100;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 24px;
     overflow-y: auto;
-    background: rgba(5, 25, 42, 0.56);
-    backdrop-filter: blur(4px);
-    animation: aeropuertos-fondo-modal 160ms ease-out;
+    padding: 24px;
+    background: rgba(8, 26, 43, 0.58);
+    backdrop-filter: blur(5px);
 }
 
-@keyframes aeropuertos-fondo-modal {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
+.aeropuertos-modal,
+.aeropuertos-confirmacion {
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    border-radius: 22px;
+    background: #fff;
+    box-shadow: 0 28px 75px rgba(3, 20, 35, 0.3);
 }
 
 .aeropuertos-modal {
     width: min(820px, 100%);
     max-height: calc(100vh - 48px);
     overflow-y: auto;
-    border: 1px solid #d5e1e9;
-    border-radius: 22px;
-    background: #ffffff;
-    box-shadow: 0 28px 75px rgba(5, 28, 47, 0.28);
-    animation: aeropuertos-entrada-modal 180ms ease-out;
-}
-
-@keyframes aeropuertos-entrada-modal {
-    from {
-        opacity: 0;
-        transform: translateY(10px) scale(0.99);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
 }
 
 .aeropuertos-modal__cabecera {
@@ -660,19 +683,54 @@
     padding: 25px 28px;
     border-bottom: 1px solid #dce6ed;
     background:
-        radial-gradient(circle at 85% 10%, rgba(35, 193, 203, 0.12), transparent 34%),
-        #ffffff;
+        radial-gradient(circle at 90% 10%, rgba(33, 194, 196, 0.14), transparent 32%),
+        linear-gradient(145deg, #f7fbfe, #eef7fb);
 }
 
-.aeropuertos-modal__cabecera h3,
+.aeropuertos-modal__titulo {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+}
+
+.aeropuertos-modal__icono {
+    display: grid;
+    width: 50px;
+    height: 50px;
+    flex: 0 0 50px;
+    place-items: center;
+    border-radius: 14px;
+    background: linear-gradient(145deg, #0969ae, #0aa0ac);
+    color: #fff;
+    box-shadow: 0 10px 22px rgba(5, 125, 158, 0.22);
+}
+
+.aeropuertos-modal__titulo > div {
+    display: grid;
+    gap: 4px;
+}
+
+.aeropuertos-modal__titulo > div > span {
+    color: #13889d;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.aeropuertos-modal__titulo h3,
 .aeropuertos-confirmacion h3 {
     margin: 0;
-    color: #10243b;
-    font-size: 25px;
+    color: #163f61;
 }
 
-.aeropuertos-modal__cabecera p {
-    margin: 6px 0 0;
+.aeropuertos-modal__titulo h3 {
+    font-size: 25px;
+    line-height: 1.15;
+}
+
+.aeropuertos-modal__titulo p {
+    margin: 0;
     color: #6b8094;
     font-size: 13px;
     line-height: 1.5;
@@ -680,14 +738,14 @@
 
 .aeropuertos-modal__cerrar {
     display: grid;
-    place-items: center;
     width: 44px;
     height: 44px;
-    flex: 0 0 auto;
+    flex: 0 0 44px;
+    place-items: center;
     border: 1px solid #cfdee8;
     border-radius: 12px;
-    color: #647d91;
-    background: #ffffff;
+    background: rgba(255, 255, 255, 0.9);
+    color: #56738a;
     cursor: pointer;
 }
 
@@ -696,7 +754,14 @@
     background: #f6fafc;
 }
 
+.aeropuertos-modal__cerrar:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
 .aeropuertos-formulario {
+    display: grid;
+    gap: 18px;
     padding: 25px 28px 28px;
 }
 
@@ -708,46 +773,12 @@
 
 .aeropuertos-campo {
     display: grid;
-    gap: 8px;
     min-width: 0;
+    gap: 8px;
 }
 
 .aeropuertos-campo--completo {
     grid-column: 1 / -1;
-}
-
-.aeropuertos-campo>span {
-    color: #29435a;
-    font-size: 13px;
-    font-weight: 750;
-}
-
-.aeropuertos-campo input,
-.aeropuertos-campo select {
-    width: 100%;
-    min-height: 52px;
-    padding: 0 14px;
-    border: 1px solid #c7d8e4;
-    border-radius: 12px;
-    outline: 0;
-    color: #10243b;
-    background: #ffffff;
-    font-size: 14px;
-    transition:
-        border-color 150ms ease,
-        box-shadow 150ms ease;
-}
-
-.aeropuertos-campo input:focus,
-.aeropuertos-campo select:focus {
-    border-color: #1388b0;
-    box-shadow: 0 0 0 3px rgba(19, 136, 176, 0.1);
-}
-
-.aeropuertos-campo input:disabled,
-.aeropuertos-campo select:disabled {
-    color: #74899d;
-    background: #f5f8fa;
 }
 
 .aeropuertos-campo small {
@@ -756,22 +787,26 @@
     line-height: 1.4;
 }
 
+.aeropuertos-campo input,
+.aeropuertos-campo select {
+    min-height: 52px;
+}
+
+.aeropuertos-campo input:disabled,
+.aeropuertos-campo select:disabled {
+    cursor: not-allowed;
+    background: #f5f8fa;
+    color: #74899d;
+}
+
 .aeropuertos-error-formulario {
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    margin-top: 18px;
-    padding: 13px 14px;
-    border: 1px solid #f0c5c9;
-    border-radius: 12px;
-    color: #bd3442;
-    background: #fff1f2;
-    font-size: 12px;
-    line-height: 1.5;
+    padding: 14px 16px;
+    font-size: 14px;
+    font-weight: 700;
 }
 
 .aeropuertos-modal__acciones {
-    margin-top: 22px;
+    margin-top: 4px;
     padding-top: 20px;
     border-top: 1px solid #dce6ed;
 }
@@ -780,50 +815,48 @@
     display: grid;
     width: min(470px, 100%);
     place-items: center;
+    gap: 10px;
     padding: 30px;
-    border: 1px solid #e0d7da;
-    border-radius: 20px;
-    background: #ffffff;
-    box-shadow: 0 28px 75px rgba(5, 28, 47, 0.28);
     text-align: center;
-    animation: aeropuertos-entrada-modal 180ms ease-out;
 }
 
 .aeropuertos-confirmacion__icono {
     display: grid;
-    place-items: center;
     width: 58px;
     height: 58px;
-    margin-bottom: 16px;
+    margin-bottom: 6px;
+    place-items: center;
     border-radius: 17px;
-    color: #d44250;
     background: #fff0f2;
+    color: #bf3d51;
 }
 
-.aeropuertos-confirmacion p {
-    margin: 13px 0 18px;
+.aeropuertos-confirmacion h3 {
+    font-size: 25px;
+    line-height: 1.15;
+}
+
+.aeropuertos-confirmacion > p {
+    max-width: 420px;
+    margin: 3px 0 8px;
     color: #6e8295;
     font-size: 13px;
     line-height: 1.6;
 }
 
-.aeropuertos-confirmacion p strong {
-    color: #12334b;
+.aeropuertos-confirmacion > p strong {
+    color: #244c69;
 }
 
 .aeropuertos-confirmacion__acciones {
     width: 100%;
     justify-content: center;
-    margin-top: 22px;
+    margin-top: 12px;
 }
 
 @media (max-width: 1100px) {
-    .aeropuertos-resumen {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
     .aeropuertos-herramientas {
-        grid-template-columns: minmax(260px, 1fr) 180px;
+        grid-template-columns: minmax(280px, 1fr) 190px;
     }
 
     .aeropuertos-resultados {
@@ -832,13 +865,11 @@
     }
 }
 
-@media (max-width: 760px) {
+@media (max-width: 920px) {
     .aeropuertos-cabecera {
         align-items: flex-start;
         flex-direction: column;
         min-height: auto;
-        padding: 24px 20px;
-        border-radius: 18px;
     }
 
     .aeropuertos-cabecera__acciones {
@@ -847,20 +878,68 @@
         flex-wrap: wrap;
     }
 
+    .aeropuertos-cabecera__acciones > button {
+        flex: 1;
+    }
+
+    .aeropuertos-resumen {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .aeropuertos-herramientas {
+        grid-template-columns: 1fr 1fr;
+        align-items: stretch;
+    }
+
+    .aeropuertos-buscador {
+        grid-column: 1 / -1;
+    }
+
+    .aeropuertos-resultados {
+        justify-self: start;
+    }
+}
+
+@media (max-width: 680px) {
+    .aeropuertos-modulo {
+        gap: 16px;
+    }
+
+    .aeropuertos-cabecera {
+        padding: 24px 20px;
+        border-radius: 18px;
+    }
+
+    .aeropuertos-cabecera__acciones,
+    .aeropuertos-confirmacion__acciones {
+        align-items: stretch;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .aeropuertos-cabecera__acciones > button,
+    .aeropuertos-confirmacion__acciones > button {
+        width: 100%;
+    }
+
+    .aeropuertos-resumen {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .aeropuertos-resumen article {
+        min-height: 92px;
+    }
+
     .aeropuertos-herramientas {
         grid-template-columns: 1fr;
-        align-items: stretch;
     }
 
     .aeropuertos-buscador,
     .aeropuertos-filtro,
     .aeropuertos-resultados {
-        width: 100%;
         grid-column: auto;
-    }
-
-    .aeropuertos-resultados {
-        justify-self: start;
+        width: 100%;
     }
 
     .aeropuertos-tabla {
@@ -890,7 +969,7 @@
 
     .aeropuertos-tabla td {
         display: grid;
-        grid-template-columns: 105px 1fr;
+        grid-template-columns: 110px minmax(0, 1fr);
         align-items: center;
         gap: 12px;
         padding: 9px 0;
@@ -898,12 +977,47 @@
     }
 
     .aeropuertos-tabla td::before {
-        content: attr(data-label);
         color: #8395a6;
+        content: attr(data-label);
         font-size: 10px;
         font-weight: 800;
         letter-spacing: 0.05em;
         text-transform: uppercase;
+    }
+
+    .aeropuertos-nombre,
+    .aeropuertos-ubicacion {
+        min-width: 0;
+    }
+
+    .aeropuertos-acciones-fila {
+        justify-content: flex-start;
+    }
+
+    .aeropuertos-modal-capa {
+        align-items: flex-start;
+        padding: 12px;
+    }
+
+    .aeropuertos-modal,
+    .aeropuertos-confirmacion {
+        border-radius: 16px;
+    }
+
+    .aeropuertos-modal {
+        max-height: calc(100vh - 24px);
+    }
+
+    .aeropuertos-modal__cabecera {
+        padding: 22px 18px;
+    }
+
+    .aeropuertos-modal__titulo p {
+        display: none;
+    }
+
+    .aeropuertos-formulario {
+        padding: 22px 18px 24px;
     }
 
     .aeropuertos-formulario__rejilla {
@@ -914,52 +1028,14 @@
         grid-column: auto;
     }
 
-    .aeropuertos-modal-capa {
-        align-items: flex-start;
-        padding: 12px;
-    }
-
-    .aeropuertos-modal {
-        max-height: calc(100vh - 24px);
-        border-radius: 16px;
-    }
-
-    .aeropuertos-modal__cabecera,
-    .aeropuertos-formulario {
-        padding-inline: 18px;
-    }
-}
-
-@media (max-width: 520px) {
-    .aeropuertos-cabecera h2 {
-        font-size: 28px;
-    }
-
-    .aeropuertos-cabecera__acciones,
-    .aeropuertos-modal__acciones,
-    .aeropuertos-confirmacion__acciones {
+    .aeropuertos-modal__acciones {
         align-items: stretch;
-        flex-direction: column;
-    }
-
-    .aeropuertos-cabecera__acciones button,
-    .aeropuertos-modal__acciones button,
-    .aeropuertos-confirmacion__acciones button {
+        flex-direction: column-reverse;
         width: 100%;
     }
 
-    .aeropuertos-resumen {
-        grid-template-columns: 1fr;
-        gap: 10px;
-    }
-
-    .aeropuertos-resumen article {
-        min-height: 92px;
-    }
-
-    .aeropuertos-tabla td {
-        grid-template-columns: 1fr;
-        gap: 5px;
+    .aeropuertos-modal__acciones > button {
+        width: 100%;
     }
 
     .aeropuertos-confirmacion {
@@ -967,8 +1043,24 @@
     }
 }
 
-@media (prefers-reduced-motion: reduce) {
+@media (max-width: 520px) {
+    .aeropuertos-cabecera h2 {
+        font-size: 28px;
+    }
+}
 
+@media (max-width: 430px) {
+    .aeropuertos-tabla td {
+        grid-template-columns: 1fr;
+        gap: 5px;
+    }
+
+    .aeropuertos-cabecera__acciones {
+        gap: 8px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
     .aeropuertos-modulo *,
     .aeropuertos-modulo *::before,
     .aeropuertos-modulo *::after {
