@@ -9,6 +9,7 @@ import { PasajerosModulo } from './modules/pasajeros/PasajerosModulo'
 import { ReservasModulo } from './modules/reservas/ReservasModulo'
 import { BoletosModulo } from './modules/boletos/BoletosModulo'
 import { AvionesModulo } from './modules/aviones/AvionesModulo'
+import { UsuariosModulo } from './modules/usuarios/UsuariosModulo'
 import { CambiarContrasenaModal } from './components/CambiarContrasenaModal'
 
 const API_URL = 'http://localhost:3000/api'
@@ -1305,6 +1306,14 @@ function PanelPrincipal({
             </>
 
 
+          ) : moduloActivo.id === 'usuarios' ? (
+            <UsuariosModulo
+              token={token}
+              rolUsuario={usuario.rolUsuario}
+              idUsuarioActual={usuario.idUsuario}
+              nombreAerolinea={obtenerNombreAerolinea(usuario)}
+              onSesionExpirada={onCerrarSesion}
+            />
           ) : moduloActivo.id === 'aviones' ? (
             <AvionesModulo
               token={token}
