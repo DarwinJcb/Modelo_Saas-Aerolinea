@@ -1357,7 +1357,7 @@ export function BoletosModulo({
                     <span className="boletos-etiqueta">
                         Emisión y control
                     </span>
-                    <h2>Gestión de boletos</h2>
+                    <h2>Gestión de Boletos</h2>
                     <p>
                         Emite documentos de viaje, asigna
                         asientos y controla su estado dentro
