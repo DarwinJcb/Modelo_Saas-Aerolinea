@@ -925,6 +925,13 @@ export function PlanesModulo({
                         <option value="INACTIVO">Inactivos</option>
                     </select>
                 </label>
+
+                <span className="planes-resultados">
+                    {planesFiltrados.length}{' '}
+                    {planesFiltrados.length === 1
+                        ? 'resultado'
+                        : 'resultados'}
+                </span>
             </div>
 
             {cargando ? (
@@ -1062,21 +1069,32 @@ export function PlanesModulo({
                         aria-labelledby="planes-formulario-titulo"
                     >
                         <header className="planes-modal__cabecera">
-                            <div>
-                                <span>
-                                    {planEdicion
-                                        ? `Plan #${planEdicion.idPlan}`
-                                        : 'Nuevo registro'}
+                            <div className="planes-modal__titulo">
+                                <span className="planes-modal__icono">
+                                    <Icono nombre="plan" tamano={24} />
                                 </span>
-                                <h3 id="planes-formulario-titulo">
-                                    {planEdicion
-                                        ? 'Editar plan'
-                                        : 'Registrar plan'}
-                                </h3>
+
+                                <div>
+                                    <span>
+                                        {planEdicion
+                                            ? `Plan #${planEdicion.idPlan}`
+                                            : 'Nuevo registro'}
+                                    </span>
+                                    <h3 id="planes-formulario-titulo">
+                                        {planEdicion
+                                            ? 'Editar plan'
+                                            : 'Registrar plan'}
+                                    </h3>
+                                    <p>
+                                        Configura el precio, estado y límites
+                                        operativos del plan.
+                                    </p>
+                                </div>
                             </div>
 
                             <button
                                 type="button"
+                                className="planes-modal__cerrar"
                                 onClick={cerrarFormulario}
                                 disabled={guardando}
                                 aria-label="Cerrar formulario"
