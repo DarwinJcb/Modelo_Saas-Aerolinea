@@ -1736,21 +1736,35 @@ export function SuscripcionesModulo({
                         aria-labelledby="titulo-formulario-suscripcion"
                     >
                         <header className="suscripciones-modal__encabezado">
-                            <div>
-                                <span>
-                                    {suscripcionEdicion
-                                        ? `Suscripción #${suscripcionEdicion.idSuscripcion}`
-                                        : 'Nueva contratación'}
+                            <div className="suscripciones-modal__titulo">
+                                <span className="suscripciones-modal__icono">
+                                    <Icono
+                                        nombre="suscripcion"
+                                        tamano={24}
+                                    />
                                 </span>
-                                <h3 id="titulo-formulario-suscripcion">
-                                    {suscripcionEdicion
-                                        ? 'Editar suscripción'
-                                        : 'Registrar suscripción'}
-                                </h3>
+
+                                <div>
+                                    <span>
+                                        {suscripcionEdicion
+                                            ? `Suscripción #${suscripcionEdicion.idSuscripcion}`
+                                            : 'Nueva contratación'}
+                                    </span>
+                                    <h3 id="titulo-formulario-suscripcion">
+                                        {suscripcionEdicion
+                                            ? 'Editar suscripción'
+                                            : 'Registrar suscripción'}
+                                    </h3>
+                                    <p>
+                                        Asigna una aerolínea, un plan y el periodo
+                                        de vigencia de la contratación.
+                                    </p>
+                                </div>
                             </div>
 
                             <button
                                 type="button"
+                                className="suscripciones-modal__cerrar"
                                 onClick={
                                     cerrarFormulario
                                 }

@@ -7,44 +7,60 @@
     color: #10243b;
 }
 
+.suscripciones-modulo button,
+.suscripciones-modulo input,
+.suscripciones-modulo select {
+    font: inherit;
+}
+
 .suscripciones-cabecera {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
-    gap: 24px;
-    padding: 25px 27px;
-    border: 1px solid #dfe9f2;
+    gap: 28px;
+    min-height: 158px;
+    padding: 32px;
+    border: 1px solid rgba(25, 89, 145, 0.12);
     border-radius: 22px;
     background:
-        radial-gradient(circle at 87% 15%, rgba(41, 196, 205, 0.18), transparent 25%),
-        linear-gradient(135deg, #ffffff 0%, #f4f9fc 100%);
-    box-shadow: 0 17px 40px rgba(22, 48, 73, 0.07);
+        radial-gradient(circle at 88% 20%, rgba(19, 188, 202, 0.13), transparent 30%),
+        linear-gradient(135deg, #ffffff 0%, #f4f9fd 100%);
+    box-shadow: 0 16px 38px rgba(20, 52, 78, 0.08);
 }
 
 .suscripciones-cabecera__texto {
-    max-width: 720px;
+    min-width: 0;
+    max-width: 820px;
 }
 
 .suscripciones-etiqueta {
     display: inline-flex;
-    margin-bottom: 8px;
-    color: #148b99;
-    font-size: 0.75rem;
+    align-items: center;
+    min-height: 27px;
+    margin-bottom: 10px;
+    padding: 0 11px;
+    border: 1px solid rgba(11, 145, 168, 0.18);
+    border-radius: 999px;
+    background: rgba(15, 173, 188, 0.08);
+    color: #087f91;
+    font-size: 12px;
     font-weight: 800;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.09em;
     text-transform: uppercase;
 }
 
 .suscripciones-cabecera h2 {
     margin: 0;
-    color: #0a2540;
-    font-size: clamp(1.55rem, 2.4vw, 2.1rem);
-    line-height: 1.15;
+    color: #12385d;
+    font-size: clamp(28px, 3vw, 36px);
+    line-height: 1.1;
 }
 
 .suscripciones-cabecera p {
-    margin: 10px 0 0;
+    max-width: 820px;
+    margin: 12px 0 0;
     color: #60758b;
+    font-size: 15px;
     line-height: 1.65;
 }
 
@@ -54,67 +70,88 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: 11px;
-    flex-wrap: wrap;
+    gap: 12px;
 }
 
 .suscripciones-boton-principal,
 .suscripciones-boton-secundario,
-.suscripciones-boton-peligro {
+.suscripciones-boton-peligro,
+.suscripciones-boton-icono,
+.suscripciones-modal__cerrar {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 9px;
-    min-height: 43px;
-    padding: 10px 16px;
-    border-radius: 12px;
     font: inherit;
-    font-size: 0.9rem;
-    font-weight: 750;
     cursor: pointer;
     transition:
         transform 160ms ease,
         box-shadow 160ms ease,
         border-color 160ms ease,
-        background 160ms ease;
+        background 160ms ease,
+        opacity 160ms ease;
+}
+
+.suscripciones-boton-principal,
+.suscripciones-boton-secundario,
+.suscripciones-boton-peligro {
+    min-height: 48px;
+    gap: 9px;
+    padding: 0 18px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 750;
+    white-space: nowrap;
 }
 
 .suscripciones-boton-principal {
-    border: 1px solid #147f91;
-    color: #ffffff;
-    background: linear-gradient(135deg, #0f7892, #18a5aa);
-    box-shadow: 0 10px 21px rgba(15, 120, 146, 0.22);
+    border: 0;
+    background: linear-gradient(135deg, #0868ad, #079aae);
+    color: #fff;
+    box-shadow: 0 12px 22px rgba(0, 116, 154, 0.2);
 }
 
 .suscripciones-boton-secundario {
-    border: 1px solid #cfdce7;
-    color: #24445f;
-    background: #ffffff;
+    border: 1px solid #c9d9e5;
+    background: #fff;
+    color: #285474;
 }
 
 .suscripciones-boton-peligro {
-    border: 1px solid #b93848;
-    color: #ffffff;
-    background: #c63d4d;
+    border: 0;
+    background: #c73d50;
+    color: #fff;
+    box-shadow: 0 12px 22px rgba(178, 38, 59, 0.2);
 }
 
-.suscripciones-boton-principal:hover:not(:disabled),
-.suscripciones-boton-secundario:hover:not(:disabled),
-.suscripciones-boton-peligro:hover:not(:disabled) {
+.suscripciones-boton-principal:not(:disabled):hover,
+.suscripciones-boton-secundario:not(:disabled):hover,
+.suscripciones-boton-peligro:not(:disabled):hover,
+.suscripciones-boton-icono:not(:disabled):hover,
+.suscripciones-modal__cerrar:not(:disabled):hover {
     transform: translateY(-1px);
 }
 
-.suscripciones-boton-secundario:hover:not(:disabled) {
-    border-color: #9cb7ca;
-    background: #f6fafc;
+.suscripciones-boton-principal:not(:disabled):hover {
+    box-shadow: 0 15px 26px rgba(0, 116, 154, 0.26);
+}
+
+.suscripciones-boton-secundario:not(:disabled):hover {
+    border-color: #8eb4c9;
+    background: #f8fcfe;
+}
+
+.suscripciones-boton-peligro:not(:disabled):hover {
+    background: #b42e42;
+    box-shadow: 0 12px 22px rgba(178, 38, 59, 0.2);
 }
 
 .suscripciones-boton-principal:disabled,
 .suscripciones-boton-secundario:disabled,
 .suscripciones-boton-peligro:disabled,
-.suscripciones-boton-icono:disabled {
+.suscripciones-boton-icono:disabled,
+.suscripciones-modal__cerrar:disabled {
     cursor: not-allowed;
-    opacity: 0.52;
+    opacity: 0.55;
     transform: none;
     box-shadow: none;
 }
@@ -123,133 +160,173 @@
 .suscripciones-mensaje {
     display: flex;
     align-items: flex-start;
-    gap: 12px;
-    padding: 14px 16px;
+    gap: 13px;
     border-radius: 14px;
-}
-
-.suscripciones-aviso {
-    border: 1px solid #cfe5e8;
-    color: #28586a;
-    background: #eff9fa;
-}
-
-.suscripciones-aviso strong,
-.suscripciones-aviso span {
-    display: block;
-}
-
-.suscripciones-aviso strong {
-    margin-bottom: 3px;
-    color: #123e50;
-}
-
-.suscripciones-aviso span {
-    font-size: 0.88rem;
     line-height: 1.5;
 }
 
-.suscripciones-mensaje--error {
-    border: 1px solid #efc9cf;
-    color: #8b2635;
-    background: #fff3f5;
+.suscripciones-aviso {
+    padding: 16px 18px;
+    border: 1px solid rgba(25, 120, 164, 0.16);
+    background: #edf8fc;
+    color: #285d78;
+    font-size: 14px;
+}
+
+.suscripciones-aviso>svg,
+.suscripciones-mensaje>svg {
+    flex: 0 0 auto;
+    margin-top: 1px;
+}
+
+.suscripciones-aviso div {
+    display: grid;
+    gap: 4px;
+}
+
+.suscripciones-aviso strong {
+    color: #174d6c;
+    font-size: 14px;
+}
+
+.suscripciones-aviso span {
+    color: #55758c;
+    font-size: 14px;
+}
+
+.suscripciones-mensaje {
+    min-height: 48px;
+    padding: 14px 16px;
+    font-size: 14px;
+    font-weight: 700;
 }
 
 .suscripciones-mensaje--exito {
-    border: 1px solid #bfe3d4;
-    color: #176849;
-    background: #eefaf5;
+    border: 1px solid rgba(31, 149, 104, 0.2);
+    background: #edf9f4;
+    color: #157151;
+}
+
+.suscripciones-mensaje--error {
+    border: 1px solid rgba(189, 50, 70, 0.2);
+    background: #fff1f3;
+    color: #a3263d;
 }
 
 .suscripciones-resumen {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 14px;
+    gap: 16px;
 }
 
 .suscripciones-resumen article {
-    display: flex;
-    align-items: center;
-    gap: 13px;
-    min-width: 0;
-    padding: 17px;
-    border: 1px solid #e0e9f1;
+    position: relative;
+    display: grid;
+    min-height: 118px;
+    align-content: center;
+    overflow: hidden;
+    padding: 22px;
+    border: 1px solid #dfe8ef;
     border-radius: 17px;
-    background: #ffffff;
-    box-shadow: 0 9px 25px rgba(23, 49, 75, 0.055);
+    background: #fff;
+    box-shadow: 0 11px 28px rgba(25, 57, 80, 0.06);
+}
+
+.suscripciones-resumen article::after {
+    position: absolute;
+    top: -28px;
+    right: -26px;
+    width: 86px;
+    height: 86px;
+    border-radius: 50%;
+    background: rgba(20, 159, 179, 0.07);
+    content: '';
 }
 
 .suscripciones-resumen__icono {
+    position: absolute;
+    z-index: 1;
+    top: 12px;
+    right: 13px;
     display: grid;
-    flex: 0 0 auto;
-    width: 43px;
-    height: 43px;
+    width: 34px;
+    height: 34px;
     place-items: center;
-    border-radius: 13px;
-    color: #127e90;
-    background: #e9f7f8;
+    border-radius: 10px;
+    color: rgba(9, 127, 155, 0.68);
 }
 
-.suscripciones-resumen div {
+.suscripciones-resumen article>div {
+    position: relative;
+    z-index: 1;
     display: grid;
     min-width: 0;
 }
 
+.suscripciones-resumen small,
+.suscripciones-resumen article>div>span {
+    display: block;
+}
+
 .suscripciones-resumen small {
-    color: #708499;
-    font-size: 0.76rem;
+    color: #546b82;
+    font-size: 13px;
     font-weight: 700;
 }
 
 .suscripciones-resumen strong {
-    margin: 2px 0;
-    color: #102d47;
-    font-size: 1.42rem;
+    display: block;
+    margin: 4px 0;
+    color: #143d62;
+    font-size: 29px;
+    line-height: 1;
 }
 
-.suscripciones-resumen span:last-child {
+.suscripciones-resumen article>div>span {
     overflow: hidden;
-    color: #8090a0;
-    font-size: 0.76rem;
+    color: #8193a4;
+    font-size: 12px;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
 .suscripciones-filtros {
     display: grid;
-    grid-template-columns: minmax(230px, 1.7fr) repeat(4, minmax(145px, 0.75fr)) auto;
+    grid-template-columns:
+        minmax(270px, 1fr) 150px 150px 185px 165px auto;
+    align-items: center;
     gap: 12px;
-    align-items: end;
-    padding: 15px;
-    border: 1px solid #dfe8f0;
-    border-radius: 17px;
-    background: #ffffff;
-}
-
-.suscripciones-buscador,
-.suscripciones-filtro {
-    min-width: 0;
+    min-height: 84px;
+    padding: 16px 20px;
+    border: 1px solid #d8e4ed;
+    border-radius: 19px;
+    background: #fbfdff;
+    box-shadow: 0 15px 34px rgba(20, 52, 78, 0.07);
 }
 
 .suscripciones-buscador {
     display: flex;
+    min-width: 0;
+    min-height: 50px;
     align-items: center;
-    gap: 10px;
-    min-height: 43px;
-    padding: 0 13px;
-    border: 1px solid #cfdae4;
+    gap: 11px;
+    padding: 0 15px;
+    border: 1px solid #c9d9e5;
     border-radius: 12px;
-    color: #7890a2;
-    background: #f9fbfc;
+    background: #fff;
+    color: #7c91a6;
+    transition:
+        border-color 160ms ease,
+        box-shadow 160ms ease;
 }
 
 .suscripciones-buscador:focus-within,
+.suscripciones-filtro select:focus,
 .suscripciones-campo input:focus,
-.suscripciones-campo select:focus,
-.suscripciones-filtro select:focus {
-    border-color: #24a4ae;
-    box-shadow: 0 0 0 3px rgba(36, 164, 174, 0.12);
-    outline: none;
+.suscripciones-campo select:focus {
+    border-color: #1687ae;
+    box-shadow: 0 0 0 3px rgba(22, 135, 174, 0.1);
+    outline: 0;
 }
 
 .suscripciones-buscador input {
@@ -257,86 +334,125 @@
     min-width: 0;
     border: 0;
     outline: 0;
-    color: #18374f;
     background: transparent;
+    color: #183d5d;
     font: inherit;
+    font-size: 14px;
+}
+
+.suscripciones-buscador input::placeholder {
+    color: #91a2b3;
 }
 
 .suscripciones-filtro,
 .suscripciones-campo {
     display: grid;
+    min-width: 0;
     gap: 6px;
 }
 
 .suscripciones-filtro>span,
 .suscripciones-campo>span {
-    color: #557087;
-    font-size: 0.77rem;
-    font-weight: 760;
+    color: #29435a;
+    font-size: 13px;
+    font-weight: 750;
 }
 
 .suscripciones-filtro select,
-.suscripciones-campo select,
-.suscripciones-campo input {
+.suscripciones-campo input,
+.suscripciones-campo select {
     width: 100%;
-    min-width: 0;
-    min-height: 43px;
-    padding: 9px 11px;
-    border: 1px solid #cfdae4;
-    border-radius: 11px;
-    color: #17364f;
-    background: #ffffff;
+    border: 1px solid #c7d8e4;
+    border-radius: 12px;
+    background: #fff;
+    color: #183d5d;
     font: inherit;
-    font-size: 0.88rem;
+    font-size: 14px;
+    transition:
+        border-color 160ms ease,
+        box-shadow 160ms ease;
+}
+
+.suscripciones-filtro select,
+.suscripciones-campo select {
+    min-height: 50px;
+    padding: 0 36px 0 14px;
+}
+
+.suscripciones-campo input {
+    min-height: 52px;
+    padding: 0 14px;
+}
+
+.suscripciones-campo input:disabled,
+.suscripciones-campo select:disabled {
+    cursor: not-allowed;
+    background: #f5f8fa;
+    color: #74899d;
 }
 
 .suscripciones-resultados {
-    align-self: center;
-    padding: 10px 3px;
-    color: #6e8395;
-    font-size: 0.82rem;
+    justify-self: end;
+    color: #8093a5;
+    font-size: 12px;
     font-weight: 700;
     white-space: nowrap;
 }
 
 .suscripciones-estado-central {
     display: grid;
-    min-height: 285px;
+    min-height: 330px;
     place-items: center;
     align-content: center;
     gap: 9px;
-    padding: 35px;
-    border: 1px dashed #cddbe6;
-    border-radius: 20px;
-    color: #6d8294;
+    padding: 40px 24px;
+    border: 1px solid #d8e4ed;
+    border-radius: 19px;
+    background: #fff;
+    box-shadow: 0 15px 34px rgba(20, 52, 78, 0.07);
+    color: #108da2;
     text-align: center;
-    background: #fbfdfe;
+}
+
+.suscripciones-estado-central>svg {
+    width: 78px;
+    height: 78px;
+    margin-bottom: 6px;
+    padding: 20px;
+    border-radius: 22px;
+    background: linear-gradient(145deg, #eaf5fb, #e8fbfa);
 }
 
 .suscripciones-estado-central strong {
-    color: #25445d;
-    font-size: 1.05rem;
+    margin-top: 4px;
+    color: #244b69;
+    font-size: 17px;
 }
 
 .suscripciones-estado-central p {
     max-width: 520px;
-    margin: 0;
-    line-height: 1.55;
+    margin: 8px 0 20px;
+    color: #74889c;
+    font-size: 13px;
+    line-height: 1.6;
 }
 
 .suscripciones-spinner {
-    width: 29px;
-    height: 29px;
-    border: 3px solid #d2e7ea;
-    border-top-color: #1593a1;
+    width: 31px;
+    height: 31px;
+    border: 3px solid #d7e8ef;
+    border-top-color: #168fa7;
     border-radius: 50%;
-    animation: suscripciones-girar 800ms linear infinite;
+    animation: suscripciones-girar 700ms linear infinite;
 }
 
 .suscripciones-spinner--pequeno {
-    width: 17px;
-    height: 17px;
+    width: 18px;
+    height: 18px;
+    margin: 0;
     border-width: 2px;
+    border-color: rgba(255, 255, 255, 0.4);
+    border-top-color: #fff;
 }
 
 @keyframes suscripciones-girar {
@@ -352,40 +468,76 @@
 }
 
 .suscripciones-tarjeta {
+    position: relative;
     display: grid;
-    gap: 15px;
     min-width: 0;
-    padding: 19px;
-    border: 1px solid #dde7ef;
+    gap: 16px;
+    overflow: hidden;
+    padding: 20px;
+    border: 1px solid #dfe8ef;
     border-radius: 19px;
-    background: #ffffff;
-    box-shadow: 0 11px 28px rgba(21, 46, 70, 0.06);
+    background: #fff;
+    box-shadow: 0 12px 30px rgba(20, 52, 78, 0.07);
+    transition:
+        transform 160ms ease,
+        border-color 160ms ease,
+        box-shadow 160ms ease;
+}
+
+.suscripciones-tarjeta::after {
+    position: absolute;
+    top: -48px;
+    right: -46px;
+    width: 132px;
+    height: 132px;
+    border-radius: 50%;
+    background: rgba(20, 159, 179, 0.055);
+    content: '';
+    pointer-events: none;
+}
+
+.suscripciones-tarjeta:hover {
+    transform: translateY(-2px);
+    border-color: #c9dce7;
+    box-shadow: 0 17px 38px rgba(20, 52, 78, 0.1);
 }
 
 .suscripciones-tarjeta__encabezado,
-.suscripciones-tarjeta__pie {
+.suscripciones-tarjeta__identidad,
+.suscripciones-tarjeta__pie,
+.suscripciones-plan,
+.suscripciones-acciones {
     display: flex;
     align-items: center;
+}
+
+.suscripciones-tarjeta__encabezado,
+.suscripciones-tarjeta__pie,
+.suscripciones-plan {
     justify-content: space-between;
-    gap: 15px;
+}
+
+.suscripciones-tarjeta__encabezado {
+    position: relative;
+    z-index: 1;
+    align-items: flex-start;
+    gap: 14px;
 }
 
 .suscripciones-tarjeta__identidad {
-    display: flex;
-    align-items: center;
-    gap: 12px;
     min-width: 0;
+    gap: 12px;
 }
 
 .suscripciones-tarjeta__icono {
     display: grid;
-    flex: 0 0 auto;
     width: 44px;
     height: 44px;
+    flex: 0 0 44px;
     place-items: center;
-    border-radius: 13px;
-    color: #117f90;
-    background: #eaf8f9;
+    border-radius: 12px;
+    background: linear-gradient(145deg, #eaf5fb, #e8fbfa);
+    color: #097f9b;
 }
 
 .suscripciones-tarjeta__identidad>div {
@@ -394,109 +546,117 @@
 
 .suscripciones-tarjeta__identidad span {
     display: block;
-    color: #8495a5;
-    font-size: 0.73rem;
-    font-weight: 700;
+    color: #71869a;
+    font-size: 11px;
+    font-weight: 750;
 }
 
 .suscripciones-tarjeta__identidad h3 {
     overflow: hidden;
     margin: 3px 0 0;
-    color: #102d47;
-    font-size: 1.05rem;
+    color: #183f61;
+    font-size: 17px;
+    line-height: 1.25;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
 .suscripciones-tarjeta__estados {
     display: flex;
+    flex: 0 0 auto;
     justify-content: flex-end;
-    gap: 6px;
+    gap: 7px;
     flex-wrap: wrap;
 }
 
 .suscripciones-estado,
 .suscripciones-vigencia {
     display: inline-flex;
+    min-height: 30px;
     align-items: center;
-    min-height: 25px;
-    padding: 4px 9px;
+    padding: 0 11px;
     border-radius: 999px;
-    font-size: 0.69rem;
-    font-weight: 820;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.02em;
     white-space: nowrap;
 }
 
+.suscripciones-estado {
+    text-transform: uppercase;
+}
+
 .suscripciones-estado--activa {
-    color: #166b4c;
-    background: #def5ea;
+    background: #eaf8f2;
+    color: #177957;
 }
 
 .suscripciones-estado--pendiente {
-    color: #826115;
-    background: #fff0c6;
+    background: #fff5df;
+    color: #9a6814;
 }
 
 .suscripciones-estado--vencida {
+    background: #f4edf2;
     color: #7b4961;
-    background: #f5e5ed;
 }
 
 .suscripciones-estado--cancelada {
-    color: #8c2f3b;
-    background: #fbe2e5;
+    background: #ffedef;
+    color: #bd3442;
 }
 
 .suscripciones-vigencia--vigente {
-    color: #226478;
-    background: #e3f3f7;
+    background: #e7f7fa;
+    color: #087ba0;
 }
 
 .suscripciones-vigencia--proxima {
-    color: #6e5c1c;
-    background: #f8f0d2;
+    background: #fff8e9;
+    color: #8d6817;
 }
 
 .suscripciones-vigencia--finalizada {
-    color: #65717e;
-    background: #edf0f3;
+    background: #f1f3f6;
+    color: #667484;
 }
 
 .suscripciones-plan {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
     gap: 15px;
-    padding: 14px 15px;
+    padding: 15px 16px;
     border: 1px solid #dce9ef;
     border-radius: 14px;
-    background: linear-gradient(135deg, #f4fafb, #f8fbfd);
+    background:
+        radial-gradient(circle at 92% 50%, rgba(20, 184, 196, 0.08), transparent 34%),
+        #f5fafc;
 }
 
-.suscripciones-plan div {
+.suscripciones-plan>div {
     display: grid;
     min-width: 0;
+    gap: 3px;
 }
 
 .suscripciones-plan span {
-    color: #73889a;
-    font-size: 0.72rem;
+    color: #71869a;
+    font-size: 11px;
     font-weight: 700;
 }
 
 .suscripciones-plan strong {
-    color: #153b51;
+    color: #183f61;
+    font-size: 14px;
 }
 
 .suscripciones-plan>strong {
-    color: #117c8c;
-    font-size: 1.04rem;
+    color: #087f91;
+    font-size: 17px;
     white-space: nowrap;
 }
 
 .suscripciones-plan small {
-    color: #6c8393;
-    font-size: 0.7rem;
+    color: #71869a;
+    font-size: 11px;
     font-weight: 600;
 }
 
@@ -506,161 +666,202 @@
     gap: 9px;
 }
 
-.suscripciones-datos div {
+.suscripciones-datos>div {
     display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 2px 7px;
-    align-items: center;
     min-width: 0;
-    padding: 10px;
-    border-radius: 11px;
-    color: #5c7487;
-    background: #f6f9fb;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: 2px 8px;
+    padding: 11px;
+    border: 1px solid #e2ebf1;
+    border-radius: 12px;
+    background: #f8fbfc;
+    color: #0a8ba3;
 }
 
 .suscripciones-datos svg {
     grid-row: span 2;
-    color: #1a8796;
 }
 
 .suscripciones-datos span {
-    color: #8293a2;
-    font-size: 0.68rem;
+    color: #71869a;
+    font-size: 10px;
+    font-weight: 700;
 }
 
 .suscripciones-datos strong {
     overflow: hidden;
-    color: #2a465e;
-    font-size: 0.78rem;
+    color: #37566d;
+    font-size: 12px;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
 .suscripciones-tarjeta__pie {
-    padding-top: 13px;
-    border-top: 1px solid #edf1f4;
+    gap: 12px;
+    padding-top: 14px;
+    border-top: 1px solid #e5edf3;
 }
 
 .suscripciones-tarjeta__pie>div:first-child {
     display: flex;
+    min-width: 0;
     align-items: center;
     gap: 7px;
-    min-width: 0;
-    color: #748999;
-    font-size: 0.78rem;
+    color: #0a8ba3;
+    font-size: 12px;
 }
 
 .suscripciones-tarjeta__pie>div:first-child span {
     overflow: hidden;
+    color: #71869a;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
 .suscripciones-acciones {
-    display: flex;
-    gap: 7px;
+    flex: 0 0 auto;
+    gap: 8px;
 }
 
 .suscripciones-boton-icono {
-    display: grid;
-    width: 37px;
-    height: 37px;
-    place-items: center;
-    border: 1px solid #d2dee7;
-    border-radius: 10px;
-    color: #31516a;
-    background: #ffffff;
-    cursor: pointer;
-    transition:
-        border-color 160ms ease,
-        background 160ms ease,
-        color 160ms ease;
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    border: 1px solid #cfdee8;
+    border-radius: 11px;
+    background: #fff;
+    color: #2b6486;
 }
 
 .suscripciones-boton-icono:hover:not(:disabled) {
-    border-color: #8ebbc3;
-    color: #107f8f;
-    background: #eef9fa;
+    border-color: #89b8ca;
+    background: #f1fafc;
+}
+
+.suscripciones-boton-icono--eliminar {
+    color: #bd3d50;
 }
 
 .suscripciones-boton-icono--eliminar:hover:not(:disabled) {
-    border-color: #e2aeb6;
-    color: #a83443;
-    background: #fff3f5;
+    border-color: rgba(189, 61, 80, 0.35);
+    background: #fff5f6;
 }
 
 .suscripciones-modal-fondo {
     position: fixed;
-    z-index: 120;
+    z-index: 1200;
     inset: 0;
-    display: grid;
-    place-items: center;
-    padding: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     overflow-y: auto;
-    background: rgba(7, 25, 42, 0.58);
+    padding: 24px;
+    background: rgba(8, 26, 43, 0.58);
     backdrop-filter: blur(5px);
 }
 
 .suscripciones-modal,
 .suscripciones-confirmacion {
-    width: min(100%, 730px);
-    max-height: calc(100vh - 44px);
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    border-radius: 22px;
+    background: #fff;
+    box-shadow: 0 28px 75px rgba(3, 20, 35, 0.3);
+}
+
+.suscripciones-modal {
+    width: min(820px, 100%);
+    max-height: calc(100vh - 48px);
     overflow-y: auto;
-    border: 1px solid rgba(255, 255, 255, 0.7);
-    border-radius: 21px;
-    background: #ffffff;
-    box-shadow: 0 30px 70px rgba(5, 22, 38, 0.3);
 }
 
 .suscripciones-modal__encabezado {
-    position: sticky;
-    z-index: 2;
-    top: 0;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
-    gap: 15px;
-    padding: 20px 22px;
-    border-bottom: 1px solid #e6edf2;
-    background: rgba(255, 255, 255, 0.96);
-    backdrop-filter: blur(9px);
+    gap: 20px;
+    padding: 25px 28px;
+    border-bottom: 1px solid #dce6ed;
+    background:
+        radial-gradient(circle at 90% 10%, rgba(33, 194, 196, 0.14), transparent 32%),
+        linear-gradient(145deg, #f7fbfe, #eef7fb);
 }
 
-.suscripciones-modal__encabezado span {
-    color: #168996;
-    font-size: 0.73rem;
+.suscripciones-modal__titulo {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+}
+
+.suscripciones-modal__icono {
+    display: grid;
+    width: 50px;
+    height: 50px;
+    flex: 0 0 50px;
+    place-items: center;
+    border-radius: 14px;
+    background: linear-gradient(145deg, #0969ae, #0aa0ac);
+    color: #fff;
+    box-shadow: 0 10px 22px rgba(5, 125, 158, 0.22);
+}
+
+.suscripciones-modal__titulo>div {
+    display: grid;
+    gap: 4px;
+}
+
+.suscripciones-modal__titulo>div>span {
+    color: #13889d;
+    font-size: 12px;
     font-weight: 800;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
 }
 
-.suscripciones-modal__encabezado h3 {
-    margin: 3px 0 0;
-    color: #102d47;
+.suscripciones-modal__titulo h3,
+.suscripciones-confirmacion h3 {
+    margin: 0;
+    color: #163f61;
 }
 
-.suscripciones-modal__encabezado button {
-    display: grid;
-    flex: 0 0 auto;
-    width: 39px;
-    height: 39px;
-    place-items: center;
-    border: 1px solid #d5e0e8;
-    border-radius: 11px;
-    color: #536d80;
-    background: #ffffff;
-    cursor: pointer;
+.suscripciones-modal__titulo h3 {
+    font-size: 25px;
+    line-height: 1.15;
+}
+
+.suscripciones-modal__titulo p {
+    margin: 0;
+    color: #6b8094;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.suscripciones-modal__cerrar {
+    width: 44px;
+    height: 44px;
+    flex: 0 0 44px;
+    border: 1px solid #cfdee8;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #56738a;
+}
+
+.suscripciones-modal__cerrar:hover:not(:disabled) {
+    border-color: #8eb4c9;
+    background: #f6fafc;
+    color: #17344d;
 }
 
 .suscripciones-formulario {
     display: grid;
     gap: 18px;
-    padding: 22px;
+    padding: 25px 28px 28px;
 }
 
 .suscripciones-formulario__rejilla {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 15px;
+    gap: 18px;
 }
 
 .suscripciones-campo--completo {
@@ -675,204 +876,274 @@
 
 .suscripciones-seleccion-resumen>div {
     display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 2px 9px;
+    min-width: 0;
+    grid-template-columns: auto minmax(0, 1fr);
     align-items: center;
-    padding: 13px;
-    border: 1px solid #dce7ed;
+    gap: 2px 9px;
+    padding: 14px 16px;
+    border: 1px solid #dce9ef;
     border-radius: 13px;
-    background: #f7fafc;
+    background: #f5fafc;
 }
 
 .suscripciones-seleccion-resumen svg {
     grid-row: span 3;
-    color: #178895;
+    color: #16859a;
 }
 
 .suscripciones-seleccion-resumen span,
 .suscripciones-seleccion-resumen small {
-    color: #788b9b;
-    font-size: 0.72rem;
+    color: #748899;
+    font-size: 11px;
 }
 
 .suscripciones-seleccion-resumen strong {
-    color: #213f57;
-    font-size: 0.88rem;
+    overflow: hidden;
+    color: #234e6d;
+    font-size: 14px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .suscripciones-limites {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 10px;
-    padding: 13px;
-    border: 1px solid #d3e8e9;
+    padding: 14px;
+    border: 1px solid rgba(22, 137, 161, 0.16);
     border-radius: 14px;
-    background: #f1fafa;
+    background: #eef8fb;
 }
 
-.suscripciones-limites div {
+.suscripciones-limites>div {
     display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 1px 7px;
-    align-items: center;
     min-width: 0;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: 2px 8px;
+    padding: 8px;
+    border-radius: 10px;
+    color: #16859a;
 }
 
 .suscripciones-limites svg {
     grid-row: span 2;
-    color: #138492;
 }
 
 .suscripciones-limites span {
-    color: #6f8595;
-    font-size: 0.7rem;
+    color: #748899;
+    font-size: 10px;
+    font-weight: 700;
 }
 
 .suscripciones-limites strong {
-    color: #183d50;
+    color: #234e6d;
+    font-size: 14px;
 }
 
 .suscripciones-error-formulario {
     display: flex;
     align-items: flex-start;
-    gap: 9px;
-    padding: 12px 13px;
-    border: 1px solid #edc4ca;
-    border-radius: 12px;
-    color: #922f3d;
-    background: #fff4f5;
-    font-size: 0.85rem;
+    gap: 10px;
+    padding: 14px 16px;
+    border: 1px solid rgba(189, 50, 70, 0.2);
+    border-radius: 13px;
+    background: #fff1f3;
+    color: #a3263d;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+.suscripciones-error-formulario>svg {
+    flex: 0 0 auto;
+    margin-top: 1px;
 }
 
 .suscripciones-modal__acciones {
-    padding-top: 4px;
+    margin-top: 4px;
+    padding-top: 20px;
+    border-top: 1px solid #dce6ed;
 }
 
 .suscripciones-confirmacion {
     display: grid;
-    width: min(100%, 470px);
-    justify-items: center;
-    gap: 13px;
-    padding: 27px;
+    width: min(470px, 100%);
+    place-items: center;
+    gap: 10px;
+    padding: 30px;
     text-align: center;
 }
 
 .suscripciones-confirmacion__icono {
     display: grid;
-    width: 55px;
-    height: 55px;
+    width: 58px;
+    height: 58px;
+    margin-bottom: 6px;
     place-items: center;
-    border-radius: 16px;
-    color: #a53544;
-    background: #fdecef;
+    border-radius: 17px;
+    background: #fff0f2;
+    color: #bf3d51;
 }
 
 .suscripciones-confirmacion h3 {
-    margin: 0;
-    color: #19384f;
+    font-size: 25px;
+    line-height: 1.15;
 }
 
-.suscripciones-confirmacion p {
-    margin: 0;
-    color: #667d90;
+.suscripciones-confirmacion>p {
+    max-width: 420px;
+    margin: 3px 0 8px;
+    color: #6e8295;
+    font-size: 13px;
     line-height: 1.6;
 }
 
+.suscripciones-confirmacion>p strong {
+    color: #244c69;
+}
+
 .suscripciones-confirmacion__acciones {
-    margin-top: 6px;
+    width: 100%;
+    justify-content: center;
+    margin-top: 12px;
 }
 
 .suscripciones-acceso-denegado {
     display: flex;
-    align-items: flex-start;
-    gap: 15px;
-    padding: 25px;
-    border: 1px solid #efd0d5;
-    border-radius: 18px;
-    color: #87303d;
-    background: #fff5f6;
+    min-height: 330px;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 40px 28px;
+    border: 1px solid rgba(189, 50, 70, 0.2);
+    border-radius: 19px;
+    background: #fff1f3;
+    color: #a3263d;
+    box-shadow: 0 15px 34px rgba(20, 52, 78, 0.07);
+}
+
+.suscripciones-acceso-denegado>svg {
+    flex: 0 0 auto;
+}
+
+.suscripciones-acceso-denegado>div {
+    display: grid;
+    gap: 4px;
 }
 
 .suscripciones-acceso-denegado h2 {
-    margin: 0 0 6px;
-    color: #692633;
+    margin: 0;
+    color: #7f2636;
+    font-size: 24px;
 }
 
 .suscripciones-acceso-denegado p {
     margin: 0;
-    line-height: 1.55;
+    color: #925667;
+    line-height: 1.6;
 }
 
-@media (max-width: 1180px) {
-    .suscripciones-resumen {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
+@media (max-width: 1360px) {
     .suscripciones-filtros {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns:
+            minmax(280px, 1fr) repeat(3, minmax(145px, 1fr));
     }
 
-    .suscripciones-buscador {
-        grid-column: span 2;
+    .suscripciones-filtro:nth-of-type(5) {
+        grid-column: auto;
+    }
+
+    .suscripciones-resultados {
+        grid-column: 1 / -1;
+        justify-self: end;
     }
 }
 
-@media (max-width: 850px) {
+@media (max-width: 1080px) {
     .suscripciones-cabecera {
+        align-items: flex-start;
         flex-direction: column;
+        min-height: auto;
     }
 
     .suscripciones-cabecera__acciones {
         width: 100%;
         justify-content: flex-start;
+        flex-wrap: wrap;
     }
 
-    .suscripciones-listado {
-        grid-template-columns: 1fr;
+    .suscripciones-cabecera__acciones>button {
+        flex: 1;
+    }
+
+    .suscripciones-resumen {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .suscripciones-filtros {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-items: stretch;
     }
 
     .suscripciones-buscador {
         grid-column: 1 / -1;
     }
+
+    .suscripciones-resultados {
+        justify-self: start;
+    }
+
+    .suscripciones-listado {
+        grid-template-columns: 1fr;
+    }
 }
 
-@media (max-width: 620px) {
+@media (max-width: 680px) {
+    .suscripciones-modulo {
+        gap: 16px;
+    }
 
-    .suscripciones-cabecera,
-    .suscripciones-tarjeta,
-    .suscripciones-formulario {
-        padding: 16px;
+    .suscripciones-cabecera {
+        padding: 24px 20px;
+        border-radius: 18px;
     }
 
     .suscripciones-cabecera__acciones,
-    .suscripciones-cabecera__acciones button,
-    .suscripciones-modal__acciones,
-    .suscripciones-modal__acciones button {
+    .suscripciones-confirmacion__acciones {
+        align-items: stretch;
+        flex-direction: column;
         width: 100%;
     }
 
-    .suscripciones-resumen,
-    .suscripciones-filtros,
-    .suscripciones-formulario__rejilla,
-    .suscripciones-seleccion-resumen,
-    .suscripciones-limites,
-    .suscripciones-datos {
+    .suscripciones-cabecera__acciones>button,
+    .suscripciones-confirmacion__acciones>button {
+        width: 100%;
+    }
+
+    .suscripciones-resumen {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .suscripciones-resumen article {
+        min-height: 92px;
+    }
+
+    .suscripciones-filtros {
         grid-template-columns: 1fr;
     }
 
     .suscripciones-buscador,
-    .suscripciones-campo--completo {
+    .suscripciones-resultados {
         grid-column: auto;
+        width: 100%;
     }
 
     .suscripciones-tarjeta__encabezado,
     .suscripciones-tarjeta__pie,
     .suscripciones-plan {
-        align-items: flex-start;
+        align-items: stretch;
         flex-direction: column;
     }
 
@@ -880,8 +1151,18 @@
         justify-content: flex-start;
     }
 
+    .suscripciones-plan>strong {
+        align-self: flex-start;
+    }
+
+    .suscripciones-datos,
+    .suscripciones-seleccion-resumen,
+    .suscripciones-limites {
+        grid-template-columns: 1fr;
+    }
+
     .suscripciones-tarjeta__pie {
-        display: grid;
+        display: flex;
     }
 
     .suscripciones-acciones {
@@ -893,15 +1174,87 @@
     }
 
     .suscripciones-modal-fondo {
-        padding: 10px;
+        align-items: flex-start;
+        padding: 12px;
     }
 
-    .suscripciones-modal {
-        max-height: calc(100vh - 20px);
+    .suscripciones-modal,
+    .suscripciones-confirmacion {
         border-radius: 16px;
     }
 
+    .suscripciones-modal {
+        max-height: calc(100vh - 24px);
+    }
+
     .suscripciones-modal__encabezado {
-        padding: 16px;
+        padding: 22px 18px;
+    }
+
+    .suscripciones-modal__titulo p {
+        display: none;
+    }
+
+    .suscripciones-formulario {
+        padding: 22px 18px 24px;
+    }
+
+    .suscripciones-formulario__rejilla {
+        grid-template-columns: 1fr;
+    }
+
+    .suscripciones-campo--completo {
+        grid-column: auto;
+    }
+
+    .suscripciones-modal__acciones {
+        align-items: stretch;
+        flex-direction: column-reverse;
+        width: 100%;
+    }
+
+    .suscripciones-modal__acciones>button {
+        width: 100%;
+    }
+
+    .suscripciones-confirmacion {
+        padding: 25px 20px;
+    }
+}
+
+@media (max-width: 520px) {
+    .suscripciones-cabecera h2 {
+        font-size: 28px;
+    }
+
+    .suscripciones-tarjeta {
+        padding: 18px;
+    }
+}
+
+@media (max-width: 430px) {
+    .suscripciones-cabecera__acciones {
+        gap: 8px;
+    }
+
+    .suscripciones-tarjeta__identidad {
+        align-items: flex-start;
+    }
+
+    .suscripciones-tarjeta__icono {
+        width: 42px;
+        height: 42px;
+        flex-basis: 42px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .suscripciones-modulo *,
+    .suscripciones-modulo *::before,
+    .suscripciones-modulo *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
     }
 }
