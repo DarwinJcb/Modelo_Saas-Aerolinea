@@ -702,6 +702,45 @@ function calcularPorcentaje(valor: number, limite?: number): number {
     return Math.min(100, Math.round((valor / limite) * 100))
 }
 
+function formatearLimite(limite?: number): string {
+    return limite && limite > 0
+        ? String(limite)
+        : 'Sin límite'
+}
+
+function obtenerNivelConsumo(
+    valor: number,
+    limite?: number,
+): 'sin-limite' | 'normal' | 'advertencia' | 'critico' {
+    if (!limite || limite <= 0) {
+        return 'sin-limite'
+    }
+
+    const porcentaje = (valor / limite) * 100
+
+    if (porcentaje >= 90) {
+        return 'critico'
+    }
+
+    if (porcentaje >= 70) {
+        return 'advertencia'
+    }
+
+    return 'normal'
+}
+
+function formatearHoraActualizacion(momento: number): string {
+    if (!momento || momento <= 1) {
+        return 'Pendiente de actualización'
+    }
+
+    return `Actualizado a las ${new Intl.DateTimeFormat('es-EC', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false,
+    }).format(new Date(momento))}`
+}
+
 function obtenerSaludo(momento: number): string {
     const hora = new Date(momento).getHours()
 
@@ -1293,6 +1332,12 @@ export function PanelPrincipalModulo({
                         {cargando ? 'Actualizando' : 'Actualizar datos'}
                     </button>
 
+                    <span className="panel-real-ultima-actualizacion">
+                        {cargando
+                            ? 'Sincronizando información'
+                            : formatearHoraActualizacion(resumen.momento)}
+                    </span>
+
                     <div className="panel-real-bienvenida__grafico">
                         <div className="panel-real-orbita panel-real-orbita--uno" />
                         <div className="panel-real-orbita panel-real-orbita--dos" />
@@ -1337,6 +1382,7 @@ export function PanelPrincipalModulo({
                         onClick={() =>
                             onSeleccionarModulo(metrica.modulo)
                         }
+                        aria-label={`Abrir ${metrica.etiqueta}`}
                     >
                         <span className="panel-real-metrica__icono">
                             <Icono
@@ -1431,13 +1477,19 @@ export function PanelPrincipalModulo({
                                     </div>
 
                                     <div className="panel-real-tenant__consumos">
-                                        <div>
+                                        <div
+                                            className={`panel-real-consumo panel-real-consumo--${obtenerNivelConsumo(
+                                                fila.usuarios,
+                                                fila.plan?.limiteUsuariosPlan,
+                                            )}`}
+                                        >
                                             <span>
                                                 Usuarios
                                                 <strong>
-                                                    {fila.usuarios}/
-                                                    {fila.plan?.limiteUsuariosPlan ??
-                                                        '—'}
+                                                    {fila.usuarios} /{' '}
+                                                    {formatearLimite(
+                                                        fila.plan?.limiteUsuariosPlan,
+                                                    )}
                                                 </strong>
                                             </span>
                                             <div>
@@ -1452,13 +1504,19 @@ export function PanelPrincipalModulo({
                                             </div>
                                         </div>
 
-                                        <div>
+                                        <div
+                                            className={`panel-real-consumo panel-real-consumo--${obtenerNivelConsumo(
+                                                fila.aviones,
+                                                fila.plan?.limiteAvionesPlan,
+                                            )}`}
+                                        >
                                             <span>
                                                 Aviones
                                                 <strong>
-                                                    {fila.aviones}/
-                                                    {fila.plan?.limiteAvionesPlan ??
-                                                        '—'}
+                                                    {fila.aviones} /{' '}
+                                                    {formatearLimite(
+                                                        fila.plan?.limiteAvionesPlan,
+                                                    )}
                                                 </strong>
                                             </span>
                                             <div>
@@ -1473,14 +1531,20 @@ export function PanelPrincipalModulo({
                                             </div>
                                         </div>
 
-                                        <div>
+                                        <div
+                                            className={`panel-real-consumo panel-real-consumo--${obtenerNivelConsumo(
+                                                fila.vuelosMes,
+                                                fila.plan?.limiteVuelosMensualesPlan,
+                                            )}`}
+                                        >
                                             <span>
                                                 Vuelos del mes
                                                 <strong>
-                                                    {fila.vuelosMes}/
-                                                    {fila.plan
-                                                        ?.limiteVuelosMensualesPlan ??
-                                                        '—'}
+                                                    {fila.vuelosMes} /{' '}
+                                                    {formatearLimite(
+                                                        fila.plan
+                                                            ?.limiteVuelosMensualesPlan,
+                                                    )}
                                                 </strong>
                                             </span>
                                             <div>
@@ -1869,6 +1933,7 @@ export function PanelPrincipalModulo({
                                 onClick={() =>
                                     onSeleccionarModulo(acceso.id)
                                 }
+                                aria-label={`Abrir ${acceso.nombre}`}
                             >
                                 <span>
                                     <Icono
