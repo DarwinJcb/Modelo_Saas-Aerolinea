@@ -1178,7 +1178,7 @@ export function RutasModulo({
                             <tbody>
                                 {rutasFiltradas.map((ruta) => (
                                     <tr key={ruta.idRuta}>
-                                        <td>
+                                        <td data-label="Ruta">
                                             <div className="rutas-codigo">
                                                 <span className="rutas-codigo__icono">
                                                     <Icono nombre="ruta" tamano={19} />
@@ -1191,7 +1191,7 @@ export function RutasModulo({
                                         </td>
 
                                         {esSuperadmin && (
-                                            <td>
+                                            <td data-label="Aerolínea">
                                                 <div className="rutas-aerolinea">
                                                     <Icono nombre="aerolinea" tamano={17} />
                                                     <div>
@@ -1212,7 +1212,7 @@ export function RutasModulo({
                                             </td>
                                         )}
 
-                                        <td>
+                                        <td data-label="Trayecto">
                                             <div className="rutas-trayecto">
                                                 <div className="rutas-punto">
                                                     <span className="rutas-punto__icono rutas-punto__icono--origen">
@@ -1262,7 +1262,7 @@ export function RutasModulo({
                                             </div>
                                         </td>
 
-                                        <td>
+                                        <td data-label="Duración y distancia">
                                             <div className="rutas-metricas">
                                                 <span>
                                                     <Icono nombre="reloj" tamano={15} />
@@ -1279,7 +1279,7 @@ export function RutasModulo({
                                             </div>
                                         </td>
 
-                                        <td>
+                                        <td data-label="Estado">
                                             <span
                                                 className={`rutas-estado rutas-estado--${ruta.estadoRuta.toLowerCase()}`}
                                             >
@@ -1289,7 +1289,7 @@ export function RutasModulo({
                                         </td>
 
                                         {puedeGestionar && (
-                                            <td>
+                                            <td data-label="Acciones">
                                                 <div className="rutas-acciones-fila">
                                                     <button
                                                         type="button"
@@ -1329,21 +1329,26 @@ export function RutasModulo({
                         aria-labelledby="titulo-formulario-ruta"
                     >
                         <header className="rutas-modal__cabecera">
-                            <div>
-                                <span className="rutas-etiqueta">
-                                    {rutaEdicion
-                                        ? 'Actualizar trayecto'
-                                        : 'Nuevo trayecto'}
+                            <div className="rutas-modal__titulo">
+                                <span className="rutas-modal__icono">
+                                    <Icono nombre="ruta" tamano={24} />
                                 </span>
-                                <h3 id="titulo-formulario-ruta">
-                                    {rutaEdicion
-                                        ? 'Editar ruta'
-                                        : 'Registrar ruta'}
-                                </h3>
-                                <p>
-                                    Define la aerolínea, el trayecto y sus datos
-                                    operativos.
-                                </p>
+                                <div>
+                                    <span>
+                                        {rutaEdicion
+                                            ? 'Actualizar trayecto'
+                                            : 'Nuevo trayecto'}
+                                    </span>
+                                    <h3 id="titulo-formulario-ruta">
+                                        {rutaEdicion
+                                            ? 'Editar ruta'
+                                            : 'Registrar ruta'}
+                                    </h3>
+                                    <p>
+                                        Define la aerolínea, el trayecto y sus datos
+                                        operativos.
+                                    </p>
+                                </div>
                             </div>
                             <button
                                 type="button"
