@@ -1,9 +1,5 @@
 /* saas-backend/src/aerolineas/aerolineas.service.ts */
-import {
-  ConflictException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException, } from '@nestjs/common';
 import { Prisma } from '../generated/prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateAerolineaDto } from './dto/create-aerolinea.dto';
@@ -11,7 +7,7 @@ import { UpdateAerolineaDto } from './dto/update-aerolinea.dto';
 
 @Injectable()
 export class AerolineasService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   private async verificarCampoUnico(
     condicion: Prisma.AerolineaWhereInput,
@@ -23,10 +19,10 @@ export class AerolineasService {
         ...condicion,
         ...(idAerolineaExcluir !== undefined
           ? {
-              NOT: {
-                idAerolinea: idAerolineaExcluir,
-              },
-            }
+            NOT: {
+              idAerolinea: idAerolineaExcluir,
+            },
+          }
           : {}),
       },
     });
