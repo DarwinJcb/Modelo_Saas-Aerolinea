@@ -1410,26 +1410,31 @@ export function UsuariosModulo({
                         aria-labelledby="titulo-formulario-usuario"
                     >
                         <header className="usuarios-modal__cabecera">
-                            <div>
-                                <span className="usuarios-etiqueta">
-                                    {usuarioEdicion
-                                        ? 'Actualizar acceso'
-                                        : 'Registrar acceso'}
+                            <div className="usuarios-modal__titulo">
+                                <span className="usuarios-modal__icono">
+                                    <Icono nombre="usuario" tamano={24} />
                                 </span>
-                                <h3 id="titulo-formulario-usuario">
-                                    {usuarioEdicion
-                                        ? 'Editar usuario'
-                                        : 'Nuevo usuario'}
-                                </h3>
-                                <p>
-                                    Define la identidad, el rol y el estado de la
-                                    cuenta.
-                                </p>
+                                <div>
+                                    <span>
+                                        {usuarioEdicion
+                                            ? 'Actualizar acceso'
+                                            : 'Registrar acceso'}
+                                    </span>
+                                    <h3 id="titulo-formulario-usuario">
+                                        {usuarioEdicion
+                                            ? 'Editar usuario'
+                                            : 'Nuevo usuario'}
+                                    </h3>
+                                    <p>
+                                        Define la identidad, el rol y el estado de la
+                                        cuenta.
+                                    </p>
+                                </div>
                             </div>
 
                             <button
                                 type="button"
-                                className="usuarios-boton-cerrar"
+                                className="usuarios-modal__cerrar"
                                 onClick={cerrarFormulario}
                                 aria-label="Cerrar formulario"
                                 disabled={guardando}
@@ -1790,7 +1795,7 @@ export function UsuariosModulo({
                                 {etiquetaEstado(usuarioEliminar.estadoUsuario)}
                             </strong>
                         </div>
-                        <div className="usuarios-modal__acciones">
+                        <div className="usuarios-confirmacion__acciones">
                             <button
                                 type="button"
                                 className="usuarios-boton-secundario"
