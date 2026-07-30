@@ -1,1 +1,943 @@
 /* saas-frontend/src/modules/aerolineas/AerolineasModulo.css */
+.aerolineas-modulo {
+    display: grid;
+    gap: 20px;
+    width: 100%;
+}
+
+.aerolineas-cabecera {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+.aerolineas-cabecera__texto {
+    max-width: 720px;
+}
+
+.aerolineas-etiqueta {
+    display: inline-flex;
+    align-items: center;
+    color: #0f7f91;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.aerolineas-cabecera h2 {
+    margin: 7px 0 8px;
+    color: #102a43;
+    font-size: 32px;
+    line-height: 1.1;
+}
+
+.aerolineas-cabecera p,
+.aerolineas-modal__titulo p,
+.aerolineas-confirmacion p {
+    margin: 0;
+    color: #627d98;
+    font-size: 14px;
+    line-height: 1.65;
+}
+
+.aerolineas-cabecera__acciones,
+.aerolineas-formulario__acciones,
+.aerolineas-confirmacion__acciones {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.aerolineas-boton-principal,
+.aerolineas-boton-secundario,
+.aerolineas-boton-peligro,
+.aerolineas-accion {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 42px;
+    padding: 0 16px;
+    border-radius: 11px;
+    border: 1px solid transparent;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 750;
+    cursor: pointer;
+    transition: transform 160ms ease, border-color 160ms ease,
+        background 160ms ease, box-shadow 160ms ease;
+}
+
+.aerolineas-boton-principal {
+    background: linear-gradient(135deg, #0d6efd, #0f8da0);
+    color: #fff;
+    box-shadow: 0 10px 22px rgba(13, 110, 253, 0.18);
+}
+
+.aerolineas-boton-secundario {
+    border-color: #d7e3ef;
+    background: #fff;
+    color: #334e68;
+}
+
+.aerolineas-boton-peligro {
+    background: #be123c;
+    color: #fff;
+}
+
+.aerolineas-boton-principal:hover:not(:disabled),
+.aerolineas-boton-secundario:hover:not(:disabled),
+.aerolineas-boton-peligro:hover:not(:disabled),
+.aerolineas-accion:hover:not(:disabled) {
+    transform: translateY(-1px);
+}
+
+.aerolineas-boton-secundario:hover:not(:disabled) {
+    border-color: #9fb3c8;
+    background: #f8fbfe;
+}
+
+.aerolineas-boton-principal:disabled,
+.aerolineas-boton-secundario:disabled,
+.aerolineas-boton-peligro:disabled,
+.aerolineas-accion:disabled {
+    cursor: not-allowed;
+    opacity: 0.62;
+}
+
+.aerolineas-aviso,
+.aerolineas-mensaje,
+.aerolineas-acceso-denegado {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 15px 17px;
+    border: 1px solid #cbe5eb;
+    border-radius: 14px;
+    background: #f3fbfc;
+    color: #145b66;
+}
+
+.aerolineas-aviso div,
+.aerolineas-acceso-denegado div {
+    display: grid;
+    gap: 3px;
+}
+
+.aerolineas-aviso strong,
+.aerolineas-acceso-denegado h2 {
+    color: #164e5a;
+    font-size: 14px;
+}
+
+.aerolineas-aviso span,
+.aerolineas-acceso-denegado p {
+    margin: 0;
+    color: #527b83;
+    font-size: 13px;
+    line-height: 1.55;
+}
+
+.aerolineas-acceso-denegado {
+    align-items: center;
+    max-width: 680px;
+    margin: 40px auto;
+    padding: 24px;
+    border-color: #fed7aa;
+    background: #fff8ed;
+    color: #9a3412;
+}
+
+.aerolineas-acceso-denegado h2 {
+    margin: 0;
+    color: #9a3412;
+    font-size: 20px;
+}
+
+.aerolineas-mensaje {
+    align-items: center;
+    padding: 12px 15px;
+    font-size: 13px;
+    font-weight: 650;
+}
+
+.aerolineas-mensaje--error {
+    border-color: #fecdd3;
+    background: #fff1f2;
+    color: #9f1239;
+}
+
+.aerolineas-mensaje--exito {
+    border-color: #bbf7d0;
+    background: #f0fdf4;
+    color: #166534;
+}
+
+.aerolineas-resumen {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.aerolineas-resumen article {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+    min-height: 104px;
+    padding: 17px;
+    border: 1px solid #e2e8f0;
+    border-radius: 15px;
+    background: #fff;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.045);
+}
+
+.aerolineas-resumen__icono {
+    display: grid;
+    flex: 0 0 auto;
+    width: 42px;
+    height: 42px;
+    place-items: center;
+    border-radius: 12px;
+    background: #eaf5ff;
+    color: #0d6efd;
+}
+
+.aerolineas-resumen article:nth-child(2) .aerolineas-resumen__icono {
+    background: #ecfdf3;
+    color: #15803d;
+}
+
+.aerolineas-resumen article:nth-child(3) .aerolineas-resumen__icono {
+    background: #fff7ed;
+    color: #c2410c;
+}
+
+.aerolineas-resumen article:nth-child(4) .aerolineas-resumen__icono {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+.aerolineas-resumen article:nth-child(5) .aerolineas-resumen__icono {
+    background: #ecfeff;
+    color: #0e7490;
+}
+
+.aerolineas-resumen div {
+    display: grid;
+    min-width: 0;
+}
+
+.aerolineas-resumen small {
+    overflow: hidden;
+    color: #7b8da1;
+    font-size: 11px;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.aerolineas-resumen strong {
+    margin: 2px 0;
+    color: #102a43;
+    font-size: 25px;
+    line-height: 1;
+}
+
+.aerolineas-resumen div>span {
+    overflow: hidden;
+    color: #829ab1;
+    font-size: 11px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.aerolineas-filtros {
+    display: grid;
+    grid-template-columns: minmax(260px, 1fr) 180px 190px auto;
+    align-items: end;
+    gap: 12px;
+    padding: 15px;
+    border: 1px solid #e2e8f0;
+    border-radius: 15px;
+    background: #fff;
+}
+
+.aerolineas-buscador {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.aerolineas-buscador svg {
+    position: absolute;
+    left: 13px;
+    color: #829ab1;
+    pointer-events: none;
+}
+
+.aerolineas-buscador input,
+.aerolineas-filtro select,
+.aerolineas-campo input,
+.aerolineas-campo select {
+    width: 100%;
+    min-height: 43px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    background: #fff;
+    color: #243b53;
+    font: inherit;
+    font-size: 13px;
+    outline: none;
+    transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.aerolineas-buscador input {
+    padding: 0 13px 0 42px;
+}
+
+.aerolineas-filtro,
+.aerolineas-campo {
+    display: grid;
+    gap: 7px;
+}
+
+.aerolineas-filtro>span,
+.aerolineas-campo>span {
+    color: #486581;
+    font-size: 12px;
+    font-weight: 750;
+}
+
+.aerolineas-filtro select,
+.aerolineas-campo select {
+    padding: 0 11px;
+}
+
+.aerolineas-campo input {
+    padding: 0 12px;
+}
+
+.aerolineas-buscador input:focus,
+.aerolineas-filtro select:focus,
+.aerolineas-campo input:focus,
+.aerolineas-campo select:focus {
+    border-color: #2f9eaf;
+    box-shadow: 0 0 0 3px rgba(47, 158, 175, 0.13);
+}
+
+.aerolineas-campo input:disabled,
+.aerolineas-campo select:disabled {
+    background: #f1f5f9;
+    color: #64748b;
+}
+
+.aerolineas-campo small {
+    color: #829ab1;
+    font-size: 11px;
+    line-height: 1.45;
+}
+
+.aerolineas-resultados {
+    align-self: center;
+    justify-self: end;
+    padding: 8px 11px;
+    border-radius: 999px;
+    background: #f1f5f9;
+    color: #627d98;
+    font-size: 12px;
+    font-weight: 750;
+    white-space: nowrap;
+}
+
+.aerolineas-estado-central {
+    display: grid;
+    min-height: 290px;
+    place-items: center;
+    align-content: center;
+    gap: 8px;
+    padding: 30px;
+    border: 1px dashed #cbd5e1;
+    border-radius: 17px;
+    background: #fff;
+    color: #829ab1;
+    text-align: center;
+}
+
+.aerolineas-estado-central strong {
+    color: #334e68;
+    font-size: 16px;
+}
+
+.aerolineas-estado-central p {
+    max-width: 450px;
+    margin: 0 0 8px;
+    color: #829ab1;
+    font-size: 13px;
+    line-height: 1.55;
+}
+
+.aerolineas-spinner {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    border: 3px solid #d9e2ec;
+    border-top-color: #0f8da0;
+    border-radius: 50%;
+    animation: aerolineas-girar 0.8s linear infinite;
+}
+
+.aerolineas-spinner--pequeno {
+    width: 17px;
+    height: 17px;
+    border-width: 2px;
+    border-color: rgba(255, 255, 255, 0.45);
+    border-top-color: #fff;
+}
+
+@keyframes aerolineas-girar {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.aerolineas-listado {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 15px;
+}
+
+.aerolineas-tarjeta {
+    display: grid;
+    gap: 16px;
+    min-width: 0;
+    padding: 19px;
+    border: 1px solid #e2e8f0;
+    border-radius: 17px;
+    background: #fff;
+    box-shadow: 0 10px 28px rgba(15, 23, 42, 0.055);
+}
+
+.aerolineas-tarjeta__encabezado {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+}
+
+.aerolineas-identidad {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    gap: 12px;
+}
+
+.aerolineas-identidad__logo {
+    display: grid;
+    flex: 0 0 auto;
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+    place-items: center;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #e7f3ff, #e7fbfc);
+    color: #0b6f80;
+    font-size: 15px;
+    font-weight: 850;
+}
+
+.aerolineas-identidad__logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background: #fff;
+}
+
+.aerolineas-identidad>div {
+    min-width: 0;
+}
+
+.aerolineas-identidad>div>span {
+    color: #829ab1;
+    font-size: 11px;
+    font-weight: 750;
+    text-transform: uppercase;
+}
+
+.aerolineas-identidad h3 {
+    overflow: hidden;
+    margin: 3px 0;
+    color: #102a43;
+    font-size: 18px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.aerolineas-identidad small {
+    display: block;
+    overflow: hidden;
+    color: #627d98;
+    font-size: 12px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.aerolineas-estado {
+    flex: 0 0 auto;
+    padding: 6px 9px;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 850;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.aerolineas-estado--activa {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.aerolineas-estado--suspendida {
+    background: #ffedd5;
+    color: #9a3412;
+}
+
+.aerolineas-estado--inactiva {
+    background: #e2e8f0;
+    color: #475569;
+}
+
+.aerolineas-codigos {
+    display: grid;
+    grid-template-columns: 0.7fr 0.7fr 1.6fr;
+    gap: 8px;
+}
+
+.aerolineas-codigos>div {
+    display: grid;
+    gap: 3px;
+    min-width: 0;
+    padding: 10px 11px;
+    border-radius: 11px;
+    background: #f8fafc;
+}
+
+.aerolineas-codigos span {
+    color: #829ab1;
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.aerolineas-codigos strong {
+    overflow: hidden;
+    color: #243b53;
+    font-size: 13px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.aerolineas-detalles {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.aerolineas-detalles>div {
+    display: flex;
+    align-items: flex-start;
+    min-width: 0;
+    gap: 9px;
+    color: #6b8298;
+}
+
+.aerolineas-detalles>div:last-child {
+    grid-column: 1 / -1;
+}
+
+.aerolineas-detalles>div>span {
+    display: grid;
+    min-width: 0;
+    gap: 2px;
+}
+
+.aerolineas-detalles small {
+    color: #829ab1;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.aerolineas-detalles strong {
+    overflow: hidden;
+    color: #334e68;
+    font-size: 12px;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.aerolineas-tarjeta__acciones {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding-top: 14px;
+    border-top: 1px solid #edf2f7;
+}
+
+.aerolineas-accion {
+    min-height: 36px;
+    padding: 0 12px;
+    background: transparent;
+}
+
+.aerolineas-accion--editar {
+    border-color: #bfdbfe;
+    color: #1d4ed8;
+}
+
+.aerolineas-accion--eliminar {
+    border-color: #fecdd3;
+    color: #be123c;
+}
+
+.aerolineas-modal-capa {
+    position: fixed;
+    z-index: 1200;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    overflow-y: auto;
+    background: rgba(15, 23, 42, 0.58);
+    backdrop-filter: blur(4px);
+}
+
+.aerolineas-modal,
+.aerolineas-confirmacion {
+    width: min(920px, 100%);
+    max-height: calc(100vh - 48px);
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 19px;
+    background: #fff;
+    box-shadow: 0 28px 80px rgba(15, 23, 42, 0.28);
+}
+
+.aerolineas-modal__cabecera {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 24px 26px;
+    border-bottom: 1px solid #e2e8f0;
+    background: linear-gradient(135deg, #f7fbff, #f2fbfc);
+}
+
+.aerolineas-modal__titulo {
+    display: flex;
+    align-items: flex-start;
+    gap: 13px;
+}
+
+.aerolineas-modal__icono {
+    display: grid;
+    flex: 0 0 auto;
+    width: 47px;
+    height: 47px;
+    place-items: center;
+    border-radius: 13px;
+    background: #e8f4ff;
+    color: #0d6efd;
+}
+
+.aerolineas-modal__titulo h3,
+.aerolineas-confirmacion h3 {
+    margin: 4px 0 5px;
+    color: #102a43;
+    font-size: 21px;
+}
+
+.aerolineas-modal__cerrar {
+    display: grid;
+    flex: 0 0 auto;
+    width: 38px;
+    height: 38px;
+    place-items: center;
+    border: 1px solid #d9e2ec;
+    border-radius: 10px;
+    background: #fff;
+    color: #627d98;
+    cursor: pointer;
+}
+
+.aerolineas-formulario {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 17px;
+    max-height: calc(100vh - 170px);
+    padding: 24px 26px 27px;
+    overflow-y: auto;
+}
+
+.aerolineas-formulario__seccion {
+    display: grid;
+    gap: 2px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #e7edf4;
+}
+
+.aerolineas-formulario__seccion>span {
+    color: #243b53;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.aerolineas-formulario__seccion>small {
+    color: #829ab1;
+    font-size: 11px;
+}
+
+.aerolineas-formulario__seccion--completa,
+.aerolineas-campo--completo,
+.aerolineas-formulario__error,
+.aerolineas-formulario__nota,
+.aerolineas-formulario__acciones {
+    grid-column: 1 / -1;
+}
+
+.aerolineas-formulario__error,
+.aerolineas-formulario__nota {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    padding: 12px 13px;
+    border-radius: 11px;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.aerolineas-formulario__error {
+    border: 1px solid #fecdd3;
+    background: #fff1f2;
+    color: #9f1239;
+}
+
+.aerolineas-formulario__nota {
+    border: 1px solid #bae6fd;
+    background: #f0f9ff;
+    color: #075985;
+}
+
+.aerolineas-formulario__acciones {
+    justify-content: flex-end;
+    padding-top: 5px;
+}
+
+.aerolineas-confirmacion {
+    width: min(520px, 100%);
+    max-height: none;
+    padding: 28px;
+    overflow: visible;
+}
+
+.aerolineas-confirmacion__icono {
+    display: grid;
+    width: 49px;
+    height: 49px;
+    margin-bottom: 15px;
+    place-items: center;
+    border-radius: 14px;
+    background: #ffe4e6;
+    color: #be123c;
+}
+
+.aerolineas-confirmacion__detalle {
+    display: grid;
+    gap: 3px;
+    margin: 18px 0;
+    padding: 13px 14px;
+    border-radius: 11px;
+    background: #f8fafc;
+}
+
+.aerolineas-confirmacion__detalle strong {
+    color: #102a43;
+    font-size: 15px;
+}
+
+.aerolineas-confirmacion__detalle span {
+    color: #627d98;
+    font-size: 12px;
+}
+
+.aerolineas-confirmacion__acciones {
+    justify-content: flex-end;
+}
+
+@media (max-width: 1180px) {
+    .aerolineas-resumen {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 980px) {
+    .aerolineas-cabecera {
+        flex-direction: column;
+    }
+
+    .aerolineas-filtros {
+        grid-template-columns: minmax(220px, 1fr) 160px 170px;
+    }
+
+    .aerolineas-resultados {
+        grid-column: 1 / -1;
+        justify-self: start;
+    }
+
+    .aerolineas-listado {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 760px) {
+    .aerolineas-resumen {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .aerolineas-filtros {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .aerolineas-buscador {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 640px) {
+    .aerolineas-cabecera h2 {
+        font-size: 28px;
+    }
+
+    .aerolineas-cabecera__acciones,
+    .aerolineas-confirmacion__acciones {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .aerolineas-cabecera__acciones>button,
+    .aerolineas-confirmacion__acciones>button {
+        width: 100%;
+    }
+
+    .aerolineas-resumen,
+    .aerolineas-filtros {
+        grid-template-columns: 1fr;
+    }
+
+    .aerolineas-buscador,
+    .aerolineas-resultados {
+        grid-column: auto;
+        width: 100%;
+    }
+
+    .aerolineas-resultados {
+        justify-self: stretch;
+        text-align: center;
+    }
+
+    .aerolineas-tarjeta__encabezado {
+        flex-direction: column;
+    }
+
+    .aerolineas-estado {
+        align-self: flex-start;
+    }
+
+    .aerolineas-codigos,
+    .aerolineas-detalles {
+        grid-template-columns: 1fr;
+    }
+
+    .aerolineas-detalles>div:last-child {
+        grid-column: auto;
+    }
+
+    .aerolineas-tarjeta__acciones {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .aerolineas-modal-capa {
+        align-items: flex-start;
+        padding: 12px;
+    }
+
+    .aerolineas-modal,
+    .aerolineas-confirmacion {
+        border-radius: 16px;
+    }
+
+    .aerolineas-modal {
+        max-height: calc(100vh - 24px);
+    }
+
+    .aerolineas-modal__cabecera {
+        padding: 21px 18px;
+    }
+
+    .aerolineas-modal__titulo p {
+        display: none;
+    }
+
+    .aerolineas-formulario {
+        grid-template-columns: 1fr;
+        max-height: calc(100vh - 135px);
+        padding: 21px 18px 24px;
+    }
+
+    .aerolineas-formulario__seccion--completa,
+    .aerolineas-campo--completo,
+    .aerolineas-formulario__error,
+    .aerolineas-formulario__nota,
+    .aerolineas-formulario__acciones {
+        grid-column: auto;
+    }
+
+    .aerolineas-formulario__acciones {
+        align-items: stretch;
+        flex-direction: column-reverse;
+    }
+
+    .aerolineas-formulario__acciones>button {
+        width: 100%;
+    }
+
+    .aerolineas-confirmacion {
+        padding: 24px 20px;
+    }
+}
+
+@media (max-width: 430px) {
+    .aerolineas-identidad {
+        align-items: flex-start;
+    }
+
+    .aerolineas-identidad__logo {
+        width: 44px;
+        height: 44px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .aerolineas-modulo *,
+    .aerolineas-modulo *::before,
+    .aerolineas-modulo *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
