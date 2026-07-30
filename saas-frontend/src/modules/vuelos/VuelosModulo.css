@@ -3,6 +3,7 @@
     display: grid;
     gap: 20px;
     width: 100%;
+    min-width: 0;
     color: #10243b;
 }
 
@@ -19,11 +20,11 @@
     gap: 28px;
     min-height: 158px;
     padding: 32px;
-    border: 1px solid #d8e4ed;
+    border: 1px solid rgba(25, 89, 145, 0.12);
     border-radius: 22px;
     background:
-        radial-gradient(circle at 91% 12%, rgba(38, 199, 207, 0.13), transparent 30%),
-        linear-gradient(110deg, #ffffff 0%, #ffffff 63%, #f3fbfc 100%);
+        radial-gradient(circle at 88% 20%, rgba(19, 188, 202, 0.13), transparent 30%),
+        linear-gradient(135deg, #ffffff 0%, #f4f9fd 100%);
     box-shadow: 0 16px 38px rgba(20, 52, 78, 0.08);
 }
 
@@ -32,25 +33,32 @@
 }
 
 .vuelos-etiqueta {
-    display: block;
+    display: inline-flex;
+    align-items: center;
+    min-height: 27px;
     margin-bottom: 10px;
-    color: #0876a8;
+    padding: 0 11px;
+    border: 1px solid rgba(11, 145, 168, 0.18);
+    border-radius: 999px;
+    background: rgba(15, 173, 188, 0.08);
+    color: #087f91;
     font-size: 12px;
     font-weight: 800;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.09em;
     text-transform: uppercase;
 }
 
 .vuelos-cabecera h2 {
     margin: 0;
-    color: #0b2037;
+    color: #12385d;
     font-size: clamp(28px, 3vw, 36px);
     line-height: 1.1;
 }
 
 .vuelos-cabecera p {
+    max-width: 820px;
     margin: 12px 0 0;
-    color: #60758d;
+    color: #60758b;
     font-size: 15px;
     line-height: 1.65;
 }
@@ -60,68 +68,87 @@
 .vuelos-confirmacion__acciones {
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     gap: 12px;
 }
 
 .vuelos-boton-principal,
 .vuelos-boton-secundario,
-.vuelos-boton-peligro {
+.vuelos-boton-peligro,
+.vuelos-boton-icono {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 9px;
-    min-height: 48px;
-    padding: 0 18px;
-    border-radius: 12px;
-    font-size: 14px;
-    font-weight: 750;
+    font: inherit;
     cursor: pointer;
     transition:
         transform 160ms ease,
         box-shadow 160ms ease,
         border-color 160ms ease,
-        background 160ms ease;
+        background 160ms ease,
+        opacity 160ms ease;
+}
+
+.vuelos-boton-principal,
+.vuelos-boton-secundario,
+.vuelos-boton-peligro {
+    min-height: 48px;
+    gap: 9px;
+    padding: 0 18px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 750;
+    white-space: nowrap;
 }
 
 .vuelos-boton-principal {
-    border: 1px solid #0b719b;
-    color: #ffffff;
-    background: linear-gradient(135deg, #0a658d, #168ab0);
-    box-shadow: 0 12px 22px rgba(8, 104, 145, 0.2);
-}
-
-.vuelos-boton-principal:hover:not(:disabled) {
-    transform: translateY(-1px);
-    box-shadow: 0 15px 26px rgba(8, 104, 145, 0.27);
+    border: 0;
+    background: linear-gradient(135deg, #0868ad, #079aae);
+    color: #fff;
+    box-shadow: 0 12px 22px rgba(0, 116, 154, 0.2);
 }
 
 .vuelos-boton-secundario {
     border: 1px solid #c9d9e5;
-    color: #10243b;
-    background: #ffffff;
+    background: #fff;
+    color: #285474;
 }
 
-.vuelos-boton-secundario:hover:not(:disabled) {
+.vuelos-boton-peligro {
+    border: 0;
+    background: #c73d50;
+    color: #fff;
+    box-shadow: 0 12px 22px rgba(178, 38, 59, 0.2);
+}
+
+.vuelos-boton-principal:not(:disabled):hover,
+.vuelos-boton-secundario:not(:disabled):hover,
+.vuelos-boton-peligro:not(:disabled):hover,
+.vuelos-boton-icono:not(:disabled):hover {
     transform: translateY(-1px);
+}
+
+.vuelos-boton-principal:not(:disabled):hover {
+    box-shadow: 0 15px 26px rgba(0, 116, 154, 0.26);
+}
+
+.vuelos-boton-secundario:not(:disabled):hover {
     border-color: #8eb4c9;
     background: #f8fcfe;
 }
 
-.vuelos-boton-peligro {
-    border: 1px solid #d84352;
-    color: #ffffff;
-    background: #d84352;
+.vuelos-boton-peligro:not(:disabled):hover {
+    background: #b42e42;
+    box-shadow: 0 12px 22px rgba(178, 38, 59, 0.2);
 }
 
-.vuelos-boton-peligro:hover:not(:disabled) {
-    transform: translateY(-1px);
-    background: #c83443;
-    box-shadow: 0 12px 22px rgba(196, 52, 67, 0.2);
-}
-
-.vuelos-modulo button:disabled {
+.vuelos-boton-principal:disabled,
+.vuelos-boton-secundario:disabled,
+.vuelos-boton-peligro:disabled,
+.vuelos-boton-icono:disabled {
     cursor: not-allowed;
-    opacity: 0.58;
+    opacity: 0.55;
+    transform: none;
     box-shadow: none;
 }
 
@@ -130,8 +157,15 @@
     display: flex;
     align-items: flex-start;
     gap: 13px;
-    padding: 16px 18px;
     border-radius: 14px;
+    line-height: 1.5;
+}
+
+.vuelos-aviso {
+    padding: 16px 18px;
+    border: 1px solid rgba(25, 120, 164, 0.16);
+    background: #edf8fc;
+    color: #285d78;
     font-size: 14px;
 }
 
@@ -147,48 +181,50 @@
 }
 
 .vuelos-aviso strong {
-    color: #10304a;
+    color: #174d6c;
+    font-size: 14px;
 }
 
 .vuelos-aviso span {
     color: #55758c;
-    line-height: 1.5;
-}
-
-.vuelos-aviso--operacion {
-    border: 1px solid #bfe5ec;
-    color: #087aa2;
-    background: #eefbfc;
+    font-size: 14px;
 }
 
 .vuelos-aviso--advertencia {
-    border: 1px solid #f0d6a6;
-    color: #a36708;
-    background: #fff9ed;
+    border-color: rgba(180, 123, 24, 0.22);
+    background: #fff8e9;
+    color: #9a6814;
+}
+
+.vuelos-mensaje {
+    min-height: 48px;
+    padding: 14px 16px;
+    font-size: 14px;
+    font-weight: 700;
 }
 
 .vuelos-mensaje--exito {
-    border: 1px solid #bce9d9;
-    color: #08795f;
-    background: #ecfbf5;
+    border: 1px solid rgba(31, 149, 104, 0.2);
+    background: #edf9f4;
+    color: #157151;
 }
 
 .vuelos-mensaje--exito>span:first-child {
     display: grid;
-    place-items: center;
     width: 24px;
     height: 24px;
-    flex: 0 0 auto;
+    flex: 0 0 24px;
+    place-items: center;
     border-radius: 50%;
-    color: #ffffff;
-    background: #169472;
-    font-weight: 800;
+    background: #209a70;
+    color: #fff;
+    font-size: 12px;
 }
 
 .vuelos-mensaje--error {
-    border: 1px solid #f0c5c9;
-    color: #bd3442;
-    background: #fff1f2;
+    border: 1px solid rgba(189, 50, 70, 0.2);
+    background: #fff1f3;
+    color: #a3263d;
 }
 
 .vuelos-resumen {
@@ -198,24 +234,44 @@
 }
 
 .vuelos-resumen article {
+    position: relative;
     display: grid;
-    align-content: center;
     min-height: 118px;
+    align-content: center;
+    overflow: hidden;
     padding: 22px;
-    border: 1px solid #dbe5ed;
+    border: 1px solid #dfe8ef;
     border-radius: 17px;
-    background: #ffffff;
+    background: #fff;
     box-shadow: 0 11px 28px rgba(25, 57, 80, 0.06);
+}
+
+.vuelos-resumen article::after {
+    position: absolute;
+    top: -28px;
+    right: -26px;
+    width: 86px;
+    height: 86px;
+    border-radius: 50%;
+    background: rgba(20, 159, 179, 0.07);
+    content: '';
+}
+
+.vuelos-resumen span,
+.vuelos-resumen small {
+    display: block;
 }
 
 .vuelos-resumen span {
     color: #546b82;
     font-size: 13px;
+    font-weight: 700;
 }
 
 .vuelos-resumen strong {
+    display: block;
     margin: 4px 0;
-    color: #071d34;
+    color: #143d62;
     font-size: 29px;
     line-height: 1;
 }
@@ -225,21 +281,22 @@
     font-size: 12px;
 }
 
-.vuelos-resumen .vuelos-texto-programado {
-    color: #0986a3;
+.vuelos-texto-programado {
+    color: #168261 !important;
 }
 
 .vuelos-catalogo {
     overflow: hidden;
     border: 1px solid #d8e4ed;
     border-radius: 19px;
-    background: #ffffff;
+    background: #fff;
     box-shadow: 0 15px 34px rgba(20, 52, 78, 0.07);
 }
 
 .vuelos-filtros {
     display: grid;
-    grid-template-columns: minmax(280px, 1fr) 160px 160px 190px auto;
+    grid-template-columns:
+        minmax(280px, 1fr) 160px 160px 190px auto;
     align-items: center;
     gap: 12px;
     min-height: 84px;
@@ -250,28 +307,37 @@
 
 .vuelos-buscador {
     display: flex;
+    min-width: 0;
+    min-height: 50px;
     align-items: center;
     gap: 11px;
-    min-height: 50px;
     padding: 0 15px;
     border: 1px solid #c9d9e5;
     border-radius: 12px;
+    background: #fff;
     color: #7c91a6;
-    background: #ffffff;
-    transition: border-color 160ms ease, box-shadow 160ms ease;
+    transition:
+        border-color 160ms ease,
+        box-shadow 160ms ease;
 }
 
-.vuelos-buscador:focus-within {
+.vuelos-buscador:focus-within,
+.vuelos-selector-filtro select:focus,
+.vuelos-campo input:focus,
+.vuelos-campo select:focus {
     border-color: #1687ae;
     box-shadow: 0 0 0 3px rgba(22, 135, 174, 0.1);
+    outline: 0;
 }
 
 .vuelos-buscador input {
     width: 100%;
+    min-width: 0;
     border: 0;
     outline: 0;
-    color: #10243b;
     background: transparent;
+    color: #183d5d;
+    font: inherit;
     font-size: 14px;
 }
 
@@ -281,42 +347,52 @@
 
 .vuelos-selector-filtro {
     display: grid;
-    grid-template-columns: auto 1fr;
-    align-items: center;
-    gap: 8px;
-    min-height: 50px;
-    padding: 0 12px;
-    border: 1px solid #c9d9e5;
-    border-radius: 12px;
-    background: #ffffff;
-}
-
-.vuelos-selector-filtro>span {
-    color: #8193a4;
-    font-size: 10px;
-    font-weight: 800;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-}
-
-.vuelos-selector-filtro select {
+    gap: 6px;
     min-width: 0;
-    border: 0;
-    outline: 0;
-    color: #10243b;
-    background: transparent;
+}
+
+.vuelos-selector-filtro>span,
+.vuelos-campo>span {
+    color: #29435a;
     font-size: 13px;
-    font-weight: 700;
+    font-weight: 750;
+}
+
+.vuelos-selector-filtro select,
+.vuelos-campo input,
+.vuelos-campo select {
+    width: 100%;
+    min-height: 50px;
+    border: 1px solid #c7d8e4;
+    border-radius: 12px;
+    background: #fff;
+    color: #183d5d;
+    font: inherit;
+    font-size: 14px;
+    transition:
+        border-color 160ms ease,
+        box-shadow 160ms ease;
+}
+
+.vuelos-selector-filtro select,
+.vuelos-campo select {
+    padding: 0 36px 0 14px;
+}
+
+.vuelos-campo input {
+    padding: 0 14px;
 }
 
 .vuelos-resultados {
     justify-self: end;
     color: #8093a5;
     font-size: 12px;
+    font-weight: 700;
     white-space: nowrap;
 }
 
 .vuelos-tabla-contenedor {
+    width: 100%;
     overflow-x: auto;
 }
 
@@ -326,22 +402,28 @@
     border-collapse: collapse;
 }
 
+.vuelos-tabla th,
+.vuelos-tabla td {
+    text-align: left;
+    vertical-align: middle;
+}
+
 .vuelos-tabla th {
     padding: 16px 20px;
     border-bottom: 1px solid #dce6ee;
-    color: #8092a5;
     background: #f7fafc;
+    color: #8092a5;
     font-size: 11px;
     font-weight: 800;
     letter-spacing: 0.05em;
-    text-align: left;
     text-transform: uppercase;
 }
 
 .vuelos-tabla td {
     padding: 17px 20px;
     border-bottom: 1px solid #e5edf3;
-    vertical-align: middle;
+    color: #37566d;
+    font-size: 13px;
 }
 
 .vuelos-tabla tbody tr:last-child td {
@@ -357,33 +439,41 @@
 }
 
 .vuelos-identidad,
-.vuelos-avion {
+.vuelos-avion,
+.vuelos-acciones-fila {
     display: flex;
     align-items: center;
+}
+
+.vuelos-identidad,
+.vuelos-avion {
+    min-width: 170px;
     gap: 11px;
 }
 
 .vuelos-identidad__icono,
 .vuelos-avion__icono {
     display: grid;
-    place-items: center;
     width: 42px;
     height: 42px;
-    flex: 0 0 auto;
+    flex: 0 0 42px;
+    place-items: center;
     border-radius: 12px;
-    color: #0783ad;
-    background: #eaf7fa;
+    background: linear-gradient(145deg, #eaf5fb, #e8fbfa);
+    color: #097f9b;
 }
 
 .vuelos-identidad>div,
 .vuelos-avion>div {
     display: grid;
+    min-width: 0;
     gap: 2px;
 }
 
 .vuelos-identidad strong,
-.vuelos-avion strong {
-    color: #0d2941;
+.vuelos-avion strong,
+.vuelos-trayecto strong {
+    color: #183f61;
     font-size: 14px;
 }
 
@@ -396,12 +486,13 @@
 }
 
 .vuelos-identidad small {
-    color: #0d789d;
-    font-weight: 700;
+    color: #138397;
+    font-weight: 800;
 }
 
 .vuelos-trayecto {
     display: grid;
+    min-width: 205px;
     grid-template-columns: auto minmax(42px, 70px) auto;
     align-items: center;
     gap: 8px;
@@ -410,11 +501,6 @@
 .vuelos-trayecto>div {
     display: grid;
     gap: 2px;
-}
-
-.vuelos-trayecto strong {
-    color: #0a2941;
-    font-size: 14px;
 }
 
 .vuelos-trayecto span {
@@ -427,15 +513,15 @@
     align-items: center;
     justify-content: center;
     gap: 5px;
-    color: #10afc1;
+    color: #0a8ba3;
 }
 
 .vuelos-trayecto__linea::before,
 .vuelos-trayecto__linea::after {
-    content: '';
     height: 1px;
     flex: 1;
     background: #b8dce5;
+    content: '';
 }
 
 .vuelos-ruta-codigo {
@@ -447,6 +533,7 @@
 
 .vuelos-programacion {
     display: grid;
+    min-width: 190px;
     gap: 6px;
 }
 
@@ -459,12 +546,12 @@
 }
 
 .vuelos-programacion svg {
-    color: #0788b2;
     flex: 0 0 auto;
+    color: #0a8ba3;
 }
 
 .vuelos-programacion strong {
-    color: #18334b;
+    color: #183f61;
     font-size: 12px;
 }
 
@@ -480,15 +567,16 @@
 
 .vuelos-insignia {
     display: inline-flex;
+    min-height: 30px;
     align-items: center;
     gap: 7px;
-    min-height: 30px;
     padding: 0 11px;
     border-radius: 999px;
     font-size: 10px;
     font-weight: 800;
     letter-spacing: 0.02em;
     text-transform: uppercase;
+    white-space: nowrap;
 }
 
 .vuelos-insignia i {
@@ -499,28 +587,28 @@
 }
 
 .vuelos-insignia--programado {
-    color: #087ba0;
     background: #e7f7fa;
+    color: #087ba0;
 }
 
 .vuelos-insignia--embarque {
-    color: #98610b;
     background: #fff4db;
+    color: #98610b;
 }
 
 .vuelos-insignia--en_vuelo {
-    color: #4a55a8;
     background: #eef0ff;
+    color: #4a55a8;
 }
 
 .vuelos-insignia--finalizado {
-    color: #16715e;
     background: #e8f7f1;
+    color: #16715e;
 }
 
 .vuelos-insignia--cancelado {
-    color: #bd3442;
     background: #ffedef;
+    color: #bd3442;
 }
 
 .vuelos-estado-columna small {
@@ -530,63 +618,57 @@
 }
 
 .vuelos-acciones-fila {
-    display: flex;
-    align-items: center;
+    justify-content: flex-end;
     gap: 8px;
 }
 
 .vuelos-boton-icono {
-    display: grid;
-    place-items: center;
     width: 42px;
     height: 42px;
     border: 1px solid #cfdee8;
     border-radius: 11px;
-    color: #087ea7;
-    background: #ffffff;
-    cursor: pointer;
-    transition:
-        transform 150ms ease,
-        border-color 150ms ease,
-        background 150ms ease;
+    background: #fff;
+    color: #2b6486;
 }
 
 .vuelos-boton-icono:hover:not(:disabled) {
-    transform: translateY(-1px);
     border-color: #89b8ca;
     background: #f1fafc;
 }
 
 .vuelos-boton-icono--peligro {
-    color: #d44250;
+    color: #bd3d50;
 }
 
 .vuelos-boton-icono--peligro:hover:not(:disabled) {
-    border-color: #e5aab0;
-    background: #fff3f4;
+    border-color: rgba(189, 61, 80, 0.35) !important;
+    background: #fff5f6 !important;
 }
 
 .vuelos-estado-vacio {
     display: grid;
-    place-items: center;
     min-height: 330px;
+    place-items: center;
+    align-content: center;
+    gap: 9px;
     padding: 40px 24px;
     text-align: center;
 }
 
 .vuelos-estado-vacio__icono {
     display: grid;
-    place-items: center;
     width: 78px;
     height: 78px;
-    margin-bottom: 15px;
+    margin-bottom: 6px;
+    place-items: center;
     border-radius: 22px;
-    color: #0a82ab;
-    background: #eaf7fa;
+    background: linear-gradient(145deg, #eaf5fb, #e8fbfa);
+    color: #108da2;
 }
 
 .vuelos-estado-vacio strong {
-    color: #10243b;
+    margin-top: 4px;
+    color: #244b69;
     font-size: 17px;
 }
 
@@ -602,8 +684,8 @@
     width: 31px;
     height: 31px;
     margin-bottom: 15px;
-    border: 3px solid #d6e7ee;
-    border-top-color: #0b82aa;
+    border: 3px solid #d7e8ef;
+    border-top-color: #168fa7;
     border-radius: 50%;
     animation: vuelos-girar 700ms linear infinite;
 }
@@ -614,7 +696,7 @@
     margin: 0;
     border-width: 2px;
     border-color: rgba(255, 255, 255, 0.4);
-    border-top-color: #ffffff;
+    border-top-color: #fff;
 }
 
 @keyframes vuelos-girar {
@@ -625,48 +707,29 @@
 
 .vuelos-modal-capa {
     position: fixed;
+    z-index: 1200;
     inset: 0;
-    z-index: 80;
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow-y: auto;
     padding: 24px;
-    background: rgba(5, 25, 42, 0.56);
-    backdrop-filter: blur(4px);
-    animation: vuelos-aparecer 160ms ease-out;
+    background: rgba(8, 26, 43, 0.58);
+    backdrop-filter: blur(5px);
 }
 
-@keyframes vuelos-aparecer {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
+.vuelos-modal,
+.vuelos-confirmacion {
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    border-radius: 22px;
+    background: #fff;
+    box-shadow: 0 28px 75px rgba(3, 20, 35, 0.3);
 }
 
 .vuelos-modal {
-    width: min(980px, 100%);
+    width: min(820px, 100%);
     max-height: calc(100vh - 48px);
     overflow-y: auto;
-    border: 1px solid #d5e1e9;
-    border-radius: 22px;
-    background: #ffffff;
-    box-shadow: 0 28px 75px rgba(5, 28, 47, 0.28);
-    animation: vuelos-subir 180ms ease-out;
-}
-
-@keyframes vuelos-subir {
-    from {
-        transform: translateY(10px) scale(0.99);
-        opacity: 0;
-    }
-
-    to {
-        transform: translateY(0) scale(1);
-        opacity: 1;
-    }
 }
 
 .vuelos-modal__cabecera {
@@ -677,25 +740,26 @@
     padding: 25px 28px;
     border-bottom: 1px solid #dce6ed;
     background:
-        radial-gradient(circle at 85% 10%, rgba(35, 193, 203, 0.12), transparent 34%),
-        #ffffff;
+        radial-gradient(circle at 90% 10%, rgba(33, 194, 196, 0.14), transparent 32%),
+        linear-gradient(145deg, #f7fbfe, #eef7fb);
 }
 
 .vuelos-modal__titulo {
     display: flex;
     align-items: flex-start;
-    gap: 15px;
+    gap: 14px;
 }
 
 .vuelos-modal__icono {
     display: grid;
+    width: 50px;
+    height: 50px;
+    flex: 0 0 50px;
     place-items: center;
-    width: 48px;
-    height: 48px;
-    flex: 0 0 auto;
     border-radius: 14px;
-    color: #087fa8;
-    background: #eaf7fa;
+    background: linear-gradient(145deg, #0969ae, #0aa0ac);
+    color: #fff;
+    box-shadow: 0 10px 22px rgba(5, 125, 158, 0.22);
 }
 
 .vuelos-modal__titulo>div {
@@ -704,36 +768,41 @@
 }
 
 .vuelos-modal__titulo>div>span {
-    color: #0877a3;
-    font-size: 11px;
+    color: #13889d;
+    font-size: 12px;
     font-weight: 800;
-    letter-spacing: 0.07em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
 }
 
-.vuelos-modal h3,
+.vuelos-modal__titulo h3,
 .vuelos-confirmacion h3 {
     margin: 0;
-    color: #10243b;
+    color: #163f61;
+}
+
+.vuelos-modal__titulo h3 {
     font-size: 25px;
+    line-height: 1.15;
 }
 
 .vuelos-modal__titulo p {
-    margin: 2px 0 0;
+    margin: 0;
     color: #6b8094;
     font-size: 13px;
+    line-height: 1.5;
 }
 
 .vuelos-modal__cerrar {
     display: grid;
-    place-items: center;
     width: 44px;
     height: 44px;
-    flex: 0 0 auto;
+    flex: 0 0 44px;
+    place-items: center;
     border: 1px solid #cfdee8;
     border-radius: 12px;
-    color: #647d91;
-    background: #ffffff;
+    background: rgba(255, 255, 255, 0.9);
+    color: #56738a;
     cursor: pointer;
 }
 
@@ -742,9 +811,14 @@
     background: #f6fafc;
 }
 
+.vuelos-modal__cerrar:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
 .vuelos-formulario {
     display: grid;
-    gap: 20px;
+    gap: 18px;
     padding: 25px 28px 28px;
 }
 
@@ -764,77 +838,62 @@
     grid-column: 1 / -1;
 }
 
-.vuelos-campo>span,
-.vuelos-propietario span {
-    color: #29435a;
-    font-size: 13px;
-    font-weight: 750;
-}
-
-.vuelos-campo input,
-.vuelos-campo select {
-    width: 100%;
-    min-height: 52px;
-    padding: 0 14px;
-    border: 1px solid #c7d8e4;
-    border-radius: 12px;
-    outline: 0;
-    color: #10243b;
-    background: #ffffff;
-    transition: border-color 150ms ease, box-shadow 150ms ease;
-}
-
-.vuelos-campo input:focus,
-.vuelos-campo select:focus {
-    border-color: #1388b0;
-    box-shadow: 0 0 0 3px rgba(19, 136, 176, 0.1);
-}
-
-.vuelos-campo input:disabled,
-.vuelos-campo select:disabled {
-    color: #74899d;
-    background: #f5f8fa;
-}
-
 .vuelos-campo small {
     color: #8192a2;
     font-size: 11px;
     line-height: 1.4;
 }
 
+.vuelos-campo input,
+.vuelos-campo select {
+    min-height: 52px;
+}
+
+.vuelos-campo input:disabled,
+.vuelos-campo select:disabled {
+    cursor: not-allowed;
+    background: #f5f8fa;
+    color: #74899d;
+}
+
 .vuelos-propietario {
     display: flex;
+    min-height: 58px;
     align-items: center;
     gap: 12px;
     padding: 14px 16px;
-    border: 1px solid #cce3e9;
+    border: 1px solid #dce9ef;
     border-radius: 13px;
-    color: #087fa8;
-    background: #f2fbfc;
+    background: #f5fafc;
+    color: #16859a;
 }
 
 .vuelos-propietario div {
     display: grid;
-    gap: 2px;
+    gap: 3px;
+}
+
+.vuelos-propietario span {
+    color: #748899;
+    font-size: 12px;
+    font-weight: 700;
 }
 
 .vuelos-propietario strong {
-    color: #12334b;
+    color: #234e6d;
     font-size: 14px;
 }
 
 .vuelos-vista-previa {
     position: relative;
     display: grid;
-    grid-template-columns: 1fr minmax(150px, 1.2fr) 1fr auto;
+    grid-template-columns: 1fr minmax(130px, 1.1fr) 1fr auto;
     align-items: center;
     gap: 16px;
     padding: 18px 20px;
-    border: 1px solid #cee1e9;
-    border-radius: 16px;
-    background:
-        radial-gradient(circle at 50% 50%, rgba(20, 184, 196, 0.11), transparent 32%),
-        #f8fcfd;
+    border: 1px solid #dce9ef;
+    border-radius: 14px;
+    background: #f5fafc;
 }
 
 .vuelos-vista-previa>div:not(.vuelos-vista-previa__avion) {
@@ -867,14 +926,14 @@
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
     gap: 7px;
-    color: #0aafbf;
+    color: #0a8ba3;
 }
 
 .vuelos-vista-previa__linea::before,
 .vuelos-vista-previa__linea::after {
-    content: '';
     height: 1px;
     background: #afd9e2;
+    content: '';
 }
 
 .vuelos-vista-previa__linea small {
@@ -890,26 +949,26 @@
     gap: 7px;
     padding: 9px 11px;
     border-radius: 10px;
-    color: #087a9f;
     background: #e7f6f8;
+    color: #087a9f;
     font-size: 11px;
     font-weight: 700;
 }
 
 .vuelos-campo-con-unidad {
     display: grid;
+    min-height: 52px;
     grid-template-columns: auto 1fr auto;
     align-items: center;
-    min-height: 52px;
+    overflow: hidden;
     border: 1px solid #c7d8e4;
     border-radius: 12px;
-    overflow: hidden;
-    background: #ffffff;
+    background: #fff;
 }
 
 .vuelos-campo-con-unidad:focus-within {
-    border-color: #1388b0;
-    box-shadow: 0 0 0 3px rgba(19, 136, 176, 0.1);
+    border-color: #1687ae;
+    box-shadow: 0 0 0 3px rgba(22, 135, 174, 0.1);
 }
 
 .vuelos-campo-con-unidad>span {
@@ -932,35 +991,39 @@
 }
 
 .vuelos-modal__acciones {
-    justify-content: flex-end;
+    margin-top: 4px;
     padding-top: 20px;
     border-top: 1px solid #dce6ed;
 }
 
 .vuelos-confirmacion {
+    display: grid;
     width: min(470px, 100%);
+    place-items: center;
+    gap: 10px;
     padding: 30px;
-    border: 1px solid #e0d7da;
-    border-radius: 20px;
-    background: #ffffff;
-    box-shadow: 0 28px 75px rgba(5, 28, 47, 0.28);
     text-align: center;
-    animation: vuelos-subir 180ms ease-out;
 }
 
 .vuelos-confirmacion__icono {
     display: grid;
-    place-items: center;
     width: 58px;
     height: 58px;
-    margin: 0 auto 16px;
+    margin-bottom: 6px;
+    place-items: center;
     border-radius: 17px;
-    color: #d44250;
     background: #fff0f2;
+    color: #bf3d51;
 }
 
-.vuelos-confirmacion p {
-    margin: 13px 0 18px;
+.vuelos-confirmacion h3 {
+    font-size: 25px;
+    line-height: 1.15;
+}
+
+.vuelos-confirmacion>p {
+    max-width: 420px;
+    margin: 3px 0 8px;
     color: #6e8295;
     font-size: 13px;
     line-height: 1.6;
@@ -968,41 +1031,56 @@
 
 .vuelos-confirmacion__detalle {
     display: grid;
+    width: 100%;
     gap: 4px;
-    padding: 14px;
-    border: 1px solid #dce6ed;
-    border-radius: 12px;
-    background: #f8fbfc;
+    padding: 14px 16px;
+    border: 1px solid #e1e9ef;
+    border-radius: 13px;
+    background: #f8fafc;
 }
 
 .vuelos-confirmacion__detalle strong {
-    color: #12334b;
+    color: #244c69;
+    font-size: 14px;
 }
 
 .vuelos-confirmacion__detalle span {
-    color: #71869a;
+    color: #768a9b;
     font-size: 12px;
 }
 
 .vuelos-confirmacion__acciones {
+    width: 100%;
     justify-content: center;
-    margin-top: 22px;
+    margin-top: 12px;
 }
 
 @media (max-width: 1280px) {
     .vuelos-filtros {
-        grid-template-columns: minmax(260px, 1fr) 150px 150px;
+        grid-template-columns: minmax(280px, 1fr) 160px 160px;
     }
 
     .vuelos-resultados {
-        grid-column: -2 / -1;
+        grid-column: 1 / -1;
+        justify-self: end;
     }
 }
 
-@media (max-width: 980px) {
+@media (max-width: 920px) {
     .vuelos-cabecera {
         align-items: flex-start;
         flex-direction: column;
+        min-height: auto;
+    }
+
+    .vuelos-cabecera__acciones {
+        width: 100%;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .vuelos-cabecera__acciones>button {
+        flex: 1;
     }
 
     .vuelos-resumen {
@@ -1010,7 +1088,8 @@
     }
 
     .vuelos-filtros {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: 1fr 1fr;
+        align-items: stretch;
     }
 
     .vuelos-buscador {
@@ -1018,7 +1097,6 @@
     }
 
     .vuelos-resultados {
-        grid-column: 1 / -1;
         justify-self: start;
     }
 
@@ -1032,18 +1110,35 @@
     }
 }
 
-@media (max-width: 720px) {
+@media (max-width: 680px) {
+    .vuelos-modulo {
+        gap: 16px;
+    }
+
     .vuelos-cabecera {
         padding: 24px 20px;
         border-radius: 18px;
     }
 
-    .vuelos-cabecera__acciones {
+    .vuelos-cabecera__acciones,
+    .vuelos-confirmacion__acciones {
+        align-items: stretch;
+        flex-direction: column;
         width: 100%;
     }
 
-    .vuelos-cabecera__acciones button {
-        flex: 1;
+    .vuelos-cabecera__acciones>button,
+    .vuelos-confirmacion__acciones>button {
+        width: 100%;
+    }
+
+    .vuelos-resumen {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .vuelos-resumen article {
+        min-height: 92px;
     }
 
     .vuelos-filtros {
@@ -1053,6 +1148,7 @@
     .vuelos-buscador,
     .vuelos-resultados {
         grid-column: auto;
+        width: 100%;
     }
 
     .vuelos-tabla {
@@ -1082,7 +1178,7 @@
 
     .vuelos-tabla td {
         display: grid;
-        grid-template-columns: 105px 1fr;
+        grid-template-columns: 110px minmax(0, 1fr);
         align-items: center;
         gap: 12px;
         padding: 9px 0;
@@ -1090,16 +1186,31 @@
     }
 
     .vuelos-tabla td::before {
-        content: attr(data-label);
         color: #8395a6;
+        content: attr(data-label);
         font-size: 10px;
         font-weight: 800;
         letter-spacing: 0.05em;
         text-transform: uppercase;
     }
 
+    .vuelos-identidad,
+    .vuelos-avion,
+    .vuelos-trayecto,
+    .vuelos-programacion {
+        min-width: 0;
+    }
+
+    .vuelos-acciones-fila {
+        justify-content: flex-start;
+    }
+
     .vuelos-formulario__rejilla {
         grid-template-columns: 1fr;
+    }
+
+    .vuelos-campo--completo {
+        grid-column: auto;
     }
 
     .vuelos-vista-previa {
@@ -1121,48 +1232,56 @@
         padding: 12px;
     }
 
-    .vuelos-modal {
-        max-height: calc(100vh - 24px);
+    .vuelos-modal,
+    .vuelos-confirmacion {
         border-radius: 16px;
     }
 
-    .vuelos-modal__cabecera,
+    .vuelos-modal {
+        max-height: calc(100vh - 24px);
+    }
+
+    .vuelos-modal__cabecera {
+        padding: 22px 18px;
+    }
+
+    .vuelos-modal__titulo p {
+        display: none;
+    }
+
     .vuelos-formulario {
-        padding-inline: 18px;
+        padding: 22px 18px 24px;
+    }
+
+    .vuelos-modal__acciones {
+        align-items: stretch;
+        flex-direction: column-reverse;
+        width: 100%;
+    }
+
+    .vuelos-modal__acciones>button {
+        width: 100%;
+    }
+
+    .vuelos-confirmacion {
+        padding: 25px 20px;
     }
 }
 
 @media (max-width: 520px) {
-
-    .vuelos-cabecera__acciones,
-    .vuelos-modal__acciones,
-    .vuelos-confirmacion__acciones {
-        align-items: stretch;
-        flex-direction: column;
+    .vuelos-cabecera h2 {
+        font-size: 28px;
     }
+}
 
-    .vuelos-cabecera__acciones button,
-    .vuelos-modal__acciones button,
-    .vuelos-confirmacion__acciones button {
-        width: 100%;
-    }
-
-    .vuelos-resumen {
-        grid-template-columns: 1fr;
-        gap: 10px;
-    }
-
-    .vuelos-resumen article {
-        min-height: 92px;
-    }
-
+@media (max-width: 430px) {
     .vuelos-tabla td {
         grid-template-columns: 1fr;
         gap: 5px;
     }
 
-    .vuelos-confirmacion {
-        padding: 25px 20px;
+    .vuelos-cabecera__acciones {
+        gap: 8px;
     }
 }
 
