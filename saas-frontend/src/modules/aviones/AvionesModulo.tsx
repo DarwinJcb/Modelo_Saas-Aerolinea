@@ -952,7 +952,7 @@ export function AvionesModulo({
                     <span className="aviones-etiqueta">
                         Flota por aerolínea
                     </span>
-                    <h2>Gestión de aviones</h2>
+                    <h2>Gestión de Aviones</h2>
                     <p>
                         Administra matrículas, capacidad y estado
                         operativo de las aeronaves asignadas a cada

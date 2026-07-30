@@ -1,55 +1,65 @@
 /* saas-frontend/src/modules/aviones/AvionesModulo.css */
 .aviones-modulo {
     display: grid;
-    gap: 22px;
+    gap: 20px;
+    width: 100%;
     min-width: 0;
+    color: #10243b;
+}
+
+.aviones-modulo button,
+.aviones-modulo input,
+.aviones-modulo select {
+    font: inherit;
 }
 
 .aviones-cabecera {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
-    gap: 24px;
-    padding: 26px 28px;
+    gap: 28px;
+    min-height: 158px;
+    padding: 32px;
     border: 1px solid rgba(25, 89, 145, 0.12);
     border-radius: 22px;
     background:
         radial-gradient(circle at 88% 20%, rgba(19, 188, 202, 0.13), transparent 30%),
         linear-gradient(135deg, #ffffff 0%, #f4f9fd 100%);
-    box-shadow: 0 18px 42px rgba(26, 67, 105, 0.08);
+    box-shadow: 0 16px 38px rgba(20, 52, 78, 0.08);
 }
 
 .aviones-cabecera__texto {
-    max-width: 720px;
+    max-width: 820px;
 }
 
 .aviones-etiqueta {
     display: inline-flex;
     align-items: center;
     min-height: 27px;
+    margin-bottom: 10px;
     padding: 0 11px;
     border: 1px solid rgba(11, 145, 168, 0.18);
     border-radius: 999px;
     background: rgba(15, 173, 188, 0.08);
     color: #087f91;
-    font-size: 0.72rem;
+    font-size: 12px;
     font-weight: 800;
     letter-spacing: 0.09em;
     text-transform: uppercase;
 }
 
 .aviones-cabecera h2 {
-    margin: 13px 0 7px;
+    margin: 0;
     color: #12385d;
-    font-size: clamp(1.55rem, 2.2vw, 2.05rem);
-    line-height: 1.12;
+    font-size: clamp(28px, 3vw, 36px);
+    line-height: 1.1;
 }
 
 .aviones-cabecera p {
-    max-width: 670px;
-    margin: 0;
+    max-width: 820px;
+    margin: 12px 0 0;
     color: #60758b;
-    font-size: 0.96rem;
+    font-size: 15px;
     line-height: 1.65;
 }
 
@@ -58,7 +68,8 @@
 .aviones-confirmacion__acciones {
     display: flex;
     align-items: center;
-    gap: 11px;
+    justify-content: flex-end;
+    gap: 12px;
 }
 
 .aviones-boton-principal,
@@ -68,7 +79,6 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border: 0;
     font: inherit;
     cursor: pointer;
     transition:
@@ -82,31 +92,33 @@
 .aviones-boton-principal,
 .aviones-boton-secundario,
 .aviones-boton-peligro {
-    min-height: 43px;
+    min-height: 48px;
     gap: 9px;
-    padding: 0 16px;
+    padding: 0 18px;
     border-radius: 12px;
-    font-size: 0.86rem;
-    font-weight: 800;
+    font-size: 14px;
+    font-weight: 750;
     white-space: nowrap;
 }
 
 .aviones-boton-principal {
+    border: 0;
     background: linear-gradient(135deg, #0868ad, #079aae);
     color: #fff;
-    box-shadow: 0 10px 22px rgba(0, 116, 154, 0.2);
+    box-shadow: 0 12px 22px rgba(0, 116, 154, 0.2);
 }
 
 .aviones-boton-secundario {
-    border: 1px solid #d6e2ec;
+    border: 1px solid #c9d9e5;
     background: #fff;
     color: #285474;
 }
 
 .aviones-boton-peligro {
+    border: 0;
     background: #c73d50;
     color: #fff;
-    box-shadow: 0 10px 22px rgba(178, 38, 59, 0.2);
+    box-shadow: 0 12px 22px rgba(178, 38, 59, 0.2);
 }
 
 .aviones-boton-principal:not(:disabled):hover,
@@ -117,16 +129,17 @@
 }
 
 .aviones-boton-principal:not(:disabled):hover {
-    box-shadow: 0 13px 26px rgba(0, 116, 154, 0.26);
+    box-shadow: 0 15px 26px rgba(0, 116, 154, 0.26);
 }
 
 .aviones-boton-secundario:not(:disabled):hover {
-    border-color: #9ebbd0;
-    background: #f8fbfd;
+    border-color: #8eb4c9;
+    background: #f8fcfe;
 }
 
 .aviones-boton-peligro:not(:disabled):hover {
     background: #b42e42;
+    box-shadow: 0 12px 22px rgba(178, 38, 59, 0.2);
 }
 
 .aviones-boton-principal:disabled,
@@ -144,16 +157,17 @@
 .aviones-nota-formulario {
     display: flex;
     align-items: flex-start;
-    gap: 12px;
-    border-radius: 15px;
+    gap: 13px;
+    border-radius: 14px;
     line-height: 1.5;
 }
 
 .aviones-aviso {
-    padding: 15px 17px;
+    padding: 16px 18px;
     border: 1px solid rgba(25, 120, 164, 0.16);
     background: #edf8fc;
     color: #285d78;
+    font-size: 14px;
 }
 
 .aviones-aviso svg,
@@ -165,22 +179,23 @@
 
 .aviones-aviso div {
     display: grid;
-    gap: 2px;
+    gap: 4px;
 }
 
 .aviones-aviso strong {
     color: #174d6c;
-    font-size: 0.89rem;
+    font-size: 14px;
 }
 
 .aviones-aviso span {
-    font-size: 0.83rem;
+    color: #55758c;
+    font-size: 14px;
 }
 
 .aviones-mensaje {
-    min-height: 46px;
-    padding: 12px 15px;
-    font-size: 0.86rem;
+    min-height: 48px;
+    padding: 14px 16px;
+    font-size: 14px;
     font-weight: 700;
 }
 
@@ -190,16 +205,16 @@
     color: #157151;
 }
 
-.aviones-mensaje--exito>span:first-child {
+.aviones-mensaje--exito > span:first-child {
     display: grid;
-    width: 23px;
-    height: 23px;
-    flex: 0 0 23px;
+    width: 24px;
+    height: 24px;
+    flex: 0 0 24px;
     place-items: center;
     border-radius: 50%;
     background: #209a70;
     color: #fff;
-    font-size: 0.75rem;
+    font-size: 12px;
 }
 
 .aviones-mensaje--error {
@@ -211,18 +226,20 @@
 .aviones-resumen {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 14px;
+    gap: 16px;
 }
 
 .aviones-resumen article {
     position: relative;
-    min-height: 126px;
+    display: grid;
+    min-height: 118px;
+    align-content: center;
     overflow: hidden;
-    padding: 20px 21px;
+    padding: 22px;
     border: 1px solid #dfe8ef;
-    border-radius: 18px;
+    border-radius: 17px;
     background: #fff;
-    box-shadow: 0 12px 28px rgba(30, 66, 98, 0.06);
+    box-shadow: 0 11px 28px rgba(25, 57, 80, 0.06);
 }
 
 .aviones-resumen article::after {
@@ -242,22 +259,22 @@
 }
 
 .aviones-resumen span {
-    color: #697d8f;
-    font-size: 0.78rem;
+    color: #546b82;
+    font-size: 13px;
     font-weight: 700;
 }
 
 .aviones-resumen strong {
     display: block;
-    margin: 8px 0 5px;
+    margin: 4px 0;
     color: #143d62;
-    font-size: 1.75rem;
+    font-size: 29px;
     line-height: 1;
 }
 
 .aviones-resumen small {
-    color: #8796a5;
-    font-size: 0.73rem;
+    color: #8193a4;
+    font-size: 12px;
 }
 
 .aviones-texto-disponible {
@@ -266,41 +283,45 @@
 
 .aviones-catalogo {
     overflow: hidden;
-    border: 1px solid #dde7ee;
-    border-radius: 20px;
+    border: 1px solid #d8e4ed;
+    border-radius: 19px;
     background: #fff;
-    box-shadow: 0 17px 36px rgba(28, 66, 100, 0.07);
+    box-shadow: 0 15px 34px rgba(20, 52, 78, 0.07);
 }
 
 .aviones-filtros {
     display: grid;
-    grid-template-columns: minmax(260px, 1fr) 190px 210px auto;
-    align-items: end;
-    gap: 13px;
-    padding: 17px 18px;
-    border-bottom: 1px solid #e5edf2;
-    background: #fbfdfe;
+    grid-template-columns: minmax(280px, 1fr) 190px 210px auto;
+    align-items: center;
+    gap: 12px;
+    min-height: 84px;
+    padding: 16px 20px;
+    border-bottom: 1px solid #dce6ee;
+    background: #fbfdff;
 }
 
 .aviones-buscador {
     display: flex;
     min-width: 0;
-    min-height: 43px;
+    min-height: 50px;
     align-items: center;
-    gap: 10px;
-    padding: 0 13px;
-    border: 1px solid #d7e3eb;
+    gap: 11px;
+    padding: 0 15px;
+    border: 1px solid #c9d9e5;
     border-radius: 12px;
     background: #fff;
-    color: #7590a4;
+    color: #7c91a6;
+    transition:
+        border-color 160ms ease,
+        box-shadow 160ms ease;
 }
 
 .aviones-buscador:focus-within,
 .aviones-selector-filtro select:focus,
 .aviones-campo input:focus,
 .aviones-campo select:focus {
-    border-color: #2b9bb2;
-    box-shadow: 0 0 0 3px rgba(25, 157, 179, 0.1);
+    border-color: #1687ae;
+    box-shadow: 0 0 0 3px rgba(22, 135, 174, 0.1);
     outline: 0;
 }
 
@@ -312,11 +333,11 @@
     background: transparent;
     color: #183d5d;
     font: inherit;
-    font-size: 0.85rem;
+    font-size: 14px;
 }
 
 .aviones-buscador input::placeholder {
-    color: #93a3b0;
+    color: #91a2b3;
 }
 
 .aviones-selector-filtro {
@@ -324,24 +345,24 @@
     gap: 6px;
 }
 
-.aviones-selector-filtro>span,
-.aviones-campo>span {
-    color: #335b78;
-    font-size: 0.74rem;
-    font-weight: 800;
+.aviones-selector-filtro > span,
+.aviones-campo > span {
+    color: #29435a;
+    font-size: 13px;
+    font-weight: 750;
 }
 
 .aviones-selector-filtro select,
 .aviones-campo input,
 .aviones-campo select {
     width: 100%;
-    min-height: 43px;
-    border: 1px solid #d7e3eb;
-    border-radius: 11px;
+    min-height: 50px;
+    border: 1px solid #c7d8e4;
+    border-radius: 12px;
     background: #fff;
     color: #183d5d;
     font: inherit;
-    font-size: 0.85rem;
+    font-size: 14px;
     transition:
         border-color 160ms ease,
         box-shadow 160ms ease;
@@ -349,61 +370,66 @@
 
 .aviones-selector-filtro select,
 .aviones-campo select {
-    padding: 0 36px 0 12px;
+    padding: 0 36px 0 14px;
 }
 
 .aviones-campo input {
-    padding: 0 12px;
+    padding: 0 14px;
 }
 
 .aviones-resultados {
-    align-self: center;
     justify-self: end;
-    padding-bottom: 10px;
-    color: #778b9c;
-    font-size: 0.78rem;
-    font-weight: 800;
+    color: #8093a5;
+    font-size: 12px;
+    font-weight: 700;
     white-space: nowrap;
 }
 
 .aviones-tabla-contenedor {
+    width: 100%;
     overflow-x: auto;
 }
 
 .aviones-tabla {
     width: 100%;
-    min-width: 850px;
+    min-width: 920px;
     border-collapse: collapse;
 }
 
 .aviones-tabla th,
 .aviones-tabla td {
-    padding: 16px 18px;
-    border-bottom: 1px solid #e8eef3;
     text-align: left;
     vertical-align: middle;
 }
 
 .aviones-tabla th {
+    padding: 16px 20px;
+    border-bottom: 1px solid #dce6ee;
     background: #f7fafc;
-    color: #6b8092;
-    font-size: 0.69rem;
-    font-weight: 900;
-    letter-spacing: 0.07em;
+    color: #8092a5;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
 }
 
 .aviones-tabla td {
+    padding: 17px 20px;
+    border-bottom: 1px solid #e5edf3;
     color: #37566d;
-    font-size: 0.82rem;
+    font-size: 13px;
 }
 
 .aviones-tabla tbody tr:last-child td {
     border-bottom: 0;
 }
 
+.aviones-tabla tbody tr {
+    transition: background 150ms ease;
+}
+
 .aviones-tabla tbody tr:hover {
-    background: #fbfdff;
+    background: #fbfdfe;
 }
 
 .aviones-identidad,
@@ -414,7 +440,7 @@
 }
 
 .aviones-identidad {
-    min-width: 190px;
+    min-width: 210px;
     gap: 11px;
 }
 
@@ -424,41 +450,42 @@
     height: 42px;
     flex: 0 0 42px;
     place-items: center;
-    border-radius: 13px;
+    border-radius: 12px;
     background: linear-gradient(145deg, #eaf5fb, #e8fbfa);
     color: #097f9b;
 }
 
-.aviones-identidad>div,
+.aviones-identidad > div,
 .aviones-modelo {
     display: grid;
+    min-width: 0;
     gap: 2px;
 }
 
 .aviones-identidad strong,
 .aviones-modelo strong {
     color: #183f61;
-    font-size: 0.88rem;
+    font-size: 14px;
 }
 
 .aviones-identidad span,
 .aviones-modelo span {
-    color: #6c8193;
-    font-size: 0.77rem;
+    color: #71869a;
+    font-size: 11px;
 }
 
 .aviones-identidad small {
     color: #138397;
-    font-size: 0.69rem;
+    font-size: 11px;
     font-weight: 800;
 }
 
 .aviones-modelo {
-    min-width: 190px;
+    min-width: 210px;
 }
 
 .aviones-capacidad {
-    min-width: 130px;
+    min-width: 145px;
     gap: 7px;
     color: #527189;
 }
@@ -469,23 +496,25 @@
 
 .aviones-capacidad strong {
     color: #183f61;
-    font-size: 0.95rem;
+    font-size: 15px;
 }
 
 .aviones-capacidad span {
     color: #75899a;
-    font-size: 0.75rem;
+    font-size: 12px;
 }
 
 .aviones-insignia {
     display: inline-flex;
-    min-height: 29px;
+    min-height: 30px;
     align-items: center;
     gap: 7px;
-    padding: 0 10px;
+    padding: 0 11px;
     border-radius: 999px;
-    font-size: 0.7rem;
-    font-weight: 900;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
     white-space: nowrap;
 }
 
@@ -513,43 +542,49 @@
 
 .aviones-acciones-fila {
     justify-content: flex-end;
-    gap: 7px;
+    gap: 8px;
 }
 
 .aviones-boton-icono {
-    width: 36px;
-    height: 36px;
-    border: 1px solid #d8e4ec;
-    border-radius: 10px;
+    width: 42px;
+    height: 42px;
+    border: 1px solid #cfdee8;
+    border-radius: 11px;
     background: #fff;
     color: #2b6486;
+}
+
+.aviones-boton-icono:hover:not(:disabled) {
+    border-color: #89b8ca;
+    background: #f1fafc;
 }
 
 .aviones-boton-icono--peligro {
     color: #bd3d50;
 }
 
-.aviones-boton-icono--peligro:hover {
+.aviones-boton-icono--peligro:hover:not(:disabled) {
     border-color: rgba(189, 61, 80, 0.35) !important;
     background: #fff5f6 !important;
 }
 
 .aviones-estado-vacio {
     display: grid;
-    min-height: 310px;
+    min-height: 330px;
     place-items: center;
     align-content: center;
     gap: 9px;
-    padding: 36px 20px;
+    padding: 40px 24px;
     text-align: center;
 }
 
 .aviones-estado-vacio__icono {
     display: grid;
-    width: 68px;
-    height: 68px;
+    width: 78px;
+    height: 78px;
+    margin-bottom: 6px;
     place-items: center;
-    border-radius: 21px;
+    border-radius: 22px;
     background: linear-gradient(145deg, #eaf5fb, #e8fbfa);
     color: #108da2;
 }
@@ -557,20 +592,21 @@
 .aviones-estado-vacio strong {
     margin-top: 4px;
     color: #244b69;
-    font-size: 1rem;
+    font-size: 17px;
 }
 
 .aviones-estado-vacio p {
-    max-width: 460px;
-    margin: 0 0 5px;
-    color: #7a8d9d;
-    font-size: 0.83rem;
-    line-height: 1.55;
+    max-width: 520px;
+    margin: 8px 0 20px;
+    color: #74889c;
+    font-size: 13px;
+    line-height: 1.6;
 }
 
 .aviones-cargador {
-    width: 28px;
-    height: 28px;
+    width: 31px;
+    height: 31px;
+    margin-bottom: 15px;
     border: 3px solid #d7e8ef;
     border-top-color: #168fa7;
     border-radius: 50%;
@@ -578,8 +614,9 @@
 }
 
 .aviones-cargador--boton {
-    width: 17px;
-    height: 17px;
+    width: 18px;
+    height: 18px;
+    margin: 0;
     border-width: 2px;
     border-color: rgba(255, 255, 255, 0.4);
     border-top-color: #fff;
@@ -595,34 +632,36 @@
     position: fixed;
     z-index: 1200;
     inset: 0;
-    display: grid;
-    place-items: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     overflow-y: auto;
-    padding: 28px 20px;
+    padding: 24px;
     background: rgba(8, 26, 43, 0.58);
     backdrop-filter: blur(5px);
 }
 
 .aviones-modal,
 .aviones-confirmacion {
-    width: min(100%, 760px);
     border: 1px solid rgba(255, 255, 255, 0.45);
     border-radius: 22px;
     background: #fff;
-    box-shadow: 0 28px 80px rgba(3, 20, 35, 0.3);
+    box-shadow: 0 28px 75px rgba(3, 20, 35, 0.3);
 }
 
 .aviones-modal {
-    overflow: hidden;
+    width: min(820px, 100%);
+    max-height: calc(100vh - 48px);
+    overflow-y: auto;
 }
 
 .aviones-modal__cabecera {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    gap: 18px;
-    padding: 22px 24px;
-    border-bottom: 1px solid #e4edf2;
+    gap: 20px;
+    padding: 25px 28px;
+    border-bottom: 1px solid #dce6ed;
     background:
         radial-gradient(circle at 90% 10%, rgba(33, 194, 196, 0.14), transparent 32%),
         linear-gradient(145deg, #f7fbfe, #eef7fb);
@@ -631,14 +670,14 @@
 .aviones-modal__titulo {
     display: flex;
     align-items: flex-start;
-    gap: 13px;
+    gap: 14px;
 }
 
 .aviones-modal__icono {
     display: grid;
-    width: 46px;
-    height: 46px;
-    flex: 0 0 46px;
+    width: 50px;
+    height: 50px;
+    flex: 0 0 50px;
     place-items: center;
     border-radius: 14px;
     background: linear-gradient(145deg, #0969ae, #0aa0ac);
@@ -646,15 +685,15 @@
     box-shadow: 0 10px 22px rgba(5, 125, 158, 0.22);
 }
 
-.aviones-modal__titulo>div {
+.aviones-modal__titulo > div {
     display: grid;
-    gap: 3px;
+    gap: 4px;
 }
 
-.aviones-modal__titulo>div>span {
+.aviones-modal__titulo > div > span {
     color: #13889d;
-    font-size: 0.69rem;
-    font-weight: 900;
+    font-size: 12px;
+    font-weight: 800;
     letter-spacing: 0.08em;
     text-transform: uppercase;
 }
@@ -666,27 +705,33 @@
 }
 
 .aviones-modal__titulo h3 {
-    font-size: 1.25rem;
+    font-size: 25px;
+    line-height: 1.15;
 }
 
 .aviones-modal__titulo p {
     margin: 0;
-    color: #738697;
-    font-size: 0.79rem;
-    line-height: 1.45;
+    color: #6b8094;
+    font-size: 13px;
+    line-height: 1.5;
 }
 
 .aviones-modal__cerrar {
     display: grid;
-    width: 38px;
-    height: 38px;
-    flex: 0 0 38px;
+    width: 44px;
+    height: 44px;
+    flex: 0 0 44px;
     place-items: center;
-    border: 1px solid #d8e4eb;
-    border-radius: 11px;
-    background: rgba(255, 255, 255, 0.82);
+    border: 1px solid #cfdee8;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.9);
     color: #56738a;
     cursor: pointer;
+}
+
+.aviones-modal__cerrar:hover:not(:disabled) {
+    color: #17344d;
+    background: #f6fafc;
 }
 
 .aviones-modal__cerrar:disabled {
@@ -696,21 +741,20 @@
 
 .aviones-formulario {
     display: grid;
-    max-height: min(720px, calc(100vh - 120px));
     gap: 18px;
-    overflow-y: auto;
-    padding: 23px 24px 24px;
+    padding: 25px 28px 28px;
 }
 
 .aviones-formulario__rejilla {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 15px;
+    gap: 18px;
 }
 
 .aviones-campo {
     display: grid;
-    gap: 7px;
+    gap: 8px;
+    min-width: 0;
 }
 
 .aviones-campo--completo {
@@ -718,23 +762,29 @@
 }
 
 .aviones-campo small {
-    color: #8293a1;
-    font-size: 0.68rem;
+    color: #8192a2;
+    font-size: 11px;
     line-height: 1.4;
+}
+
+.aviones-campo input,
+.aviones-campo select {
+    min-height: 52px;
 }
 
 .aviones-campo input:disabled,
 .aviones-campo select:disabled {
     cursor: not-allowed;
-    background: #f3f6f8;
-    color: #8795a1;
+    background: #f5f8fa;
+    color: #74899d;
 }
 
 .aviones-propietario {
     display: flex;
     align-items: center;
-    gap: 11px;
-    padding: 13px 15px;
+    gap: 12px;
+    min-height: 58px;
+    padding: 14px 16px;
     border: 1px solid #dce9ef;
     border-radius: 13px;
     background: #f5fafc;
@@ -743,39 +793,40 @@
 
 .aviones-propietario div {
     display: grid;
-    gap: 2px;
+    gap: 3px;
 }
 
 .aviones-propietario span {
     color: #748899;
-    font-size: 0.7rem;
+    font-size: 12px;
     font-weight: 700;
 }
 
 .aviones-propietario strong {
     color: #234e6d;
-    font-size: 0.86rem;
+    font-size: 14px;
 }
 
 .aviones-nota-formulario {
-    padding: 13px 14px;
+    padding: 14px 16px;
     border: 1px solid rgba(22, 137, 161, 0.16);
     background: #eef8fb;
     color: #416d82;
-    font-size: 0.76rem;
+    font-size: 12px;
 }
 
 .aviones-modal__acciones {
-    justify-content: flex-end;
-    padding-top: 4px;
+    margin-top: 4px;
+    padding-top: 20px;
+    border-top: 1px solid #dce6ed;
 }
 
 .aviones-confirmacion {
     display: grid;
-    max-width: 480px;
-    justify-items: center;
+    width: min(470px, 100%);
+    place-items: center;
     gap: 10px;
-    padding: 28px;
+    padding: 30px;
     text-align: center;
 }
 
@@ -783,29 +834,31 @@
     display: grid;
     width: 58px;
     height: 58px;
+    margin-bottom: 6px;
     place-items: center;
-    border-radius: 18px;
+    border-radius: 17px;
     background: #fff0f2;
     color: #bf3d51;
 }
 
 .aviones-confirmacion h3 {
-    font-size: 1.2rem;
+    font-size: 25px;
+    line-height: 1.15;
 }
 
-.aviones-confirmacion>p {
-    max-width: 390px;
-    margin: 0;
-    color: #718493;
-    font-size: 0.8rem;
-    line-height: 1.55;
+.aviones-confirmacion > p {
+    max-width: 420px;
+    margin: 3px 0 8px;
+    color: #6e8295;
+    font-size: 13px;
+    line-height: 1.6;
 }
 
 .aviones-confirmacion__detalle {
     display: grid;
     width: 100%;
-    gap: 3px;
-    padding: 13px 14px;
+    gap: 4px;
+    padding: 14px 16px;
     border: 1px solid #e1e9ef;
     border-radius: 13px;
     background: #f8fafc;
@@ -813,41 +866,45 @@
 
 .aviones-confirmacion__detalle strong {
     color: #244c69;
-    font-size: 0.9rem;
+    font-size: 14px;
 }
 
 .aviones-confirmacion__detalle span {
     color: #768a9b;
-    font-size: 0.74rem;
+    font-size: 12px;
 }
 
 .aviones-confirmacion__acciones {
+    width: 100%;
     justify-content: center;
-    margin-top: 5px;
+    margin-top: 12px;
 }
 
 @media (max-width: 1180px) {
     .aviones-filtros {
-        grid-template-columns: minmax(260px, 1fr) 180px 190px;
+        grid-template-columns: minmax(280px, 1fr) 190px 210px;
     }
 
     .aviones-resultados {
         grid-column: 1 / -1;
-        justify-self: start;
-        padding: 0;
+        justify-self: end;
     }
 }
 
 @media (max-width: 920px) {
     .aviones-cabecera {
+        align-items: flex-start;
         flex-direction: column;
+        min-height: auto;
     }
 
     .aviones-cabecera__acciones {
         width: 100%;
+        justify-content: flex-start;
+        flex-wrap: wrap;
     }
 
-    .aviones-cabecera__acciones>button {
+    .aviones-cabecera__acciones > button {
         flex: 1;
     }
 
@@ -857,10 +914,15 @@
 
     .aviones-filtros {
         grid-template-columns: 1fr 1fr;
+        align-items: stretch;
     }
 
     .aviones-buscador {
         grid-column: 1 / -1;
+    }
+
+    .aviones-resultados {
+        justify-self: start;
     }
 }
 
@@ -870,39 +932,39 @@
     }
 
     .aviones-cabecera {
-        padding: 21px 19px;
-        border-radius: 17px;
+        padding: 24px 20px;
+        border-radius: 18px;
     }
 
     .aviones-cabecera__acciones,
     .aviones-confirmacion__acciones {
+        align-items: stretch;
         flex-direction: column;
         width: 100%;
     }
 
-    .aviones-cabecera__acciones>button,
-    .aviones-confirmacion__acciones>button {
+    .aviones-cabecera__acciones > button,
+    .aviones-confirmacion__acciones > button {
         width: 100%;
     }
 
     .aviones-resumen {
         grid-template-columns: 1fr;
+        gap: 10px;
     }
 
     .aviones-resumen article {
-        min-height: 108px;
+        min-height: 92px;
     }
 
     .aviones-filtros {
         grid-template-columns: 1fr;
     }
 
-    .aviones-buscador {
-        grid-column: auto;
-    }
-
+    .aviones-buscador,
     .aviones-resultados {
         grid-column: auto;
+        width: 100%;
     }
 
     .aviones-tabla {
@@ -922,8 +984,12 @@
     }
 
     .aviones-tabla tr {
-        padding: 13px 15px;
-        border-bottom: 1px solid #e5edf2;
+        padding: 14px 18px;
+        border-bottom: 1px solid #dce6ed;
+    }
+
+    .aviones-tabla tbody tr:last-child {
+        border-bottom: 0;
     }
 
     .aviones-tabla td {
@@ -936,10 +1002,10 @@
     }
 
     .aviones-tabla td::before {
-        color: #75899a;
+        color: #8395a6;
         content: attr(data-label);
-        font-size: 0.68rem;
-        font-weight: 900;
+        font-size: 10px;
+        font-weight: 800;
         letter-spacing: 0.05em;
         text-transform: uppercase;
     }
@@ -955,17 +1021,21 @@
     }
 
     .aviones-modal-capa {
-        align-items: start;
+        align-items: flex-start;
         padding: 12px;
     }
 
     .aviones-modal,
     .aviones-confirmacion {
-        border-radius: 17px;
+        border-radius: 16px;
+    }
+
+    .aviones-modal {
+        max-height: calc(100vh - 24px);
     }
 
     .aviones-modal__cabecera {
-        padding: 19px 17px;
+        padding: 22px 18px;
     }
 
     .aviones-modal__titulo p {
@@ -973,25 +1043,35 @@
     }
 
     .aviones-formulario {
-        max-height: none;
-        padding: 19px 17px 20px;
+        padding: 22px 18px 24px;
     }
 
     .aviones-formulario__rejilla {
         grid-template-columns: 1fr;
     }
 
+    .aviones-campo--completo {
+        grid-column: auto;
+    }
+
     .aviones-modal__acciones {
+        align-items: stretch;
         flex-direction: column-reverse;
         width: 100%;
     }
 
-    .aviones-modal__acciones>button {
+    .aviones-modal__acciones > button {
         width: 100%;
     }
 
     .aviones-confirmacion {
-        padding: 24px 18px;
+        padding: 25px 20px;
+    }
+}
+
+@media (max-width: 520px) {
+    .aviones-cabecera h2 {
+        font-size: 28px;
     }
 }
 
@@ -1003,5 +1083,15 @@
 
     .aviones-cabecera__acciones {
         gap: 8px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .aviones-modulo *,
+    .aviones-modulo *::before,
+    .aviones-modulo *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
     }
 }

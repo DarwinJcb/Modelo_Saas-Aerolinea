@@ -41,6 +41,22 @@
     text-transform: uppercase;
 }
 
+/* Cápsula solo para "Catálogo global" de la cabecera */
+.aeropuertos-cabecera__texto>.aeropuertos-etiqueta {
+    display: inline-flex;
+    align-items: center;
+    min-height: 27px;
+    padding: 0 11px;
+    border: 1px solid rgba(11, 145, 168, 0.18);
+    border-radius: 999px;
+    background: rgba(15, 173, 188, 0.08);
+    color: #087f91;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+}
+
 .aeropuertos-cabecera h2 {
     margin: 0;
     color: #0b2037;
