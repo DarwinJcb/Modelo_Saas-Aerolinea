@@ -12,6 +12,7 @@ import { AvionesModulo } from './modules/aviones/AvionesModulo'
 import { UsuariosModulo } from './modules/usuarios/UsuariosModulo'
 import { PlanesModulo } from './modules/planes/PlanesModulo'
 import { AerolineasModulo } from './modules/aerolineas/AerolineasModulo'
+import { SuscripcionesModulo } from './modules/suscripciones/SuscripcionesModulo'
 import { CambiarContrasenaModal } from './components/CambiarContrasenaModal'
 
 const API_URL = 'http://localhost:3000/api'
@@ -1320,6 +1321,12 @@ function PanelPrincipal({
               rolUsuario={usuario.rolUsuario}
               onSesionExpirada={onCerrarSesion}
             />
+          ) : moduloActivo.id === 'suscripciones' ? (
+            <SuscripcionesModulo
+              token={token}
+              rolUsuario={usuario.rolUsuario}
+              onSesionExpirada={onCerrarSesion}
+            />
           ) : moduloActivo.id === 'usuarios' ? (
             <UsuariosModulo
               token={token}
@@ -1562,3 +1569,5 @@ function App() {
 }
 
 export default App
+
+
