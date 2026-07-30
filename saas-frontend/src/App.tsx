@@ -13,6 +13,7 @@ import { UsuariosModulo } from './modules/usuarios/UsuariosModulo'
 import { PlanesModulo } from './modules/planes/PlanesModulo'
 import { AerolineasModulo } from './modules/aerolineas/AerolineasModulo'
 import { SuscripcionesModulo } from './modules/suscripciones/SuscripcionesModulo'
+import { PanelPrincipalModulo } from './modules/panel/PanelPrincipalModulo'
 import { CambiarContrasenaModal } from './components/CambiarContrasenaModal'
 
 const API_URL = 'http://localhost:3000/api'
@@ -976,12 +977,6 @@ function PanelPrincipal({
       (modulo) => modulo.id === seccionActiva,
     ) ?? modulos[0]
 
-  const fechaActual = new Intl.DateTimeFormat('es-EC', {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long',
-  }).format(new Date())
-
   function seleccionarModulo(idModulo: string) {
     setSeccionActiva(idModulo)
     setMenuAbierto(false)
@@ -1161,152 +1156,13 @@ function PanelPrincipal({
 
         <main className="contenido-principal">
           {moduloActivo.id === 'panel' ? (
-            <>
-              <section className="bienvenida">
-                <div className="bienvenida__texto">
-                  <span className="bienvenida__fecha">
-                    {fechaActual}
-                  </span>
-
-                  <h2>
-                    Bienvenido, {usuario.nombresUsuario}
-                  </h2>
-
-                  <p>
-                    Tu sesión está activa. Los módulos
-                    visibles corresponden a los permisos de
-                    tu rol.
-                  </p>
-                </div>
-
-                <div className="bienvenida__grafico">
-                  <div className="orbita orbita--uno" />
-                  <div className="orbita orbita--dos" />
-
-                  <div className="avion-panel">
-                    <Icono nombre="avion" tamano={53} />
-                  </div>
-                </div>
-              </section>
-
-              <section className="tarjetas-resumen">
-                <article className="tarjeta-resumen">
-                  <div className="tarjeta-resumen__icono">
-                    <Icono nombre="usuario" tamano={23} />
-                  </div>
-
-                  <div>
-                    <span>Rol actual</span>
-                    <strong>
-                      {obtenerEtiquetaRol(
-                        usuario.rolUsuario,
-                      )}
-                    </strong>
-                  </div>
-                </article>
-
-                <article className="tarjeta-resumen">
-                  <div className="tarjeta-resumen__icono">
-                    <Icono
-                      nombre="aerolinea"
-                      tamano={23}
-                    />
-                  </div>
-
-                  <div>
-                    <span>Espacio de trabajo</span>
-                    <strong>
-                      {obtenerNombreAerolinea(usuario)}
-                    </strong>
-                  </div>
-                </article>
-
-                <article className="tarjeta-resumen">
-                  <div className="tarjeta-resumen__icono">
-                    <Icono nombre="escudo" tamano={23} />
-                  </div>
-
-                  <div>
-                    <span>Alcance de datos</span>
-                    <strong>
-                      {usuario.rolUsuario === 'SUPERADMIN'
-                        ? 'Todos los tenants'
-                        : 'Solo tu aerolínea'}
-                    </strong>
-                  </div>
-                </article>
-
-                <article className="tarjeta-resumen">
-                  <div className="tarjeta-resumen__icono">
-                    <Icono nombre="nube" tamano={23} />
-                  </div>
-
-                  <div>
-                    <span>Estado de sesión</span>
-                    <strong className="texto-activo">
-                      Conectado
-                    </strong>
-                  </div>
-                </article>
-              </section>
-
-              <section className="panel-informativo">
-                <div className="panel-informativo__encabezado">
-                  <div>
-                    <span className="subtitulo-seccion">
-                      Arquitectura del sistema
-                    </span>
-                    <h3>Protecciones activas</h3>
-                  </div>
-
-                  <span className="insignia-seguridad">
-                    <Icono nombre="escudo" tamano={17} />
-                    Sesión verificada
-                  </span>
-                </div>
-
-                <div className="protecciones">
-                  <article>
-                    <span className="protecciones__numero">
-                      01
-                    </span>
-                    <div>
-                      <strong>Autenticación JWT</strong>
-                      <p>
-                        El backend valida el token antes de
-                        permitir el acceso.
-                      </p>
-                    </div>
-                  </article>
-
-                  <article>
-                    <span className="protecciones__numero">
-                      02
-                    </span>
-                    <div>
-                      <strong>Aislamiento multi-tenant</strong>
-                      <p>
-                        Los datos se filtran según la
-                        aerolínea del usuario.
-                      </p>
-                    </div>
-                  </article>
-
-                  <article>
-                    <span className="protecciones__numero">
-                      03
-                    </span>
-                    <div>
-                      <strong>Permisos por rol</strong>
-                      <p>
-                        Cada rol visualiza únicamente las
-                        funciones autorizadas.
-                      </p>
-                    </div>
-                  </article>
-                </div>
-              </section>
-            </>
+            <PanelPrincipalModulo
+              token={token}
+              usuario={usuario}
+              nombreAerolinea={obtenerNombreAerolinea(usuario)}
+              onSeleccionarModulo={seleccionarModulo}
+              onSesionExpirada={onCerrarSesion}
+            />
 
 
           ) : moduloActivo.id === 'planes' ? (
@@ -1569,5 +1425,3 @@ function App() {
 }
 
 export default App
-
-
