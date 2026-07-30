@@ -1,10 +1,5 @@
 /* saas-backend/src/suscripciones/suscripciones.service.ts */
-import {
-  BadRequestException,
-  ConflictException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, NotFoundException, } from '@nestjs/common';
 import { EstadoSuscripcion } from '../generated/prisma/enums';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateSuscripcionDto } from './dto/create-suscripcion.dto';
@@ -12,7 +7,7 @@ import { UpdateSuscripcionDto } from './dto/update-suscripcion.dto';
 
 @Injectable()
 export class SuscripcionesService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   private async verificarPlan(idPlan: number): Promise<void> {
     const planEncontrado = await this.prisma.plan.findUnique({
@@ -61,10 +56,10 @@ export class SuscripcionesService {
         estadoSuscripcion: EstadoSuscripcion.ACTIVA,
         ...(idSuscripcionExcluir !== undefined
           ? {
-              NOT: {
-                idSuscripcion: idSuscripcionExcluir,
-              },
-            }
+            NOT: {
+              idSuscripcion: idSuscripcionExcluir,
+            },
+          }
           : {}),
       },
     });
